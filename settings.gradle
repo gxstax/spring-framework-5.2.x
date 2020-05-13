@@ -42,4 +42,8 @@ include 'thinking-in-spring:spring-bean'
 findProject(':thinking-in-spring:spring-bean')?.name = 'spring-bean'
 include 'thinking-in-spring:ioc-container-overview'
 findProject(':thinking-in-spring:ioc-container-overview')?.name = 'ioc-container-overview'
+include 'thinking-in-spring:dependency-lookup'
+findProject(':thinking-in-spring:dependency-lookup')?.name = 'dependency-lookup'
+include 'thinking-in-spring:dependency-injection'
+findProject(':thinking-in-spring:dependency-injection')?.name = 'dependency-injection'
 

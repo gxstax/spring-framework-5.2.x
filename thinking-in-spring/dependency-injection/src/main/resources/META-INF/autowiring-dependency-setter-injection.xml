@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+        <import resource="classpath:/META-INF/dependency-lookup-context.xml"></import>
+
+    <!-- 如果根据 byName spring 会根据beanName查找到我们的 user 类 -->
+<!--        <bean class="com.ant.ioc.dependency.injection.UserHolder" autowire="byName">-->
+<!--        </bean>-->
+
+    <!-- 如果根据 byType spring 会查找到两个 user 和 superUser, 因为我们在superUser 定义了primary 属性，所以会找到superUser 注入进来 -->
+        <bean class="com.ant.ioc.dependency.injection.UserHolder" autowire="byType">
+        </bean>
+</beans>
