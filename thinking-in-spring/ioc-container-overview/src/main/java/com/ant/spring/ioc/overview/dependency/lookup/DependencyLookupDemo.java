@@ -24,7 +24,7 @@ public class DependencyLookupDemo {
                 = new ClassPathXmlApplicationContext("/META-INF/dependency-lookup-context.xml");
 
         // 按照类型查找
-//        lookupByType(context);
+        lookupByType(context);
 
         // 查找集合对象
 //        lookupByCollectionType(context);
