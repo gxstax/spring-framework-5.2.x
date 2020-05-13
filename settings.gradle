@@ -38,4 +38,8 @@ rootProject.children.each {project ->
 	project.buildFileName = "${project.name}.gradle"
 }
 include 'thinking-in-spring'
+include 'thinking-in-spring:spring-bean'
+findProject(':thinking-in-spring:spring-bean')?.name = 'spring-bean'
+include 'thinking-in-spring:ioc-container-overview'
+findProject(':thinking-in-spring:ioc-container-overview')?.name = 'ioc-container-overview'
 
