@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.Map;
+import java.util.Optional;
+
 /**
  * <p>
  * 注解驱动的依赖注入过程
@@ -24,8 +27,11 @@ public class AnnotationDependencyInjectionResolutionDemo {
                        // 是否首要 (primary = true)
 
 
-    // 实时注入 + 通过类型(User.class)类型查找依赖查找（处理）+ 字段名称 user
+	@Autowired  // 集合类型依赖注入
+	private Map<String, User> users; // —>user, superUser
 
+	@Autowired
+	private Optional<User> userOptional;
 
     public static void main(String[] args) {
         // 初始化Spring上下文环境
@@ -45,7 +51,14 @@ public class AnnotationDependencyInjectionResolutionDemo {
         // 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
         AnnotationDependencyInjectionResolutionDemo demo = context.getBean(AnnotationDependencyInjectionResolutionDemo.class);
 
+        // 期待输出 user
         System.out.println("demo.user-->" + demo.user);
+
+        // 期待输出 user superUser
+        System.out.println("demo.users-->" + demo.users);
+
+        // 期待输出 userOptional
+        System.out.println("demo.userOptional-->" + demo.userOptional);
 
         // 显式的关闭Spring应用上下文
         context.close();
