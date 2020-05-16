@@ -2,9 +2,13 @@ package com.ant.ioc.dependency.injection;
 
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
+import org.springframework.context.annotation.Lazy;
 
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,6 +21,10 @@ import java.util.Optional;
  * @since 2020/5/7 8:46 上午
  */
 public class AnnotationDependencyInjectionResolutionDemo {
+
+	@Autowired
+	@Lazy
+	private User lazyUser;
 
     @Autowired         // 依赖查找
     private User user; // DependencyDescriptor ->
@@ -33,6 +41,9 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	@Autowired
 	private Optional<User> userOptional;
 
+	@Inject
+	private User injectUser;
+
     public static void main(String[] args) {
         // 初始化Spring上下文环境
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -45,14 +56,19 @@ public class AnnotationDependencyInjectionResolutionDemo {
         // 加载 XML 资源，解析并且生成 BeanDefinition
         reader.loadBeanDefinitions(xmlResourcePath);
 
-        // 启动 Spring 应用上下文
+		// 启动 Spring 应用上下文
         context.refresh();
 
         // 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
         AnnotationDependencyInjectionResolutionDemo demo = context.getBean(AnnotationDependencyInjectionResolutionDemo.class);
 
-        // 期待输出 user
+		System.out.println("demo.lazyUser-->" + demo.lazyUser);
+
+        // 期待输出 superUser
         System.out.println("demo.user-->" + demo.user);
+
+        // 期待输出 superUser
+        System.out.println("demo.injectUser-->" + demo.injectUser);
 
         // 期待输出 user superUser
         System.out.println("demo.users-->" + demo.users);

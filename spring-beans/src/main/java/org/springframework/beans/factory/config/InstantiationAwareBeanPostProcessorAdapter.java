@@ -37,6 +37,8 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
+ *
+ * 初始化处理器
  */
 public abstract class InstantiationAwareBeanPostProcessorAdapter implements SmartInstantiationAwareBeanPostProcessor {
 
@@ -68,6 +70,7 @@ public abstract class InstantiationAwareBeanPostProcessorAdapter implements Smar
 		return true;
 	}
 
+	// 属性后置处理,这里其实是处理我们使用
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)
 			throws BeansException {

@@ -877,6 +877,20 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Specify property values for this bean, if any.
+	 * 设置属性值，比如我们之前的xml设置了6个属性，这里就是调用 bean 的 set 方法映射过去，
+	 * 在这里我们也可以看到 propertyValues 的长度是 6
+	 *  <property name="id" value="1"></property>
+	 *             <property name="name" value="马以"></property>
+	 *             <property name="city" value="HANGZHOU"></property>
+	 *             <property name="workCities" value="BEIJING,HANGZHOU"></property>
+	 * <!--            <property name="lifeCities" value="BEIJING,SHANGHAI"></property>-->
+	 *             <property name="lifeCities">
+	 *                 <list>
+	 *                     <value>BEIJING</value>
+	 *                     <value>SHANGHAI</value>
+	 *                 </list>
+	 *             </property>
+	 *             <property name="configFileLocation" value="classpath:/META-INF/user-config.properties"></property>
 	 */
 	public void setPropertyValues(MutablePropertyValues propertyValues) {
 		this.propertyValues = propertyValues;

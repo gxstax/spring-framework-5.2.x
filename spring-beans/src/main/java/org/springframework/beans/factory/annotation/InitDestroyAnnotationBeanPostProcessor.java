@@ -118,6 +118,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 	 * <p>Any custom annotation can be used, since there are no required
 	 * annotation attributes. There is no default, although a typical choice
 	 * is the JSR-250 {@link javax.annotation.PostConstruct} annotation.
+	 * （这个方法参数其实是 {@link Annotation} 类型，所以支持我们自定义注解）
 	 */
 	public void setInitAnnotationType(Class<? extends Annotation> initAnnotationType) {
 		this.initAnnotationType = initAnnotationType;
@@ -146,12 +147,17 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
+		// 通用注解解析和AutowiredAnnotationBeanPostProcessor一样，也有MergeBeanDefinition 元数据merge操作，
+		// 只不过这里叫 LifecycleMetadata 而Auto 叫 InjectionMetadata
+		// 这里的一个区别在于 LifecycleMetadata 包括了 初始化和销毁两个阶段
 		LifecycleMetadata metadata = findLifecycleMetadata(beanType);
 		metadata.checkConfigMembers(beanDefinition);
 	}
 
+	/** 执行生命周期元注解 一般情况下（没有自定义注解）是{@link javax.annotation.PostConstruct} 标注的方法**/
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
 			metadata.invokeInitMethods(bean, beanName);
@@ -170,6 +176,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 		return bean;
 	}
 
+	/** 执行生命周期元注解 一般情况下（没有自定义注解）是{@link javax.annotation.PreDestroy} 标注的方法**/
 	@Override
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
@@ -231,6 +238,11 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 			ReflectionUtils.doWithLocalMethods(targetClass, method -> {
 				if (this.initAnnotationType != null && method.isAnnotationPresent(this.initAnnotationType)) {
+					/**
+					 * 这里仅用于我们构建生命周期的元信息，也就是构建生命周期执行过程中的 method
+					 * 然后会利用 java 反射去 invoke 执行要执行的操作信息;
+					 * 这里我们可以进入到 {@link LifecycleElement} 里的 invoke 方法中去看一下，到底在什么地方会执行该方法
+					 */
 					LifecycleElement element = new LifecycleElement(method);
 					currInitMethods.add(element);
 					if (logger.isTraceEnabled()) {
@@ -384,6 +396,11 @@ public class InitDestroyAnnotationBeanPostProcessor
 			return this.identifier;
 		}
 
+		/**
+		 * 这个方法会有两个执行的地方：
+		 * 1、invokeInitMethods(Object, String)
+		 * 2、invokeDestroyMethods(Object, String)
+		 */
 		public void invoke(Object target) throws Throwable {
 			ReflectionUtils.makeAccessible(this.method);
 			this.method.invoke(target, (Object[]) null);

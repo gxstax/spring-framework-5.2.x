@@ -127,12 +127,15 @@ import org.springframework.util.StringUtils;
  * @see #setAutowiredAnnotationType
  * @see Autowired
  * @see Value
+ *
+ * 处理AutoviredAnnotation（自动注入注解）的后置处理器
  */
 public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBeanPostProcessorAdapter
 		implements MergedBeanDefinitionPostProcessor, PriorityOrdered, BeanFactoryAware {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/** 存储可以解析注解的类型 比如 {@link Autowire} {@link Value} {@link javax.inject.Inject} (需要依赖 JSR-330 API) **/
 	private final Set<Class<? extends Annotation>> autowiredAnnotationTypes = new LinkedHashSet<>(4);
 
 	private String requiredParameterName = "required";
@@ -156,6 +159,10 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 	 * standard {@link Autowired @Autowired} and {@link Value @Value} annotations.
 	 * <p>Also supports JSR-330's {@link javax.inject.Inject @Inject} annotation,
 	 * if available.
+	 *
+	 * 这里在初始化构造函数的时候，后置处理器会把支持解析的注解：
+	 * （比如 {@link Autowire} {@link Value} {@link javax.inject.Inject} (需要依赖 JSR-330 API)）
+	 * 初始化；
 	 */
 	@SuppressWarnings("unchecked")
 	public AutowiredAnnotationBeanPostProcessor() {
@@ -631,12 +638,14 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				value = resolvedCachedArgument(beanName, this.cachedFieldValue);
 			}
 			else {
+				// 依赖元信息处理
 				DependencyDescriptor desc = new DependencyDescriptor(field, this.required);
 				desc.setContainingClass(bean.getClass());
 				Set<String> autowiredBeanNames = new LinkedHashSet<>(1);
 				Assert.state(beanFactory != null, "No BeanFactory available");
 				TypeConverter typeConverter = beanFactory.getTypeConverter();
 				try {
+					// 根据元信息处理依赖
 					value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 				}
 				catch (BeansException ex) {
@@ -664,7 +673,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				}
 			}
 			if (value != null) {
+				// 修改可访问性，比如可以访问 private 属性
 				ReflectionUtils.makeAccessible(field);
+				// 解析完注入对象，这里通过反射方式回填
 				field.set(bean, value);
 			}
 		}
