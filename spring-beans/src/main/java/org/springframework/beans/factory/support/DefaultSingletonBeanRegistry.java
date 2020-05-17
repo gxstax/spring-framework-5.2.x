@@ -118,6 +118,10 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
 		Assert.notNull(beanName, "Bean name must not be null");
 		Assert.notNull(singletonObject, "Singleton object must not be null");
+		/**
+		 * singleton 的bean注册也是放入到 {@link ConcurrentHashMap} 类型的 singletonObjects
+		 * 而且这里也是 加了锁的，因为对 singletonObjects 的操作是二元操作，先拿出来判断没有，再 put
+		 */
 		synchronized (this.singletonObjects) {
 			Object oldObject = this.singletonObjects.get(beanName);
 			if (oldObject != null) {

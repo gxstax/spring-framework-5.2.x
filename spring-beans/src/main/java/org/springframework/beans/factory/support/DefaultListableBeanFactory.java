@@ -164,6 +164,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
 	/** Map of bean definition objects, keyed by bean name. */
+	/** 通过BeanDefinition 注册进来进来的bean 都会存在这个 map 中 **/
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
 	/** Map from bean name to merged BeanDefinitionHolder. */
@@ -920,7 +921,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	//---------------------------------------------------------------------
 	// Implementation of BeanDefinitionRegistry interface
 	//---------------------------------------------------------------------
-
+	// BeanDefiniton 注册接口
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
@@ -929,6 +930,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 
 		if (beanDefinition instanceof AbstractBeanDefinition) {
+			// beanDefinition 校验
 			try {
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
@@ -939,6 +941,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
+		// 校验是否有 重名的 bean 已经存在了，spring cong 2.1 开始就已经不允许 bean 重名
 		if (existingDefinition != null) {
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
@@ -967,7 +970,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
+		// 一般情况我们的 beanName 是没有重复的，所以会走到这个分支
 		else {
+			// 判断是否已经在创建，特殊情况先忽略
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				synchronized (this.beanDefinitionMap) {
@@ -980,6 +985,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 			else {
+				/**
+				 * 这里 spring 为什么会分别用 两个集合来存呢？
+				 * 其实原因是 beanDefinitionMap 是一个 {@link ConcurrentHashMap} 是一个无序的
+				 * 所以 spring 用了一个 beanDefinitionNames ({@link ArrayList}) 来保证顺序
+				 */
 				// Still in startup registration phase
 				this.beanDefinitionMap.put(beanName, beanDefinition);
 				this.beanDefinitionNames.add(beanName);
@@ -1073,6 +1083,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return isAllowBeanDefinitionOverriding();
 	}
 
+	// 单例 bean 的注册，这中注册方式的 bean 并不受 spring 生命周期的管理
 	@Override
 	public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
 		super.registerSingleton(beanName, singletonObject);
@@ -1248,6 +1259,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 
 			Class<?> type = descriptor.getDependencyType();
+			// 这里在处理 @Value 注入的时候会有一个转换，比如从String 转 wei Long 类型
 			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
 			if (value != null) {
 				if (value instanceof String) {

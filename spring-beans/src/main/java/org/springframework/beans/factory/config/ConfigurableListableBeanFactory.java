@@ -78,6 +78,7 @@ public interface ConfigurableListableBeanFactory
 	 * implementation of the {@link org.springframework.beans.factory.ObjectFactory}
 	 * interface, which allows for lazy resolution of the actual target value.
 	 */
+	/** 只能通过类型进行依赖查找，不能通过名称 **/
 	void registerResolvableDependency(Class<?> dependencyType, @Nullable Object autowiredValue);
 
 	/**

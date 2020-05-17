@@ -86,43 +86,43 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	}
 
     public static void main(String[] args) {
-        // 初始化Spring上下文环境
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        // 注册Configuration Class(配置类) ->Spring Bean(配置类也是spirng的bean)
-        context.register(AnnotationDependencyInjectionResolutionDemo.class);
+		// 初始化Spring上下文环境
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		// 注册Configuration Class(配置类) ->Spring Bean(配置类也是spirng的bean)
+		context.register(AnnotationDependencyInjectionResolutionDemo.class);
 
-        /** 这里偷懒使用 XML 的方式把bean扫描到上下文环境当中 **/
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
-        String xmlResourcePath = "classpath:/META-INF/dependency-lookup-context.xml";
-        // 加载 XML 资源，解析并且生成 BeanDefinition
-        reader.loadBeanDefinitions(xmlResourcePath);
+		/** 这里偷懒使用 XML 的方式把bean扫描到上下文环境当中 **/
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+		String xmlResourcePath = "classpath:/META-INF/dependency-lookup-context.xml";
+		// 加载 XML 资源，解析并且生成 BeanDefinition
+		reader.loadBeanDefinitions(xmlResourcePath);
 
 		// 启动 Spring 应用上下文
-        context.refresh();
+		context.refresh();
 
-        // 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
-        AnnotationDependencyInjectionResolutionDemo demo = context.getBean(AnnotationDependencyInjectionResolutionDemo.class);
+		// 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
+		AnnotationDependencyInjectionResolutionDemo demo = context.getBean(AnnotationDependencyInjectionResolutionDemo.class);
 
 		System.out.println("demo.lazyUser-->" + demo.lazyUser);
 
-        // 期待输出 superUser
-        System.out.println("demo.user-->" + demo.user);
+		// 期待输出 superUser
+		System.out.println("demo.user-->" + demo.user);
 
-        // 期待输出 superUser
-        System.out.println("demo.injectUser-->" + demo.injectUser);
+		// 期待输出 superUser
+		System.out.println("demo.injectUser-->" + demo.injectUser);
 
-        // 期待输出 superUser
-        System.out.println("demo.antInjectUser-->" + demo.antInjectUser);
+		// 期待输出 superUser
+		System.out.println("demo.antInjectUser-->" + demo.antInjectUser);
 
-        // 期待输出 user superUser
-        System.out.println("demo.users-->" + demo.users);
+		// 期待输出 user superUser
+		System.out.println("demo.users-->" + demo.users);
 
-        // 期待输出 userOptional
-        System.out.println("demo.userOptional-->" + demo.userOptional);
+		// 期待输出 userOptional
+		System.out.println("demo.userOptional-->" + demo.userOptional);
 
-        System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
+		System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
 
-        // 显式的关闭Spring应用上下文
-        context.close();
-    }
+		// 显式的关闭Spring应用上下文
+		context.close();
+	}
 }

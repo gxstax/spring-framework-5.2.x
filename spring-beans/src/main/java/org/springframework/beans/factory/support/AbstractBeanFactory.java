@@ -245,6 +245,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		final String beanName = transformedBeanName(name);
 		Object bean;
 
+		/**
+		 * spring 在进行依赖查找到的时候首先是先从 singletonObjects 集合中去查找
+		 * 而不是直接去 beanDefinitionMap 集合中查找，因为如果从 beanDefinitionMap 集合中去查找，
+		 * spring 还需要进行一系列操作把 beanDefiniton 变为 bean，并且可以被 spring 进行生命周期管理
+		 */
 		// Eagerly check singleton cache for manually registered singletons.
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
@@ -908,6 +913,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			return null;
 		}
 		String result = value;
+		// 这里的 embeddedValueResolvers 存储的就是我们外部配置元素
 		for (StringValueResolver resolver : this.embeddedValueResolvers) {
 			result = resolver.resolveStringValue(result);
 			if (result == null) {
