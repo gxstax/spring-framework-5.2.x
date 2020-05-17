@@ -1,16 +1,28 @@
 package com.ant.ioc.dependency.injection;
 
+import com.ant.ioc.dependency.injection.annotation.AntInject;
+import com.ant.ioc.dependency.injection.annotation.MyAutowired;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.inject.Inject;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+
+import static org.springframework.context.annotation.AnnotationConfigUtils.AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME;
 
 /**
  * <p>
@@ -41,8 +53,37 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	@Autowired
 	private Optional<User> userOptional;
 
+	@MyAutowired
+	private Optional<User> myAutowiredUser;
+
 	@Inject
 	private User injectUser;
+
+	@AntInject
+	private User antInjectUser;
+
+	/**
+	 * 这样的实现方式有一个弊端就是 @Inject 是基于 JSR 330 API;
+	 * 如果没有引入这个 API 那么就会报错
+	 */
+//	@Bean(name = AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
+//	public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+//		AutowiredAnnotationBeanPostProcessor processor = new AutowiredAnnotationBeanPostProcessor();
+//		// @Autowired + @Inject + @AntInject新注解
+//		Set<Class<? extends Annotation>> autowiredAnnotationType =
+//				new LinkedHashSet<>(Arrays.asList(Autowired.class, Inject.class, AntInject.class));
+//		processor.setAutowiredAnnotationTypes(autowiredAnnotationType);
+//		return processor;
+//	}
+
+	@Bean
+	@Order(Ordered.LOWEST_PRECEDENCE - 3)
+	public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+		AutowiredAnnotationBeanPostProcessor processor = new AutowiredAnnotationBeanPostProcessor();
+		//  @AntInject新注解
+		processor.setAutowiredAnnotationType(AntInject.class);
+		return processor;
+	}
 
     public static void main(String[] args) {
         // 初始化Spring上下文环境
@@ -70,11 +111,16 @@ public class AnnotationDependencyInjectionResolutionDemo {
         // 期待输出 superUser
         System.out.println("demo.injectUser-->" + demo.injectUser);
 
+        // 期待输出 superUser
+        System.out.println("demo.antInjectUser-->" + demo.antInjectUser);
+
         // 期待输出 user superUser
         System.out.println("demo.users-->" + demo.users);
 
         // 期待输出 userOptional
         System.out.println("demo.userOptional-->" + demo.userOptional);
+
+        System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
 
         // 显式的关闭Spring应用上下文
         context.close();

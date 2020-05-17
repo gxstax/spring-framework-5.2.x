@@ -46,4 +46,6 @@ include 'thinking-in-spring:dependency-lookup'
 findProject(':thinking-in-spring:dependency-lookup')?.name = 'dependency-lookup'
 include 'thinking-in-spring:dependency-injection'
 findProject(':thinking-in-spring:dependency-injection')?.name = 'dependency-injection'
+include 'thinking-in-spring:dependency-source'
+findProject(':thinking-in-spring:dependency-source')?.name = 'dependency-source'
 

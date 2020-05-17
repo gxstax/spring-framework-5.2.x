@@ -106,6 +106,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 	@Nullable
 	private Class<? extends Annotation> destroyAnnotationType;
 
+	/** processor 执行顺序 这里默认是最低优先级, 但是在每个具体的实现 Processor 中会重写 setOrder() 方法去设置自己的执行顺序 **/
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
 	@Nullable
