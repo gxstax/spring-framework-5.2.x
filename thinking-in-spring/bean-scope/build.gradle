@@ -13,9 +13,6 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile(project(":spring-context"))
 
-    compile(project(":spring-beans"))
-
+    compile(project(":thinking-in-spring:ioc-container-overview"))
 }
-
