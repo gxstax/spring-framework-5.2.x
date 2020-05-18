@@ -52,6 +52,7 @@ public class SessionScope extends AbstractRequestAttributesScope {
 
 	@Override
 	public Object get(String name, ObjectFactory<?> objectFactory) {
+		// Session 取互斥锁，主要为了防止一个用户开启多个浏览器窗口做操作而产生的数据不一致
 		Object mutex = RequestContextHolder.currentRequestAttributes().getSessionMutex();
 		synchronized (mutex) {
 			return super.get(name, objectFactory);
