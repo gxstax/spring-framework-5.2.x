@@ -162,11 +162,15 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 * name may be an issue if you are autowiring by name.
 	 * @param definition the bean definition to build a bean name for
 	 * @return the default bean name (never {@code null})
+	 *
+	 * 设置 Bean 的默认名称
 	 */
 	protected String buildDefaultBeanName(BeanDefinition definition) {
 		String beanClassName = definition.getBeanClassName();
 		Assert.state(beanClassName != null, "No bean class name set");
+		// 截取短类名
 		String shortClassName = ClassUtils.getShortName(beanClassName);
+		// 调用 java API 设置为首字母小写
 		return Introspector.decapitalize(shortClassName);
 	}
 

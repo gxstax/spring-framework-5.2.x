@@ -50,4 +50,6 @@ include 'thinking-in-spring:dependency-source'
 findProject(':thinking-in-spring:dependency-source')?.name = 'dependency-source'
 include 'thinking-in-spring:bean-scope'
 findProject(':thinking-in-spring:bean-scope')?.name = 'bean-scope'
+include 'thinking-in-spring:bean-lifecycle'
+findProject(':thinking-in-spring:bean-lifecycle')?.name = 'bean-lifecycle'
 
