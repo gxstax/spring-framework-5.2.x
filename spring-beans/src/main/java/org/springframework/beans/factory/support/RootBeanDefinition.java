@@ -253,6 +253,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 * @param original the original bean definition to copy from
 	 */
 	RootBeanDefinition(BeanDefinition original) {
+		// 这里就是一些 set 方法
 		super(original);
 	}
 

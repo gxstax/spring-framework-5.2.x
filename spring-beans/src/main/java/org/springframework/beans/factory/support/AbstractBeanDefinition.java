@@ -237,6 +237,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		copyAttributesFrom(original);
 
 		if (original instanceof AbstractBeanDefinition) {
+			// 这里做了一个强转，是因为要获取部分属性默认值
 			AbstractBeanDefinition originalAbd = (AbstractBeanDefinition) original;
 			if (originalAbd.hasBeanClass()) {
 				setBeanClass(originalAbd.getBeanClass());

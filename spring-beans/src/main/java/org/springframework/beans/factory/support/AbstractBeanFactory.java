@@ -303,6 +303,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
+				// 合并BeanDefinition (如果有继承父类的 Bean 会继承父类属性值)
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 
@@ -1347,6 +1348,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						mbd = ((RootBeanDefinition) bd).cloneBeanDefinition();
 					}
 					else {
+						// 没有继承父类的且没有经过merge操作 Bean 走这里会把一个genericBeanDefinition 变为一个 RootBeanDefinition
 						mbd = new RootBeanDefinition(bd);
 					}
 				}
@@ -1356,6 +1358,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					try {
 						String parentBeanName = transformedBeanName(bd.getParentName());
 						if (!beanName.equals(parentBeanName)) {
+							// 这里其实就是一个递归操作了，如果有多重继承，这里会一直往上找，一直到合并所有的父类
 							pbd = getMergedBeanDefinition(parentBeanName);
 						}
 						else {
@@ -1374,8 +1377,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						throw new BeanDefinitionStoreException(bd.getResourceDescription(), beanName,
 								"Could not resolve parent bean definition '" + bd.getParentName() + "'", ex);
 					}
+					// 当合并了所有的父类后，这里也是变成了一个 RootBeanDefinition 类型
 					// Deep copy with overridden values.
 					mbd = new RootBeanDefinition(pbd);
+					// 这里稍微有写变化的是，如果子类新增了一部分属性之属性（也就是我们所的propertyValue），
+					// 这里会增加上去，如果和父类重复，则会覆盖父类的属性
 					mbd.overrideFrom(bd);
 				}
 
