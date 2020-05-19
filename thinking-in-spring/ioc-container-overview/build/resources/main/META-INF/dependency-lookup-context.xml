@@ -13,6 +13,7 @@
 
 <!--		<context:component-scan base-package="com.cmqr"/>-->
 
+		<!-- Root BeanDefinition Spring中用 RootBeanDefiniton 来描述，不需要合并，不存在parent -->
         <bean id="user" class="com.ant.spring.ioc.overview.domain.User">
             <property name="id" value="1"></property>
             <property name="name" value="马以"></property>
@@ -28,6 +29,7 @@
             <property name="configFileLocation" value="classpath:/META-INF/user-config.properties"></property>
         </bean>
 
+		<!-- 普通 BeanDefinition Spring中用 GenericBeanDefinition 来进行描述 -->
         <bean id="superUser" class="com.ant.spring.ioc.overview.domain.SuperUser" parent="user" primary="true">
             <property name="address" value="深圳"></property>
         </bean>

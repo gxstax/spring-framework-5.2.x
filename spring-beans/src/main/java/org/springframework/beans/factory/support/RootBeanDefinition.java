@@ -262,6 +262,9 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 		return null;
 	}
 
+	/**
+	 * 因为RootBeanDefiniton 是不允许有父类的，所以这里执行 setParentName 方法会禁止设置
+	 */
 	@Override
 	public void setParentName(@Nullable String parentName) {
 		if (parentName != null) {

@@ -839,6 +839,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		clearByTypeCache();
 	}
 
+	/** 这个方法是造成单例对象在 Spring IOC 容器启动后, 不能再使用 BeanDefinition 方式注入 **/
 	@Override
 	public void freezeConfiguration() {
 		this.configurationFrozen = true;

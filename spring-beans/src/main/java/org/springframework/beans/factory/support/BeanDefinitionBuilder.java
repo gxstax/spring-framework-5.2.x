@@ -47,6 +47,7 @@ public final class BeanDefinitionBuilder {
 	/**
 	 * Create a new {@code BeanDefinitionBuilder} used to construct a {@link GenericBeanDefinition}.
 	 * @param beanClassName the class name for the bean that the definition is being created for
+	 * 通过 beanClassName 构建一个普通的Bean 的 BeanDefinition 也就是这个类可能会有父类
 	 */
 	public static BeanDefinitionBuilder genericBeanDefinition(String beanClassName) {
 		BeanDefinitionBuilder builder = new BeanDefinitionBuilder(new GenericBeanDefinition());
@@ -57,6 +58,7 @@ public final class BeanDefinitionBuilder {
 	/**
 	 * Create a new {@code BeanDefinitionBuilder} used to construct a {@link GenericBeanDefinition}.
 	 * @param beanClass the {@code Class} of the bean that the definition is being created for
+	 * 通过 class 构建一个普通的Bean 的 BeanDefinition 也就是这个类可能会有父类
 	 */
 	public static BeanDefinitionBuilder genericBeanDefinition(Class<?> beanClass) {
 		BeanDefinitionBuilder builder = new BeanDefinitionBuilder(new GenericBeanDefinition());
@@ -109,6 +111,7 @@ public final class BeanDefinitionBuilder {
 	 * Create a new {@code BeanDefinitionBuilder} used to construct a {@link RootBeanDefinition}.
 	 * @param beanClass the {@code Class} of the bean that the definition is being created for
 	 * @param factoryMethodName the name of the method to use to construct the bean instance
+	 * 构建一个 Root Bean 的 BeanDefinition 也就是这个类没有父类
 	 */
 	public static BeanDefinitionBuilder rootBeanDefinition(Class<?> beanClass, @Nullable String factoryMethodName) {
 		BeanDefinitionBuilder builder = new BeanDefinitionBuilder(new RootBeanDefinition());

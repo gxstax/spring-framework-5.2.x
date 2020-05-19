@@ -3,6 +3,7 @@ package com.ant.bean.lifecycle;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>

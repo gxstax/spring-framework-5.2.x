@@ -166,6 +166,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private SecurityContextProvider securityContextProvider;
 
+	/** 存放 BeanDefinition 这里的 BeanDefinition 要么是 RootBeanDefinition 类型，分两种情况
+	 * 1. 该类就是没有继承自任何父类
+	 * 2. 有继承，但是已经 merge 后的
+	 */
 	/** Map from bean name to merged RootBeanDefinition. */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
@@ -1066,8 +1070,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	@Override
 	public BeanDefinition getMergedBeanDefinition(String name) throws BeansException {
+		// beanName 处理, 主要是判断 beanName 是否为空，或者是否是 factoryBean 方式生成的
 		String beanName = transformedBeanName(name);
+
 		// Efficiently check whether bean definition exists in this factory.
+		/**
+		 * 1. 这里的两个判断 bean 是否已经存在 通过 BeanDefiniton 注入的 Bean 容器 beanDefinitionMap 集合中
+		 * 2. 必须是继承自 ConfigurableBeanFactory 的 BeanFactory
+		 * **/
 		if (!containsBeanDefinition(beanName) && getParentBeanFactory() instanceof ConfigurableBeanFactory) {
 			return ((ConfigurableBeanFactory) getParentBeanFactory()).getMergedBeanDefinition(beanName);
 		}
@@ -1280,11 +1290,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @throws BeanDefinitionStoreException in case of an invalid bean definition
 	 */
 	protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
+		/** 快速检索 如果该 beanName 就是一个 RootBeanDefinition 获取已经 merge 过了
+		 * 也就是它本身就没有父类，那么就不需要 merge 直接从容器中返回
+		 */
 		// Quick check on the concurrent map first, with minimal locking.
 		RootBeanDefinition mbd = this.mergedBeanDefinitions.get(beanName);
 		if (mbd != null && !mbd.stale) {
 			return mbd;
 		}
+		// 如果不满足前面两种情况，那么这里就需要进行 merge
 		return getMergedBeanDefinition(beanName, getBeanDefinition(beanName));
 	}
 

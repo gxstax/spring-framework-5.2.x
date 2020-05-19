@@ -323,6 +323,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * @return a (potentially merged) BeanDefinition for the given bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean definition with the given name
 	 * @since 2.5
+	 * 从给定的 beanName 得到一个合并的 BeanDefinition, 合并一个子类的 BeanDefinition 通过他的父类也就是说这里会继承父类的属性（如果有的话）
+	 * 那也就是说如果父类也有自己的父类，就会进行一个递归操作，知道到达最顶层的类，然后合并；
+	 *
 	 */
 	BeanDefinition getMergedBeanDefinition(String beanName) throws NoSuchBeanDefinitionException;
 
