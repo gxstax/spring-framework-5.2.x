@@ -153,6 +153,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** BeanPostProcessors to apply in createBean. */
 	private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
+	/** 标识是否有 InstantiationAwareBeanPostProcessors 处理器注册 **/
 	/** Indicates whether any InstantiationAwareBeanPostProcessors have been registered. */
 	private volatile boolean hasInstantiationAwareBeanPostProcessors;
 
@@ -1292,7 +1293,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @throws BeanDefinitionStoreException in case of an invalid bean definition
 	 */
 	protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
-		/** 快速检索 如果该 beanName 就是一个 RootBeanDefinition 获取已经 merge 过了
+		/**
+		 * 快速检索 如果该 beanName 就是一个 RootBeanDefinition 获取已经 merge 过了
 		 * 也就是它本身就没有父类，那么就不需要 merge 直接从容器中返回
 		 */
 		// Quick check on the concurrent map first, with minimal locking.
@@ -1492,7 +1494,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			if (mbd.hasBeanClass()) {
 				return mbd.getBeanClass();
 			}
-			if (System.getSecurityManager() != null) { // 判断是否开启了安全验证
+
+			// 判断是否开启了安全验证
+			if (System.getSecurityManager() != null) {
+				// 具体的 beandefinition 解析
 				return AccessController.doPrivileged((PrivilegedExceptionAction<Class<?>>) () ->
 					doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
 			}
