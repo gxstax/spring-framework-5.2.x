@@ -1138,9 +1138,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Nullable
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
+			/** InstantiationAwareBeanPostProcessor 是 Bean 实例化前的处理器
+			 *  我们可以定义自己 BeanPostProcessor 只需要实现 InstantiationAwareBeanPostProcessor接口，
+			 *  然后注册到 Spring IOC 容器中去
+			 */
 			if (bp instanceof InstantiationAwareBeanPostProcessor) {
 				InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
 				Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName);
+				/**
+				 * 如果我们自己实现的 InstantiationAwareBeanPostProcessor 实现类中过滤，
+				 * 不需要改变Bean 只需要返回 null 就可以；
+				 * 如果我们这里返回 null 这里就还是 spring 容器帮我们初始化的 Bean
+				 */
 				if (result != null) {
 					return result;
 				}

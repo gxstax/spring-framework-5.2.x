@@ -1,24 +1,31 @@
 package com.ant.bean.lifecycle;
 
+import com.ant.spring.ioc.overview.domain.SuperUser;
 import com.ant.spring.ioc.overview.domain.User;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.util.ObjectUtils;
 
 /**
  * <p>
- * BeanDefinition 合并示例
+ * Bean 实例化生命周期示例
  * </p>
  *
- * @author Ant
- * @since 2020/5/19 9:03 上午
+ * @author GaoXin
+ * @since 2020/5/20 9:13 上午
  */
-public class MergedBeanDefinitionDemo {
-
+public class BeanInstantiationLifecycleDemo {
 	public static void main(String[] args) {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+		// 添加 BeanPostProcessor 实现 (实例)
+		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
+
 		// 基于 XML  资源的 BeanDefinitionReader 实现
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
@@ -35,6 +42,17 @@ public class MergedBeanDefinitionDemo {
 
 		User superUser = beanFactory.getBean("superUser", User.class);
 		System.out.println(superUser);
+	}
 
+	static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+		@Override
+		public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+			if (SuperUser.class.equals(beanClass)) {
+				// 把配置完成的 superUser 替换掉
+				return new SuperUser();
+			}
+			// 保持原来的 spring IOC 初始化的 Bean
+			return null;
+		}
 	}
 }
