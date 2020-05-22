@@ -123,6 +123,7 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
 		implements AutowireCapableBeanFactory {
 
+	/** 创建 Bean 实例的策略 这里默认是Cglib实现策略 **/
 	/** Strategy for creating bean instances. */
 	private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
@@ -515,6 +516,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					"BeanPostProcessor before instantiation of bean failed", ex);
 		}
 
+		// 前面如果我们自己实现过 InstantiationAwareBeanPostProcessor 并且过滤掉了 我们要过滤的 Bean
+		// 下面是没有经过 InstantiationAwareBeanPostProcessor 处理的正常创建的 bean 的过程
 		try {
 			// 这里当然就是创建Bean对象的逻辑喽
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
@@ -551,14 +554,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object doCreateBean(final String beanName, final RootBeanDefinition mbd, final @Nullable Object[] args)
 			throws BeanCreationException {
 
+		// BeanWrapper 示例包装对象
 		// Instantiate the bean.
 		BeanWrapper instanceWrapper = null;
 		if (mbd.isSingleton()) {
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
+			// 创建 Bean 实例
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
+
 		final Object bean = instanceWrapper.getWrappedInstance();
 		Class<?> beanType = instanceWrapper.getWrappedClass();
 		if (beanType != NullBean.class) {
@@ -1192,6 +1198,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
+		// 是否是重复创建的 Bean 当我们的 Bean 被设置为原型类型时，如果是已经解析过的
+		// 那么 BeanDefinition 的 resolvedConstructorOrFactoryMethod 属性将会被赋过值的
+		// 那么我们再次创建的时候，只需要用原来已经解析好的 BeanDefiniton 直接去创建就好了
 		// Shortcut when re-creating the same bean...
 		boolean resolved = false;
 		boolean autowireNecessary = false;
@@ -1213,18 +1222,23 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Candidate constructors for autowiring?
+		// 是否我们有指定自己的构造方法，我们自己可以实现 SmartInstantiationAwareBeanPostProcessor 来指定我们创建 Bean 的构造方法
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
+			// 如果我们配置 Bean 的时候 autowiring 为 constructor
+			// 那么mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR 这个条件就会成立， 就会走这个逻辑
 			return autowireConstructor(beanName, mbd, ctors, args);
 		}
 
 		// Preferred constructors for default construction?
+		// 类似动态组装构造器，通常为 null
 		ctors = mbd.getPreferredConstructors();
 		if (ctors != null) {
 			return autowireConstructor(beanName, mbd, ctors, null);
 		}
 
+		// 没有特殊情况，通常使用无参构造函数去实例化 Bean
 		// No special handling: simply use no-arg constructor.
 		return instantiateBean(beanName, mbd);
 	}
@@ -1370,6 +1384,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected BeanWrapper autowireConstructor(
 			String beanName, RootBeanDefinition mbd, @Nullable Constructor<?>[] ctors, @Nullable Object[] explicitArgs) {
 
+		// 创建一个新的构造函数解析器（把我们 DefaultListBeanFactory组合进来）
 		return new ConstructorResolver(this).autowireConstructor(beanName, mbd, ctors, explicitArgs);
 	}
 

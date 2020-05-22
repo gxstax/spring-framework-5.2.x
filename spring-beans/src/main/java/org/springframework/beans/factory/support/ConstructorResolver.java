@@ -158,7 +158,7 @@ class ConstructorResolver {
 			if (candidates == null) {
 				Class<?> beanClass = mbd.getBeanClass();
 				try {
-					candidates = (mbd.isNonPublicAccessAllowed() ?
+					candidates = (mbd.isNonPublicAccessAllowed() ? // 判断是否允许访问非 public成员
 							beanClass.getDeclaredConstructors() : beanClass.getConstructors());
 				}
 				catch (Throwable ex) {
@@ -170,7 +170,7 @@ class ConstructorResolver {
 
 			if (candidates.length == 1 && explicitArgs == null && !mbd.hasConstructorArgumentValues()) {
 				Constructor<?> uniqueCandidate = candidates[0];
-				if (uniqueCandidate.getParameterCount() == 0) {
+				if (uniqueCandidate.getParameterCount() == 0) { // 判断是否有参数
 					synchronized (mbd.constructorArgumentLock) {
 						mbd.resolvedConstructorOrFactoryMethod = uniqueCandidate;
 						mbd.constructorArgumentsResolved = true;
@@ -181,7 +181,7 @@ class ConstructorResolver {
 				}
 			}
 
-			// Need to resolve the constructor.
+			// Need to resolve the constructor. 判断是否是通过 AUTOWIRE_CONSTRUCTOR 构建 bean
 			boolean autowiring = (chosenCtors != null ||
 					mbd.getResolvedAutowireMode() == AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR);
 			ConstructorArgumentValues resolvedValues = null;
@@ -196,12 +196,12 @@ class ConstructorResolver {
 				minNrOfArgs = resolveConstructorArguments(beanName, mbd, bw, cargs, resolvedValues);
 			}
 
-			AutowireUtils.sortConstructors(candidates);
+			AutowireUtils.sortConstructors(candidates); //构造器排序
 			int minTypeDiffWeight = Integer.MAX_VALUE;
 			Set<Constructor<?>> ambiguousConstructors = null;
 			LinkedList<UnsatisfiedDependencyException> causes = null;
 
-			for (Constructor<?> candidate : candidates) {
+			for (Constructor<?> candidate : candidates) { // 循环构造器选最优
 
 				int parameterCount = candidate.getParameterCount();
 
@@ -730,8 +730,8 @@ class ConstructorResolver {
 		Set<String> autowiredBeanNames = new LinkedHashSet<>(4);
 
 		for (int paramIndex = 0; paramIndex < paramTypes.length; paramIndex++) {
-			Class<?> paramType = paramTypes[paramIndex];
-			String paramName = (paramNames != null ? paramNames[paramIndex] : "");
+			Class<?> paramType = paramTypes[paramIndex];// 参数类型
+			String paramName = (paramNames != null ? paramNames[paramIndex] : "");// 参数名
 			// Try to find matching constructor argument value, either indexed or generic.
 			ConstructorArgumentValues.ValueHolder valueHolder = null;
 			if (resolvedValues != null) {
@@ -775,8 +775,8 @@ class ConstructorResolver {
 				args.arguments[paramIndex] = convertedValue;
 				args.rawArguments[paramIndex] = originalValue;
 			}
-			else {
-				MethodParameter methodParam = MethodParameter.forExecutable(executable, paramIndex);
+			else { // 通常会走这里
+				MethodParameter methodParam = MethodParameter.forExecutable(executable, paramIndex);// 根据参数下标得到方法参数
 				// No explicit match found: we're either supposed to autowire or
 				// have to fail creating an argument array for the given constructor.
 				if (!autowiring) {
@@ -786,7 +786,7 @@ class ConstructorResolver {
 							"] - did you specify the correct bean references as arguments?");
 				}
 				try {
-					Object autowiredArgument = resolveAutowiredArgument(
+					Object autowiredArgument = resolveAutowiredArgument( // 解析自动注入参数
 							methodParam, beanName, autowiredBeanNames, converter, fallback);
 					args.rawArguments[paramIndex] = autowiredArgument;
 					args.arguments[paramIndex] = autowiredArgument;
@@ -882,7 +882,7 @@ class ConstructorResolver {
 			return injectionPoint;
 		}
 		try {
-			return this.beanFactory.resolveDependency(
+			return this.beanFactory.resolveDependency( // 处理依赖
 					new DependencyDescriptor(param, true), beanName, autowiredBeanNames, typeConverter);
 		}
 		catch (NoUniqueBeanDefinitionException ex) {

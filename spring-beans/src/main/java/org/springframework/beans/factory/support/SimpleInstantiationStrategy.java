@@ -65,7 +65,10 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			synchronized (bd.constructorArgumentLock) {
 				constructorToUse = (Constructor<?>) bd.resolvedConstructorOrFactoryMethod;
 				if (constructorToUse == null) {
+					// 这里 BeanClass 是我们前面在 resolveBeanClass 的时候，
+					// 从 string（类名）通过传统 java classLoader转换为了 Class 对象
 					final Class<?> clazz = bd.getBeanClass();
+					// 这里不能为接口，接口是不能实例化的
 					if (clazz.isInterface()) {
 						throw new BeanInstantiationException(clazz, "Specified class is an interface");
 					}
@@ -77,6 +80,8 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 						else {
 							constructorToUse = clazz.getDeclaredConstructor();
 						}
+						// 这里就和前面的重复创建那里呼应上了，
+						// 重复创建那里是根据resolvedConstructorOrFactoryMethod是否为空来判断是否是重复创建统一个Bean的
 						bd.resolvedConstructorOrFactoryMethod = constructorToUse;
 					}
 					catch (Throwable ex) {

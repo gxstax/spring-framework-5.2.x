@@ -29,12 +29,12 @@ public class BeanInstantiationLifecycleDemo {
 		// 基于 XML  资源的 BeanDefinitionReader 实现
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		String location = "META-INF/dependency-lookup-context.xml";
+		String[] locations = {"META-INF/dependency-lookup-context.xml", "META-INF/bean-constructor-dependency-injection.xml"};
 
 		// 定义字符编码为 UTF-8
-		Resource resource = new ClassPathResource(location);
-		EncodedResource encodedResource = new EncodedResource(resource, "UTF-8");
-		int num = beanDefinitionReader.loadBeanDefinitions(encodedResource);
+//		Resource resource = new ClassPathResource(locations);
+//		EncodedResource encodedResource = new EncodedResource(resource, "UTF-8");
+		int num = beanDefinitionReader.loadBeanDefinitions(locations);
 		System.out.printf("已加载了 %d 条 BeanDefinition %n", num);
 
 		User user = beanFactory.getBean("user", User.class);
@@ -42,12 +42,16 @@ public class BeanInstantiationLifecycleDemo {
 
 		User superUser = beanFactory.getBean("superUser", User.class);
 		System.out.println(superUser);
+
+		// 构造器注入是按照类型注入 resolveDependency
+		UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
+		System.out.println(userHolder);
 	}
 
 	static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 		@Override
 		public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-			if (SuperUser.class.equals(beanClass)) {
+			if (ObjectUtils.nullSafeEquals("superUser", beanName) && SuperUser.class.equals(beanClass)) {
 				// 把配置完成的 superUser 替换掉
 				return new SuperUser();
 			}
