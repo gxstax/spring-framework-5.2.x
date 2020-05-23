@@ -602,6 +602,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			// 这里就是属性填充，依赖注入就是在这里进行的
 			populateBean(beanName, mbd, instanceWrapper);
+			// bean 的初始化
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
 		catch (Throwable ex) {
@@ -1840,6 +1841,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return wrappedBean;
 	}
 
+	// Aware 方法回调 这里会有顺序 BeanNameAware，BeanClassLoaderAware，BeanFactoryAware
 	private void invokeAwareMethods(final String beanName, final Object bean) {
 		if (bean instanceof Aware) {
 			if (bean instanceof BeanNameAware) {
