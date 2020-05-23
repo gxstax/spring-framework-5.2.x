@@ -90,6 +90,8 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * if property population should be skipped. Normal implementations should return {@code true}.
 	 * Returning {@code false} will also prevent any subsequent InstantiationAwareBeanPostProcessor
 	 * instances being invoked on this bean instance.
+	 * 如果 bean 的属性需要被设置，则返回 true, 如果要跳过属性填充则返回false，出了当前接口不会被赋值外，
+	 * 接下来的所有实现了 InstantiationAwareBeanPostProcessor 接口的也不会被执行
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see #postProcessBeforeInstantiation
 	 */

@@ -58,5 +58,18 @@ public class BeanInstantiationLifecycleDemo {
 			// 保持原来的 spring IOC 初始化的 Bean
 			return null;
 		}
+
+		@Override
+		public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+			if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
+				// 手动设置属性之
+				User user = (User) bean;
+				user.setId(2L);
+				user.setName("Ant");
+				// 不允许属性赋值 (配置元信息 -> 属性值)
+				return false;
+			}
+			return true;
+		}
 	}
 }

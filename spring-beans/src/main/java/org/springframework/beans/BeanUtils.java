@@ -201,6 +201,7 @@ public abstract class BeanUtils {
 						argsWithDefaultValues[i] = args[i];
 					}
 				}
+				// Bean 的实例化就是一个 newInstance （just a newInstance）
 				return ctor.newInstance(argsWithDefaultValues);
 			}
 		}
