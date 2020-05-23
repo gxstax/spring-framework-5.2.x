@@ -7,9 +7,9 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
 	   http://www.springframework.org/schema/context
        http://www.springframework.org/schema/beans/spring-context.xsd">
-	<bean class="com.ant.bean.lifecycle.MyInstantiationAwareBeanPostProcessor"/>
+	<bean class="com.ant.bean.lifecycle.MyInstantiationAwareBeanPostProcessor" />
 
-	<bean id="userHolder" class="com.ant.bean.lifecycle.UserHolder" autowire="constructor">
+	<bean id="userHolder" class="com.ant.bean.lifecycle.UserHolder" autowire="constructor" init-method="init">
 
 		<!-- 通过 XML 元素配置-->
 <!--		<property name="number" value="1"></property>-->

@@ -161,6 +161,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
+			// 执行 @PostConstruct 方法回调
 			metadata.invokeInitMethods(bean, beanName);
 		}
 		catch (InvocationTargetException ex) {

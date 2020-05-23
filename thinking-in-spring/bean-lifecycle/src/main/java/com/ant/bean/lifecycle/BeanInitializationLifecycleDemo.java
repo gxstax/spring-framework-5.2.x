@@ -3,6 +3,7 @@ package com.ant.bean.lifecycle;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -28,6 +29,9 @@ public class BeanInitializationLifecycleDemo {
 		//添加 BeanPostProcessor 的实现类 MyInstantiationAwareBeanPostProcessor
 		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
+		// 添加 CommonAnnotationBeanPostProcessor 解决 @PostConstruct
+		beanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());
+
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 		String[] locations = {"META-INF/dependency-lookup-context.xml", "META-INF/bean-constructor-dependency-injection.xml"};
 
@@ -37,6 +41,11 @@ public class BeanInitializationLifecycleDemo {
 		int num = beanDefinitionReader.loadBeanDefinitions(locations);
 		System.out.printf("已加载了 %d 条 BeanDefinition %n", num);
 
+		// 显式的执行 preInstantiateSingletons() 方法
+		// SmartInitializingSingleton 通常在 Spring ApplicationContext 场景使用
+		// preInstantiateSingletons 将已注册的 BeanDefinition 初始化为 Spring Bean
+		beanFactory.preInstantiateSingletons();
+
 		User user = beanFactory.getBean("user", User.class);
 		System.out.println(user);
 
@@ -45,7 +54,10 @@ public class BeanInitializationLifecycleDemo {
 
 		// 构造器注入是按照类型注入 resolveDependency
 		UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
+
+
 		System.out.println(userHolder);
+
 	}
 
 }

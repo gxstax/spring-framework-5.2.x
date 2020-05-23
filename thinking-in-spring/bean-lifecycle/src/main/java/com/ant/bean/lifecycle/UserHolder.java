@@ -6,8 +6,12 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+
+import javax.annotation.PostConstruct;
 
 /**
  * <p>
@@ -17,7 +21,8 @@ import org.springframework.core.env.Environment;
  * @author Ant
  * @since 2020/5/22 4:10 下午
  */
-public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware {
+public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware,
+		EnvironmentAware, InitializingBean, SmartInitializingSingleton {
 
 	private Integer number;
 
@@ -37,7 +42,6 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		this.user = user;
 	}
 
-
 	public Integer getNumber() {
 		return number;
 	}
@@ -52,6 +56,26 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@PostConstruct
+	public void initPostConstruct() {
+		// postProcessorBeforeInitialization V3 -> initPostConstruct V4
+		this.description = "The userHolder V4";
+		System.out.println("initPostConstruct() = " + description);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// initPostConstruct V4 -> afterPropertiesSet V5
+		this.description = "The userHolder V5";
+		System.out.println("afterPropertiesSet() = " + description);
+	}
+
+	public void init() {
+		// afterPropertiesSet V5 -> init V6
+		this.description = "The userHolder V6";
+		System.out.println("init() = " + description);
 	}
 
 	@Override
@@ -83,5 +107,13 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
+	}
+
+
+	@Override
+	public void afterSingletonsInstantiated() {
+		// postProcessorAfterInitialization V7 -> init V8
+		this.description = "The userHolder V8";
+		System.out.println("afterSingletonsInstantiated() = " + description);
 	}
 }
