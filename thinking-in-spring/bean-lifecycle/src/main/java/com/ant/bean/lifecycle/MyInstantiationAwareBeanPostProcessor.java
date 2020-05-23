@@ -17,6 +17,9 @@ import org.springframework.util.ObjectUtils;
  * @since 2020/5/23 9:35 下午
  */
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+	/**
+	 * <实例化>前
+	 */
 	@Override
 	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 		if (ObjectUtils.nullSafeEquals("superUser", beanName) && SuperUser.class.equals(beanClass)) {
@@ -27,6 +30,9 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		return null;
 	}
 
+	/**
+	 * <实例化>后
+	 */
 	@Override
 	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
 		if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
@@ -40,12 +46,13 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		return true;
 	}
 
-	/** 这里需要注意的是，如果 postProcessAfterInstantiation() 方法返回 false 的话，这个方法将不会被执行
-	 * User 是跳过了属性填充过程的
-	 * SuperUser 是完全跳过 Bean 的实例化，所以也不会走这个方法
-	 * userHolder
-	 *
-	 * */
+	/**
+	 * <实例化>过程属性操作
+	 * 这里需要注意的是，如果 postProcessAfterInstantiation() 方法返回 false 的话，这个方法将不会被执行
+	 * User：      是跳过了属性填充过程的
+	 * SuperUser： 是完全跳过 Bean 的实例化，所以也不会走这个方法
+	 * userHolder: 自定义属性填充
+	 */
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
 		// 对 "userHolder" Bean 进行拦截
@@ -72,5 +79,17 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 			return mutablePropertyValues;
 		}
 		return null;
+	}
+
+	/**
+	 * <初始化>前
+	 */
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+			UserHolder userHolder = (UserHolder) bean;
+			userHolder.setDescription("The UserHolder V3");
+		}
+		return bean;
 	}
 }
