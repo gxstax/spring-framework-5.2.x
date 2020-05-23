@@ -10,5 +10,8 @@
 
 	<bean id="userHolder" class="com.ant.bean.lifecycle.UserHolder" autowire="constructor">
 
+		<!-- 通过 XML 元素配置-->
+<!--		<property name="number" value="1"></property>-->
+		<property name="description" value="The UserHolder" />
 	</bean>
 </beans>

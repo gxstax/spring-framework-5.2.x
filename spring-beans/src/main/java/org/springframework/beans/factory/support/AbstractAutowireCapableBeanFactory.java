@@ -1451,7 +1451,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
 					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
-					// 这里会进行依赖处理
+					// 这里会进行依赖处理, 我们实现了InstantiationAwareBeanPostProcessor
+					// 并重写postProcessProperties 方法 且不反回 null 时，这里就会处理我们的属性值
 					PropertyValues pvsToUse = ibp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
 					if (pvsToUse == null) {
 						if (filteredPds == null) {
@@ -1474,6 +1475,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
+			// 重写InstantiationAwareBeanPostProcessor#postProcessProperties 方法且不反回 null 时，
+			// 这里就会应用我们的自己设定的属性值到 BeanWrapper 中去
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
@@ -1762,6 +1765,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Set our (possibly massaged) deep copy.
 		try {
+			// 重新设置 PropertyValues 为我们自己设置的值
 			bw.setPropertyValues(new MutablePropertyValues(deepCopy));
 		}
 		catch (BeansException ex) {

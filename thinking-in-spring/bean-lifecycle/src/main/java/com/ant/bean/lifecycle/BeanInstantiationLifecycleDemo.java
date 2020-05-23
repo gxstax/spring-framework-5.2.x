@@ -3,6 +3,8 @@ package com.ant.bean.lifecycle;
 import com.ant.spring.ioc.overview.domain.SuperUser;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -70,6 +72,40 @@ public class BeanInstantiationLifecycleDemo {
 				return false;
 			}
 			return true;
+		}
+
+		/** 这里需要注意的是，如果 postProcessAfterInstantiation() 方法返回 false 的话，这个方法将不会被执行
+		 * User 是跳过了属性填充过程的
+		 * SuperUser 是完全跳过 Bean 的实例化，所以也不会走这个方法
+		 * userHolder
+		 *
+		 * */
+		@Override
+		public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+			// 对 "userHolder" Bean 进行拦截
+			if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+				// 假设我们的 Bean 配置有这么一条 <property name="number" value="1">
+				// 那么 PropertyValues 就包含了 PropertyValue(number=1) 这个元素
+				final MutablePropertyValues mutablePropertyValues;
+
+				if (pvs instanceof MutablePropertyValues) {
+					mutablePropertyValues = (MutablePropertyValues) pvs;
+				} else {
+					mutablePropertyValues = new MutablePropertyValues();
+				}
+
+				// 等价于 <property name="number" value="1" /> 这个代码
+				mutablePropertyValues.addPropertyValue("number", "1");
+
+				// 原始配置 <property name="description" value="The UserHolder" />
+				if (pvs.contains("description")) {
+					mutablePropertyValues.removePropertyValue("description");
+					mutablePropertyValues.addPropertyValue("description", "The UserHolder V2");
+				}
+
+				return mutablePropertyValues;
+			}
+			return null;
 		}
 	}
 }
