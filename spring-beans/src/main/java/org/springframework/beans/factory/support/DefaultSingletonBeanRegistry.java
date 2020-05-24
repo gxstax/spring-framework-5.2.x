@@ -516,6 +516,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			destroySingleton(disposableBeanNames[i]);
 		}
 
+		// 清理各种单例对象 Bean
 		this.containedBeanMap.clear();
 		this.dependentBeanMap.clear();
 		this.dependenciesForBeanMap.clear();
@@ -526,6 +527,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/**
 	 * Clear all cached singleton instances in this registry.
 	 * @since 4.3.15
+	 * 清理注册的 Bean 缓存
 	 */
 	protected void clearSingletonCache() {
 		synchronized (this.singletonObjects) {

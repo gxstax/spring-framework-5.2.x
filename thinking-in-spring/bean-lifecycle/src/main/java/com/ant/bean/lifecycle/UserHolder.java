@@ -6,12 +6,14 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * <p>
@@ -22,7 +24,7 @@ import javax.annotation.PostConstruct;
  * @since 2020/5/22 4:10 下午
  */
 public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware,
-		EnvironmentAware, InitializingBean, SmartInitializingSingleton {
+		EnvironmentAware, InitializingBean, SmartInitializingSingleton, DisposableBean {
 
 	private Integer number;
 
@@ -78,6 +80,26 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		System.out.println("init() = " + description);
 	}
 
+	@PreDestroy
+	public void preDestroy() {
+		// postProcessBeforeDestruction() V9 -> preDestroy V10
+		this.description = "The userHolder V10";
+		System.out.println("preDestroy() = " + description);
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		// preDestroy() V10 -> destroy V11
+		this.description = "The userHolder V11";
+		System.out.println("preDestroy() = " + description);
+	}
+
+	public void doDestroy() {
+		// destroy() V11 -> doDestroy V12
+		this.description = "The userHolder V12";
+		System.out.println("preDestroy() = " + description);
+	}
+
 	@Override
 	public String toString() {
 		return "UserHolder{" +
@@ -112,8 +134,10 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 
 	@Override
 	public void afterSingletonsInstantiated() {
-		// postProcessorAfterInitialization V7 -> init V8
+		// postProcessorAfterInitialization V7 -> afterSingletonsInstantiated V8
 		this.description = "The userHolder V8";
 		System.out.println("afterSingletonsInstantiated() = " + description);
 	}
+
+
 }
