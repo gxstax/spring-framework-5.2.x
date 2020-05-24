@@ -15,7 +15,7 @@ import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
  */
 public class BeanLifecycleDemo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
 		//添加 BeanPostProcessor 的实现类 MyInstantiationAwareBeanPostProcessor
@@ -55,5 +55,14 @@ public class BeanLifecycleDemo {
 		// Bean 销毁并不意味着 Bean 被垃圾回收了
 		beanFactory.destroyBean("userHolder", userHolder);
 		System.out.println(userHolder);
+
+		beanFactory.destroySingletons();
+
+		//强制 GC
+		System.gc();
+
+		Thread.sleep(2000L);
+
+		System.gc();
 	}
 }
