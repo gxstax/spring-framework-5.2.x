@@ -42,6 +42,10 @@ import org.springframework.util.MultiValueMap;
  * well as for the annotations defined on the class, exposing them through
  * the {@link org.springframework.core.type.AnnotationMetadata} interface.
  *
+ * 通过 ASM 方式，通常这种方式效率会比较高一些，因为它不需要把整个类都加载进来，
+ * 它在我们 calss 资源被读取的时候，就会进行相关的操作
+ * 不过在 5.2 之后已经不推荐使用了，它推荐我们使用另外一种更简单的基于 ASM 机制的 SimpleAnnotationMetadataReadingVisitor
+ *
  * @author Juergen Hoeller
  * @author Mark Fisher
  * @author Costin Leau

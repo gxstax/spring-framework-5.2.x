@@ -37,6 +37,8 @@ import org.springframework.util.ReflectionUtils;
  * {@link AnnotationMetadata} implementation that uses standard reflection
  * to introspect a given {@link Class}.
  *
+ * Annotation 标准实现，基于 java 反射机制
+ *
  * @author Juergen Hoeller
  * @author Mark Fisher
  * @author Chris Beams
