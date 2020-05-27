@@ -38,6 +38,7 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
 public class BeanDefinitionHolder implements BeanMetadataElement {
+	/** beanDefinition 包装类，增加了 beanName、aliases **/
 
 	private final BeanDefinition beanDefinition;
 

@@ -65,7 +65,6 @@ public class BeanConfigurationMetadataDemo {
 
 		System.out.println(user);
 
-
 	}
 
 }
