@@ -381,8 +381,10 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 					if (logger.isTraceEnabled()) {
 						logger.trace("Found bean name '" + beanName + "'");
 					}
+					// 判断属性是否已经被设置过
 					if (!getRegistry().containsBeanDefinition(beanName)) {
 						// If we haven't already registered it...
+						// 从 properties 文件中读取信息并注册到 spring 容器中
 						registerBeanDefinition(beanName, map, prefix + beanName, resourceDescription);
 						++beanCount;
 					}
@@ -475,6 +477,7 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 					pvs.add(property, val);
 				}
 				else {
+					// 普通的类属性在这里设置添加
 					// It's a normal bean property.
 					pvs.add(property, readValue(entry));
 				}
