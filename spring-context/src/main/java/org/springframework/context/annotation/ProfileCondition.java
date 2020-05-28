@@ -40,6 +40,8 @@ class ProfileCondition implements Condition {
 					return true;
 				}
 			}
+
+			// 返回 false 的时候这个 Bean 不会被加载
 			return false;
 		}
 		return true;

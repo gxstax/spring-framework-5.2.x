@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:users="http://com.ant/schema/users"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://com.ant/schema/users
+	   http://com.ant/schema/users.xsd">
+
+
+<!--	<bean id="user" class="com.ant.spring.ioc.overview.domain.User">-->
+<!--		<property name="id" value="1"></property>-->
+<!--		<property name="name" value="马以"></property>-->
+<!--		<property name="city" value="HANGZHOU"></property>-->
+<!--		<property name="workCities" value="BEIJING,HANGZHOU"></property>-->
+<!--		&lt;!&ndash;            <property name="lifeCities" value="BEIJING,SHANGHAI"></property>&ndash;&gt;-->
+<!--		<property name="lifeCities">-->
+<!--			<list>-->
+<!--				<value>BEIJING</value>-->
+<!--				<value>SHANGHAI</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="configFileLocation" value="classpath:/META-INF/user-config.properties"></property>-->
+<!--	</bean>-->
+
+	<users:user id="1" name="马以" city="HANGZHOU"></users:user>
+</beans>

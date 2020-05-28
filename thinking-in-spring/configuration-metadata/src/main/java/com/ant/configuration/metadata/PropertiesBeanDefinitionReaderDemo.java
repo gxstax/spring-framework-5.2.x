@@ -21,10 +21,10 @@ import org.springframework.core.io.support.EncodedResource;
 public class PropertiesBeanDefinitionReaderDemo {
 
 	public static void main(String[] args) {
-//		// 创建 IOC 底层容器
+		// 创建 IOC 底层容器
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-//		// 创建面线 properties 资源的 BeanDefinitionReader 示例
+		// 创建面线 properties 资源的 BeanDefinitionReader 示例
 		PropertiesBeanDefinitionReader beanDefinitionReader = new PropertiesBeanDefinitionReader(beanFactory);
 
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -35,7 +35,7 @@ public class PropertiesBeanDefinitionReaderDemo {
 
 		int bdCount = beanDefinitionReader.loadBeanDefinitions(encodedResource);
 		System.out.printf("已经加载了 %d 个 BeadDefinition \n", bdCount);
-//
+
 		User user = beanFactory.getBean(User.class);
 		System.out.println(user);
 
