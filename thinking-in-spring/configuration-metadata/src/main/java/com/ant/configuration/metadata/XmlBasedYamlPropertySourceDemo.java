@@ -12,7 +12,7 @@ import java.util.Map;
  * 基于 XML 的 YAML 外部实例化配置
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/29 6:38 下午
  */
 @SuppressWarnings("unchecked")

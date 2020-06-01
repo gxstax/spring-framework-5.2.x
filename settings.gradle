@@ -54,4 +54,6 @@ include 'thinking-in-spring:bean-lifecycle'
 findProject(':thinking-in-spring:bean-lifecycle')?.name = 'bean-lifecycle'
 include 'thinking-in-spring:configuration-metadata'
 findProject(':thinking-in-spring:configuration-metadata')?.name = 'configuration-metadata'
+include 'thinking-in-spring:resource'
+findProject(':thinking-in-spring:resource')?.name = 'resource'
 

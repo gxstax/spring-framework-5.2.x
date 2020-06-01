@@ -14,7 +14,7 @@ import java.util.Properties;
  * YAML 格式的 {@link PropertySourceFactory} 示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/29 10:53 下午
  */
 @SuppressWarnings("unchecked")

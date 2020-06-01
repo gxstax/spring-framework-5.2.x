@@ -15,7 +15,7 @@ import java.util.Map;
  * 外部化配置示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/29 2:45 上午
  */
 @PropertySource("classpath:/META-INF/user-config.properties")
