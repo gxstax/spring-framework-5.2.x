@@ -56,4 +56,6 @@ include 'thinking-in-spring:configuration-metadata'
 findProject(':thinking-in-spring:configuration-metadata')?.name = 'configuration-metadata'
 include 'thinking-in-spring:resource'
 findProject(':thinking-in-spring:resource')?.name = 'resource'
+include 'thinking-in-spring:i18n'
+findProject(':thinking-in-spring:i18n')?.name = 'i18n'
 

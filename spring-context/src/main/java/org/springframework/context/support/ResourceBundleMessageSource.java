@@ -46,6 +46,8 @@ import org.springframework.util.ClassUtils;
  * in combination with the JDK's standard message parsing provided by
  * {@link java.text.MessageFormat}.
  *
+ * 基于 ResourceBundle 和 MessageFormat 实现
+ *
  * <p>This MessageSource caches both the accessed ResourceBundle instances and
  * the generated MessageFormats for each message. It also implements rendering of
  * no-arg messages without MessageFormat, as supported by the AbstractMessageSource
@@ -320,6 +322,7 @@ public class ResourceBundleMessageSource extends AbstractResourceBasedMessageSou
 	protected MessageFormat getMessageFormat(ResourceBundle bundle, String code, Locale locale)
 			throws MissingResourceException {
 
+		// 从缓存中获取，如果是只读不写，这里是线程安全的
 		Map<String, Map<Locale, MessageFormat>> codeMap = this.cachedBundleMessageFormats.get(bundle);
 		Map<Locale, MessageFormat> localeMap = null;
 		if (codeMap != null) {

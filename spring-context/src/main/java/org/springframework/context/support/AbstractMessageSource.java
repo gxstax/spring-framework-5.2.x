@@ -221,6 +221,7 @@ public abstract class AbstractMessageSource extends MessageSourceSupport impleme
 			// are defined in the child MessageSource.
 			argsToUse = resolveArguments(args, locale);
 
+			// 通过 code 关联到文本模版
 			MessageFormat messageFormat = resolveCode(code, locale);
 			if (messageFormat != null) {
 				synchronized (messageFormat) {

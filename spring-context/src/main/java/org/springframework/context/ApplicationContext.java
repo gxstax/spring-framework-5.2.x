@@ -54,6 +54,7 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableApplicationContext
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.core.io.ResourceLoader
+ * 也是有层次性的接口
  */
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
 		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
@@ -86,7 +87,8 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 	/**
 	 * Return the parent context, or {@code null} if there is no parent
 	 * and this is the root of the context hierarchy.
-	 * @return the parent context, or {@code null} if there is no parent
+	 * @return the parent context, or {@code null} if there is no parent'
+	 *
 	 */
 	@Nullable
 	ApplicationContext getParent();
