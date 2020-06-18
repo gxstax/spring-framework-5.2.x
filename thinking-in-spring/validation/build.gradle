@@ -14,11 +14,14 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    testCompile("oorg.springframework.boot:spring-boot")
+    compile(project(":spring-context"))
 
+    compile(project(":thinking-in-spring:ioc-container-overview"))
 
     compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.6.RELEASE'
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.2.6.RELEASE'
+    compile group: 'org.mortbay.jasper', name: 'apache-el', version: '9.0.14'
+
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.15.Final'
 
 }

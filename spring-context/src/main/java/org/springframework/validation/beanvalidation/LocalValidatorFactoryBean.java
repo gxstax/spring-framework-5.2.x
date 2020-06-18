@@ -83,6 +83,7 @@ import org.springframework.util.ReflectionUtils;
  * @see javax.validation.Validator
  * @see javax.validation.Validation#buildDefaultValidatorFactory()
  * @see javax.validation.ValidatorFactory#getValidator()
+ * 用于生成校验bean工厂
  */
 public class LocalValidatorFactoryBean extends SpringValidatorAdapter
 		implements ValidatorFactory, ApplicationContextAware, InitializingBean, DisposableBean {

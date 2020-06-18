@@ -40,6 +40,7 @@ import org.springframework.lang.Nullable;
  * @see BindException
  * @see DataBinder
  * @see ValidationUtils
+ * 异常文案接口
  */
 public interface Errors {
 
