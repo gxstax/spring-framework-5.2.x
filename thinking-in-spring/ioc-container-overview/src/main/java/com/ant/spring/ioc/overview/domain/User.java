@@ -32,6 +32,9 @@ public class User implements BeanNameAware {
 
     private Resource configFileLocation;
 
+    private Company company;
+
+    private String context;
     /**
      * 当前 Bean 的名称
      */
@@ -85,19 +88,37 @@ public class User implements BeanNameAware {
         this.lifeCities = lifeCities;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", city=" + city +
-                ", workCities=" + Arrays.toString(workCities) +
-                ", lifeCities=" + lifeCities +
-                ", configFileLocation=" + configFileLocation +
-                '}';
-    }
+	public Company getCompany() {
+		return company;
+	}
 
-    public static User createUser() {
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", city=" + city +
+				", workCities=" + Arrays.toString(workCities) +
+				", lifeCities=" + lifeCities +
+				", configFileLocation=" + configFileLocation +
+				", company=" + company +
+				", context='" + context + '\'' +
+				'}';
+	}
+
+	public static User createUser() {
         User user = new User();
         user.setId(1L);
         user.setName("马以");

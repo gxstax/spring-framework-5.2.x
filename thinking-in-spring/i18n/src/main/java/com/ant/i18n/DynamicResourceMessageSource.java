@@ -133,7 +133,6 @@ public class DynamicResourceMessageSource extends AbstractMessageSource implemen
 						watchKey.reset();
 					}
 				}
-
 			}
 		});
 	}

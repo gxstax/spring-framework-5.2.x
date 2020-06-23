@@ -119,6 +119,7 @@ public final class CachedIntrospectionResults {
 	/**
 	 * Map keyed by Class containing CachedIntrospectionResults, softly held.
 	 * This variant is being used for non-cache-safe bean classes.
+	 * 软应用存储 Class 类型缓存
 	 */
 	static final ConcurrentMap<Class<?>, CachedIntrospectionResults> softClassCache =
 			new ConcurrentReferenceHashMap<>(64);

@@ -60,4 +60,8 @@ include 'thinking-in-spring:i18n'
 findProject(':thinking-in-spring:i18n')?.name = 'i18n'
 include 'thinking-in-spring:validation'
 findProject(':thinking-in-spring:validation')?.name = 'validation'
+include 'thinking-in-spring:data-binding'
+findProject(':thinking-in-spring:data-binding')?.name = 'data-binding'
+include 'thinking-in-spring:conversion'
+findProject(':thinking-in-spring:conversion')?.name = 'conversion'
 

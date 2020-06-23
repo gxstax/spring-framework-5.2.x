@@ -29,6 +29,7 @@ import org.springframework.lang.Nullable;
  * @since 3.0
  * @param <S> the source type
  * @param <T> the target type
+ * 类型转换接口
  */
 @FunctionalInterface
 public interface Converter<S, T> {

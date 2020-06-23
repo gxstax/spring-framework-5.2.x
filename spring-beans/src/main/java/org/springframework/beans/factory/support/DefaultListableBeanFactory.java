@@ -1603,6 +1603,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * @param requiredType the target dependency type to match against
 	 * @return the name of the primary candidate, or {@code null} if none found
 	 * @see #isPrimary(String, Object)
+	 * 从所有给定的 beans 中找出一个，如果有 @Primary 就找有@Primay 如果没有返回有BeanDefinition，
+	 * 然后前面所有给定条件都满足的情况下，选择最后一个
 	 */
 	@Nullable
 	protected String determinePrimaryCandidate(Map<String, Object> candidates, Class<?> requiredType) {

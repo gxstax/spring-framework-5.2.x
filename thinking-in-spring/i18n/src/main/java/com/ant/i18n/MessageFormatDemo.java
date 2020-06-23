@@ -10,7 +10,7 @@ import java.util.Locale;
  * {@link MessageFormat} 示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @see MessageFormat
  * @since 2020/6/1 9:12 上午
  */

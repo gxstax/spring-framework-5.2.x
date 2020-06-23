@@ -106,6 +106,7 @@ import org.springframework.util.StringUtils;
  * @see DefaultMessageCodesResolver
  * @see DefaultBindingErrorProcessor
  * @see org.springframework.context.MessageSource
+ * 数据绑定器
  */
 public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 
@@ -722,10 +723,12 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	 * if you want your original instance to stay unmodified in any case.
 	 * @param pvs property values to bind
 	 * @see #doBind(org.springframework.beans.MutablePropertyValues)
+	 * 把类对象和 PropertyValues 进行绑定
 	 */
 	public void bind(PropertyValues pvs) {
 		MutablePropertyValues mpvs = (pvs instanceof MutablePropertyValues ?
 				(MutablePropertyValues) pvs : new MutablePropertyValues(pvs));
+		// 进行数据绑定
 		doBind(mpvs);
 	}
 
@@ -741,6 +744,7 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	protected void doBind(MutablePropertyValues mpvs) {
 		checkAllowedFields(mpvs);
 		checkRequiredFields(mpvs);
+		// 应用Property 值
 		applyPropertyValues(mpvs);
 	}
 

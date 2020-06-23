@@ -60,6 +60,7 @@ final class CollectionToArrayConverter implements ConditionalGenericConverter {
 				targetType.getElementTypeDescriptor(), this.conversionService);
 	}
 
+	/** 转换过程 */
 	@Override
 	@Nullable
 	public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {

@@ -48,6 +48,8 @@ import org.springframework.util.ObjectUtils;
  * @since 3.0
  * @see ConversionService#canConvert(TypeDescriptor, TypeDescriptor)
  * @see ConversionService#convert(Object, TypeDescriptor, TypeDescriptor)
+ *
+ * 类型转换
  */
 @SuppressWarnings("serial")
 public class TypeDescriptor implements Serializable {
