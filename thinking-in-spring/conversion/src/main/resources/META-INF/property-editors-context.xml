@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:util="http://www.springframework.org/schema/util"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
 	   http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/beans/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/util
+	   http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean class="com.ant.conversion.CustomizedPropertyEditorRegistrar"></bean>
+
+	<bean id ="propertiesToStringConverter" class="com.ant.conversion.PropertiesToStringConverter"></bean>
+
+	<!-- 声明 ConversionServiceFactoryBean 并且名称必须为 conversionService -->
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters" ref="propertiesToStringConverter"></property>
+	</bean>
+
+	<util:properties id="context">
+		<prop key="id">1</prop>
+		<prop key="name">Ant</prop>
+	</util:properties>
+
 
 	<bean id="user" class="com.ant.spring.ioc.overview.domain.User">
 		<property name="id" value="1"></property>
@@ -19,6 +35,8 @@
 				name = Ant
 			</value>
 		</property>
+		
+		<property name="contextAsText" ref="context"/> <!-- Properties -> String -->
 
 	</bean>
 

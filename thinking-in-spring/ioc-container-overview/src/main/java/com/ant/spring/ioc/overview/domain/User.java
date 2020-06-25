@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -35,6 +36,9 @@ public class User implements BeanNameAware {
     private Company company;
 
     private String context;
+
+    private String contextAsText;
+
     /**
      * 当前 Bean 的名称
      */
@@ -104,6 +108,13 @@ public class User implements BeanNameAware {
 		this.context = context;
 	}
 
+	public static User createUser() {
+        User user = new User();
+        user.setId(1L);
+        user.setName("马以");
+        return user;
+    }
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -115,17 +126,19 @@ public class User implements BeanNameAware {
 				", configFileLocation=" + configFileLocation +
 				", company=" + company +
 				", context='" + context + '\'' +
+				", contextAsText='" + contextAsText + '\'' +
 				'}';
 	}
 
-	public static User createUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setName("马以");
-        return user;
-    }
+	public String getContextAsText() {
+		return contextAsText;
+	}
 
-    @PostConstruct
+	public void setContextAsText(String contextAsText) {
+		this.contextAsText = contextAsText;
+	}
+
+	@PostConstruct
     public void init() {
 		System.out.println("用户 Bean【" + beanName + "】对象初始化...");
 	}
