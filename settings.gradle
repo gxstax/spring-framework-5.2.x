@@ -66,4 +66,6 @@ include 'thinking-in-spring:conversion'
 findProject(':thinking-in-spring:conversion')?.name = 'conversion'
 include 'thinking-in-spring:generic'
 findProject(':thinking-in-spring:generic')?.name = 'generic'
+include 'thinking-in-spring:event'
+findProject(':thinking-in-spring:event')?.name = 'event'
 
