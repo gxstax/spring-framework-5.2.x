@@ -15,6 +15,7 @@
 
 	<bean id ="propertiesToStringConverter" class="com.ant.conversion.PropertiesToStringConverter"></bean>
 
+	<!-- 声明 ConversionServiceFactoryBean 并且名称必须为 conversionService -->
 	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters" ref="propertiesToStringConverter"></property>
 	</bean>

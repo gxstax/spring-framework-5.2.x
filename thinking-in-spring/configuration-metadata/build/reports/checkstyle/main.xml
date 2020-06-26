@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.22">
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/AnnotatedSpringIocContainerMetadataConfigurationDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.annotation.Value&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="10" column="8" severity="error" message="无用导入 - org.springframework.context.annotation.PropertySources 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="12" severity="error" message="导入 &apos;java.util.Map&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="22" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="29" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/AnnotatedYamlPropertySourceDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="5" severity="error" message="&apos;org.springframework.beans.factory.annotation.Value&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="6" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.support.DefaultListableBeanFactory 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="7" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.xml.XmlBeanDefinitionReader 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="12" severity="error" message="导入 &apos;java.util.Map&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="8" severity="error" message="无用导入 - java.util.Map 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="14" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="22" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="29" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/BeanConfigurationMetadataDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.BeansException&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="10" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.support.GenericBeanDefinition 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="13" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="21" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="21" column="1" severity="error" message="工具类应隐藏 public 构造器。" source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/ExtensibleXmlAuthoringDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.support.DefaultListableBeanFactory&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="5" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.support.PropertiesBeanDefinitionReader 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="7" column="8" severity="error" message="无用导入 - org.springframework.core.io.DefaultResourceLoader 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="8" column="8" severity="error" message="无用导入 - org.springframework.core.io.Resource 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="9" column="8" severity="error" message="无用导入 - org.springframework.core.io.ResourceLoader 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="10" column="8" severity="error" message="无用导入 - org.springframework.core.io.support.EncodedResource 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="12" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="20" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="20" column="1" severity="error" message="工具类应隐藏 public 构造器。" source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/PropertiesBeanDefinitionReaderDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.support.BeanDefinitionReader&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="4" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.support.BeanDefinitionReader 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="12" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="20" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="20" column="1" severity="error" message="工具类应隐藏 public 构造器。" source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/PropertySourceDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.annotation.Value&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="10" severity="error" message="导入 &apos;java.util.HashMap&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="21" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="24" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/UserBeanDefinitionParser.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.config.SetFactoryBean&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="4" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.config.SetFactoryBean 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="10" severity="error" message="导入 &apos;org.w3c.dom.Element&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="20" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/UsersNamespaceHandler.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="6" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="14" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/XmlBasedYamlPropertySourceDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="3" column="8" severity="error" message="无用导入 - com.ant.spring.ioc.overview.domain.User 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="4" severity="error" message="&apos;org.springframework.beans.factory.config.YamlMapFactoryBean&apos; 应与之前的导入语句通过空行隔开。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="4" column="8" severity="error" message="无用导入 - org.springframework.beans.factory.config.YamlMapFactoryBean 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="8" severity="error" message="导入 &apos;java.util.Map&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="10" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="18" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="18" column="1" severity="error" message="工具类应隐藏 public 构造器。" source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+</file>
+<file name="/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/configuration-metadata/src/main/java/com/ant/configuration/metadata/YamlPropertySourceFactory.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="9" severity="error" message="导入 &apos;java.io.IOException&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="20" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+</file>
+</checkstyle>

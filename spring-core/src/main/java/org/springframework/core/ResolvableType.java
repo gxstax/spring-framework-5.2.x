@@ -54,16 +54,16 @@ import org.springframework.util.StringUtils;
  * {@link #forClass(Class) classes}. Most methods on this class will themselves return
  * {@link ResolvableType ResolvableTypes}, allowing easy navigation. For example:
  * <pre class="code">
- * private HashMap&lt;Integer, List&lt;String&gt;&gt; myMap;
+ * private HashMap<Integer, List<String>> myMap;
  *
  * public void example() {
  *     ResolvableType t = ResolvableType.forField(getClass().getDeclaredField("myMap"));
- *     t.getSuperType(); // AbstractMap&lt;Integer, List&lt;String&gt;&gt;
- *     t.asMap(); // Map&lt;Integer, List&lt;String&gt;&gt;
- *     t.getGeneric(0).resolve(); // Integer
- *     t.getGeneric(1).resolve(); // List
- *     t.getGeneric(1); // List&lt;String&gt;
- *     t.resolveGeneric(1, 0); // String
+ *     t.getSuperType(); // AbstractMap<Integer, List<String>>
+ *     t.asMap(); // Map<Integer, List<String>>
+ *     t.getGeneric(0).resolve(); // Integer 获取map的第一个参数类型
+ *     t.getGeneric(1).resolve(); // List 获取map的第二个参数类型 也就是 List
+ *     t.getGeneric(1); // List<String> 获取第一个参数也就是
+ *     t.resolveGeneric(1, 0); // String 获取嵌套参数中的第二个参数的第一个类型 也就是String
  * }
  * </pre>
  *
