@@ -72,6 +72,7 @@ public interface ApplicationEventMulticaster {
 	 * <p>Consider using {@link #multicastEvent(ApplicationEvent, ResolvableType)}
 	 * if possible as it provides better support for generics-based events.
 	 * @param event the event to multicast
+	 * 相当于是一个一对多的关系
 	 */
 	void multicastEvent(ApplicationEvent event);
 

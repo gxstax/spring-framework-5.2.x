@@ -207,6 +207,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private MessageSource messageSource;
 
 	/** Helper class used in event publishing. */
+	/** 事件组播（多播）*/
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
@@ -395,6 +396,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
+		// 如果在 ApplicationEventMulticaster 还没有初始化，则先放入到 earlyApplicationEvents
+		// 等后面 ApplicationEventMulticaster 初始化后再进行事件回放
+		// 一般这种存在于 BeanPostProcessor 同时实现了 ApplicationEventPublisher 那么在代码初始化的过程中会伴随回调的发生
 		// Multicast right now if possible - or lazily once the multicaster is initialized
 		if (this.earlyApplicationEvents != null) {
 			this.earlyApplicationEvents.add(applicationEvent);
@@ -404,6 +408,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Publish event via parent context as well...
+		// Spring 事件传播，如果当前上下文有父 Context 是会把事件传播给父应用上下文
 		if (this.parent != null) {
 			if (this.parent instanceof AbstractApplicationContext) {
 				((AbstractApplicationContext) this.parent).publishEvent(event, eventType);
@@ -420,6 +425,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	ApplicationEventMulticaster getApplicationEventMulticaster() throws IllegalStateException {
+		// publish 要放到 容器初始化之后，否则会报异常
 		if (this.applicationEventMulticaster == null) {
 			throw new IllegalStateException("ApplicationEventMulticaster not initialized - " +
 					"call 'refresh' before multicasting events via the context: " + this);
@@ -767,6 +773,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void initApplicationEventMulticaster() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		// 查找是否有 "applicationEventMulticaster" 名称的Bean，这里的名称一定要是 applicationEventMulticaster 他是一个静态的
 		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
 			this.applicationEventMulticaster =
 					beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
@@ -775,6 +782,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
+			// 如果当前上下文中不存在，这里会 new 一个
 			this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
 			beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
 			if (logger.isTraceEnabled()) {
@@ -838,6 +846,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
 		}
 
+		// 早期注册事件回放
 		// Publish early application events now that we finally have a multicaster...
 		Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
 		this.earlyApplicationEvents = null;
@@ -900,6 +909,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		getLifecycleProcessor().onRefresh();
 
 		// Publish the final event.
+		// 发布 ContextRefreshedEvent 事件
 		publishEvent(new ContextRefreshedEvent(this));
 
 		// Participate in LiveBeansView MBean, if active.
@@ -1015,6 +1025,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Publish shutdown event.
+				// 发布 ContextClosedEvent 内建事件
 				publishEvent(new ContextClosedEvent(this));
 			}
 			catch (Throwable ex) {
@@ -1367,12 +1378,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void start() {
 		getLifecycleProcessor().start();
+		// 发布 ContextStartedEvent 内建事件
 		publishEvent(new ContextStartedEvent(this));
 	}
 
 	@Override
 	public void stop() {
 		getLifecycleProcessor().stop();
+		// 发布 ContextStoppedEvent 内建事件
 		publishEvent(new ContextStoppedEvent(this));
 	}
 

@@ -1,6 +1,8 @@
 package com.ant.event;
 
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,8 +24,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @see ApplicationListener
  * @see EventListener
  */
+@SuppressWarnings("serial")
 @EnableAsync
-public class ApplicationListenerDemo {
+public class ApplicationListenerDemo implements ApplicationEventPublisherAware {
 	public static void main(String[] args) {
 //		GenericApplicationContext context = new GenericApplicationContext();
 
@@ -49,10 +52,25 @@ public class ApplicationListenerDemo {
 		// 方法2：基于spring 注解 @EventListener
 
 		// 启动 Spring 应用上下文
-		context.refresh();
+		context.refresh(); // 会发布 ContextRefreshedEvent 内建事件
+
+		// 启动 Spring 应用上下文
+		context.start(); // 会发布 ContextStartedEvent 内建事件
+
+		// 停止 Spring 应用上下文
+		context.stop(); // 会发布 ContextStoppedEvent 内建事件
 
 		// 关闭 Spring 应用上下文
-		context.close();
+		context.close(); // 会发布 ContextClosedEvent 内建事件
+	}
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		applicationEventPublisher.publishEvent(new ApplicationEvent("Hello, World") {
+		});
+
+		// 发布  PayloadApplicationEvent 事件
+		applicationEventPublisher.publishEvent("Hello, World");
 	}
 
 	static class MyApplicationListener implements ApplicationListener<ContextClosedEvent> {
