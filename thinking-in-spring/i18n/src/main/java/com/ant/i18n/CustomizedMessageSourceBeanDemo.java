@@ -19,7 +19,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  * @author Ant
  * @since 2020/6/14 5:52 下午
  */
-//@EnableAutoConfiguration
+@EnableAutoConfiguration
 public class CustomizedMessageSourceBeanDemo {
 
 

@@ -39,6 +39,7 @@ import org.springframework.core.annotation.AliasFor;
  * @author Sam Brannen
  * @since 1.2
  * @see org.springframework.jmx.export.metadata.ManagedResource
+ * Spring 1.x 时代的注解，主要针对 JMX（Java Management Extensions）
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -80,10 +80,11 @@ public abstract class BeanFactoryUtils {
 	 */
 	public static String transformedBeanName(String name) {
 		Assert.notNull(name, "'name' must not be null");
+		// 1.如果不是由 FactoryBean 生成的Bean 直接返回
 		if (!name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 			return name;
 		}
-		// 如果该类是通过 FactoryBean 的 getObject 获取的，这里单独处理
+		// 2. 如果该类是通过 FactoryBean 的 getObject 获取的，这里单独处理
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
 				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());

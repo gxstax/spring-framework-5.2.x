@@ -55,6 +55,9 @@ import org.springframework.transaction.TransactionDefinition;
  * @see org.springframework.transaction.interceptor.TransactionAttribute
  * @see org.springframework.transaction.interceptor.DefaultTransactionAttribute
  * @see org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
+ * spring事物的局限性：
+ * 1：只支持本地事务，不支持分布式事务
+ * 2：事务不能跨线程
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

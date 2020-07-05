@@ -54,6 +54,7 @@ import org.springframework.core.annotation.AliasFor;
  * @see Service
  * @see org.springframework.dao.DataAccessException
  * @see org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
+ * Spring 2.0 增加的注解 后面统一为了 {@link Component}
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

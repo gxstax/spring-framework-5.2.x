@@ -109,7 +109,9 @@ class ComponentScanAnnotationParser {
 			scanner.getBeanDefinitionDefaults().setLazyInit(true);
 		}
 
+		// LinkedHashSet 确保包的顺序执行
 		Set<String> basePackages = new LinkedHashSet<>();
+		// 解析 @ComponentScan 注解上的 basePackages 内容信息
 		String[] basePackagesArray = componentScan.getStringArray("basePackages");
 		for (String pkg : basePackagesArray) {
 			String[] tokenized = StringUtils.tokenizeToStringArray(this.environment.resolvePlaceholders(pkg),
@@ -129,6 +131,7 @@ class ComponentScanAnnotationParser {
 				return declaringClass.equals(className);
 			}
 		});
+		// 扫描包
 		return scanner.doScan(StringUtils.toStringArray(basePackages));
 	}
 
