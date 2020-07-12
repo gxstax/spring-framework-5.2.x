@@ -287,6 +287,8 @@ class ConfigurationClassParser {
 		// Process any @ComponentScan annotations
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
+
+		// 在 Bean 扫描过程中判断是否有需要跳过扫描的 Bean 比如加了 @Conditional 注解，这里就会过滤掉不符合条件的Bean
 		if (!componentScans.isEmpty() &&
 				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) {
 			for (AnnotationAttributes componentScan : componentScans) {

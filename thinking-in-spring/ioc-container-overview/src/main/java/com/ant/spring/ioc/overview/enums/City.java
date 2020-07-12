@@ -11,5 +11,6 @@ package com.ant.spring.ioc.overview.enums;
 public enum City {
     BEIJING,
     HANGZHOU,
-    SHANGHAI
+    SHANGHAI,
+	SHENZHEN
 }

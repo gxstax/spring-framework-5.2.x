@@ -59,6 +59,7 @@ import org.springframework.util.CollectionUtils;
  * @since 4.2
  * @see EventListenerFactory
  * @see DefaultEventListenerFactory
+ * Spring 监听器处理器
  */
 public class EventListenerMethodProcessor
 		implements SmartInitializingSingleton, ApplicationContextAware, BeanFactoryPostProcessor {
@@ -86,21 +87,24 @@ public class EventListenerMethodProcessor
 		this.applicationContext = (ConfigurableApplicationContext) applicationContext;
 	}
 
+
+	// BeanFactoryPostProcessor 回调方法
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
-
+		// 通过以来查找 找到 EventListenerFactory 放入 eventListenerFactories 中
 		Map<String, EventListenerFactory> beans = beanFactory.getBeansOfType(EventListenerFactory.class, false, false);
 		List<EventListenerFactory> factories = new ArrayList<>(beans.values());
 		AnnotationAwareOrderComparator.sort(factories);
 		this.eventListenerFactories = factories;
 	}
 
-
+	// SmartInitializingSingleton 回调方法
 	@Override
 	public void afterSingletonsInstantiated() {
 		ConfigurableListableBeanFactory beanFactory = this.beanFactory;
 		Assert.state(this.beanFactory != null, "No ConfigurableListableBeanFactory set");
+		// 取到所有的 bean
 		String[] beanNames = beanFactory.getBeanNamesForType(Object.class);
 		for (String beanName : beanNames) {
 			if (!ScopedProxyUtils.isScopedTarget(beanName)) {
@@ -117,6 +121,7 @@ public class EventListenerMethodProcessor
 				if (type != null) {
 					if (ScopedObject.class.isAssignableFrom(type)) {
 						try {
+							// 获取到原始目标类，就是不是代理类
 							Class<?> targetClass = AutoProxyUtils.determineTargetClass(
 									beanFactory, ScopedProxyUtils.getTargetBeanName(beanName));
 							if (targetClass != null) {
@@ -149,6 +154,7 @@ public class EventListenerMethodProcessor
 
 			Map<Method, EventListener> annotatedMethods = null;
 			try {
+				// 搜素目标类中所有标注了 @EventListener 注解的方法
 				annotatedMethods = MethodIntrospector.selectMethods(targetType,
 						(MethodIntrospector.MetadataLookup<EventListener>) method ->
 								AnnotatedElementUtils.findMergedAnnotation(method, EventListener.class));
@@ -172,15 +178,18 @@ public class EventListenerMethodProcessor
 				Assert.state(context != null, "No ApplicationContext set");
 				List<EventListenerFactory> factories = this.eventListenerFactories;
 				Assert.state(factories != null, "EventListenerFactory List not initialized");
+				// 遍历 所有方法
 				for (Method method : annotatedMethods.keySet()) {
 					for (EventListenerFactory factory : factories) {
 						if (factory.supportsMethod(method)) {
 							Method methodToUse = AopUtils.selectInvocableMethod(method, context.getType(beanName));
+							// 根据方法创建 ApplicationListener
 							ApplicationListener<?> applicationListener =
 									factory.createApplicationListener(beanName, targetType, methodToUse);
 							if (applicationListener instanceof ApplicationListenerMethodAdapter) {
 								((ApplicationListenerMethodAdapter) applicationListener).init(context, this.evaluator);
 							}
+							// 放入到 applicationEventMulticaster 类里，最终也会加入应用上下文的 applicationListeners 中
 							context.addApplicationListener(applicationListener);
 							break;
 						}

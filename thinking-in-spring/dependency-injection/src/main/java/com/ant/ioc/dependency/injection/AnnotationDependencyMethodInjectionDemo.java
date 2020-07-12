@@ -61,7 +61,6 @@ public class AnnotationDependencyMethodInjectionDemo {
         UserHolder userHolder = demo.userHolder;
         System.out.println(userHolder);
         System.out.println(demo.userHolder2);
-
         System.out.println(userHolder == demo.userHolder2);
 
 

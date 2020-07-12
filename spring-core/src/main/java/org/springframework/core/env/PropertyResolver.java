@@ -99,6 +99,8 @@ public interface PropertyResolver {
 	 * @throws IllegalArgumentException if given text is {@code null}
 	 * @see #resolveRequiredPlaceholders
 	 * @see org.springframework.util.SystemPropertyUtils#resolvePlaceholders(String)
+	 *
+	 * 处理占位符
 	 */
 	String resolvePlaceholders(String text);
 

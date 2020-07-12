@@ -17,6 +17,8 @@ dependencies {
 
 //    compile(project(":spring-core"))
 
+    compile(project(":thinking-in-spring:ioc-container-overview"))
+
     compile(project(":spring-context"))
 
 }

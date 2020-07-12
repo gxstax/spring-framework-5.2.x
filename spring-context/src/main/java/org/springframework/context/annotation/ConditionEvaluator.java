@@ -44,6 +44,8 @@ import org.springframework.util.MultiValueMap;
  * @author Phillip Webb
  * @author Juergen Hoeller
  * @since 4.0
+ *
+ * 条件注解评估器（内部类）
  */
 class ConditionEvaluator {
 
@@ -83,6 +85,7 @@ class ConditionEvaluator {
 			return false;
 		}
 
+		// 当前阶段是不是匹配
 		if (phase == null) {
 			if (metadata instanceof AnnotationMetadata &&
 					ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
@@ -91,6 +94,7 @@ class ConditionEvaluator {
 			return shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN);
 		}
 
+		// 获取条件注解依次循环放入conditions
 		List<Condition> conditions = new ArrayList<>();
 		for (String[] conditionClasses : getConditionClasses(metadata)) {
 			for (String conditionClass : conditionClasses) {
@@ -99,8 +103,10 @@ class ConditionEvaluator {
 			}
 		}
 
+		// 根据 @Order 注解排序
 		AnnotationAwareOrderComparator.sort(conditions);
 
+		// 判断是否符合所有的 Conditional 的 match 条件
 		for (Condition condition : conditions) {
 			ConfigurationPhase requiredPhase = null;
 			if (condition instanceof ConfigurationCondition) {
