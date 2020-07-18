@@ -104,6 +104,7 @@ public @interface Profile {
 
 	/**
 	 * The set of profiles for which the annotated component should be registered.
+	 * 多值数组
 	 */
 	String[] value();
 

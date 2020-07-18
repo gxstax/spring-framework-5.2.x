@@ -1,8 +1,9 @@
-package com.ant.anntation;
+package com.ant.environment;
 
 import com.ant.spring.ioc.overview.domain.User;
-//import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+//import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 /**
  * <p>
