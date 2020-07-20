@@ -301,6 +301,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * #getEnvironment()} should also be considered. In either case, such modifications
 	 * should be performed <em>before</em> {@link #refresh()}.
 	 * @see org.springframework.context.support.AbstractApplicationContext#createEnvironment
+	 * 这里可以通过 set 方法直接注入进来
 	 */
 	@Override
 	public void setEnvironment(ConfigurableEnvironment environment) {
@@ -312,9 +313,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
 	 * {@link #createEnvironment()}.
+	 * 创建 environment, 实际上 environment 是 application
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
+		// 这个判断为空，说明 evirenment 是可以注入进来的
 		if (this.environment == null) {
 			this.environment = createEnvironment();
 		}
@@ -325,6 +328,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create and return a new {@link StandardEnvironment}.
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
+	 * 传统的spring 创建的是一个 简单的 StandardEnvironment 对象
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
 		return new StandardEnvironment();

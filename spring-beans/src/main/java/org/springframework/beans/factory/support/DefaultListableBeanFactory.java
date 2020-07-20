@@ -1264,7 +1264,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 
 			Class<?> type = descriptor.getDependencyType();
-			// 这里在处理 @Value 注入的时候会有一个转换，比如从String 转 wei Long 类型
+			// 这里在处理 @Value 注入的时候会有一个转换，比如从String 转为 Long 类型
 			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
 			if (value != null) {
 				if (value instanceof String) {
