@@ -1266,6 +1266,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			Class<?> type = descriptor.getDependencyType();
 			// 这里在处理 @Value 注入的时候会有一个转换，比如从String 转为 Long 类型
 			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
+			// 处理文本类型配置
 			if (value != null) {
 				if (value instanceof String) {
 					String strVal = resolveEmbeddedValue((String) value);
@@ -1274,6 +1275,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					value = evaluateBeanDefinitionString(strVal, bd);
 				}
 				TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
+				// 当上面我们拿到配置的文本信息原始值，这里我们会进行一个转换操作
 				try {
 					return converter.convertIfNecessary(value, type, descriptor.getTypeDescriptor());
 				}

@@ -162,6 +162,8 @@ import org.springframework.core.io.support.PropertySourceFactory;
  * @see org.springframework.core.env.PropertySource
  * @see org.springframework.core.env.ConfigurableEnvironment#getPropertySources()
  * @see org.springframework.core.env.MutablePropertySources
+ *
+ * 属性源，注解方式实现
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -207,6 +209,7 @@ public @interface PropertySource {
 	/**
 	 * A specific character encoding for the given resources, e.g. "UTF-8".
 	 * @since 4.3
+	 * spring 4.3 新增了字符编码
 	 */
 	String encoding() default "";
 
@@ -216,6 +219,7 @@ public @interface PropertySource {
 	 * @since 4.3
 	 * @see org.springframework.core.io.support.DefaultPropertySourceFactory
 	 * @see org.springframework.core.io.support.ResourcePropertySource
+	 * 自定义 PropertySourceFactory
 	 */
 	Class<? extends PropertySourceFactory> factory() default PropertySourceFactory.class;
 

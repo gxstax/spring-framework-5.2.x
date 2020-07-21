@@ -56,6 +56,8 @@ import org.springframework.util.ObjectUtils;
  * @see PropertySourcesPropertyResolver
  * @see MutablePropertySources
  * @see org.springframework.context.annotation.PropertySource
+ *
+ * 属性源 API 方式实现
  */
 public abstract class PropertySource<T> {
 

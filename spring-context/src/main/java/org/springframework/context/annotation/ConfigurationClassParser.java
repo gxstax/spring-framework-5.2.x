@@ -260,6 +260,7 @@ class ConfigurationClassParser {
 	 * @param configClass the configuration class being build
 	 * @param sourceClass a source class
 	 * @return the superclass, or {@code null} if none found or previously processed
+	 * 注解类都会被封装成为一个 ConfigurationClass 的类
 	 */
 	@Nullable
 	protected final SourceClass doProcessConfigurationClass(
