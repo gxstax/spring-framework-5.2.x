@@ -95,6 +95,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
 		if (acc != null) {
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+				// 如果实现了 aware 接口，这里回回调接口的方法，实现比如说上下文环境的依赖
 				invokeAwareInterfaces(bean);
 				return null;
 			}, acc);
