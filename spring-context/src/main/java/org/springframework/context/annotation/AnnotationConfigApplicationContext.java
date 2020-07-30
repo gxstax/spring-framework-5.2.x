@@ -61,6 +61,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	/**
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
+	 * 调用这个方法的时候首先会调用父类（{@link GenericApplicationContext#GenericApplicationContext()))）的构造方法
+	 * 创建一个 DefaultListableBeanFactory 实例对象，这个时候 BeanFactory 已经初始化
 	 */
 	public AnnotationConfigApplicationContext() {
 		this.reader = new AnnotatedBeanDefinitionReader(this);
