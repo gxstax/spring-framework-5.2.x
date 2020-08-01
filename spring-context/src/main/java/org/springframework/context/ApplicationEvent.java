@@ -32,6 +32,7 @@ public abstract class ApplicationEvent extends EventObject {
 	/** use serialVersionUID from Spring 1.2 for interoperability. */
 	private static final long serialVersionUID = 7099057708183571937L;
 
+	// spring 上下文开始的事件事件戳
 	/** System time when the event happened. */
 	private final long timestamp;
 

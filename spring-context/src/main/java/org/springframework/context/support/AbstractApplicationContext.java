@@ -211,13 +211,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
+	// 手动添加进来的监听器
 	/** Statically specified listeners. */
 	private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<>();
 
+	// 在 Spring 容器刷新之前也就是初始化之前注册的监听器
 	/** Local listeners registered before refresh. */
 	@Nullable
 	private Set<ApplicationListener<?>> earlyApplicationListeners;
 
+	// 在 applicationEventMulticaster 设置之前发布的事件 供后面事件回放所用
 	/** ApplicationEvents published before the multicaster setup. */
 	@Nullable
 	private Set<ApplicationEvent> earlyApplicationEvents;
@@ -394,6 +397,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			applicationEvent = (ApplicationEvent) event;
 		}
 		else {
+			// 普通事件这里会 封装为 PayloadApplicationEvent 类型
 			applicationEvent = new PayloadApplicationEvent<>(this, event);
 			if (eventType == null) {
 				eventType = ((PayloadApplicationEvent<?>) applicationEvent).getResolvableType();
@@ -413,6 +417,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Publish event via parent context as well...
 		// Spring 事件传播，如果当前上下文有父 Context 是会把事件传播给父应用上下文
+		// 换言之，当前应用上下文的事件会执行两次（自己发了一次，父应用上下文也发了一次）
 		if (this.parent != null) {
 			if (this.parent instanceof AbstractApplicationContext) {
 				((AbstractApplicationContext) this.parent).publishEvent(event, eventType);
@@ -549,22 +554,28 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 
+				// 6. 初始化内建 Bean -> MessageSource
 				// Initialize message source for this context.
 				initMessageSource();
 
+				// 7. 初始化内建 Bean -> Spring 事件广播器 ApplicationEventMulticaster
 				// Initialize event multicaster for this context.
 				initApplicationEventMulticaster();
 
+				// 8. Spring 应用上下文刷新
 				// Initialize other special beans in specific context subclasses.
 				onRefresh();
 
+				// 9. Spring 事件监听器注册阶段
 				// Check for listener beans and register them.
 				registerListeners();
 
+				// 10. BeanFactory 初始化完成阶段
 				// 实例化所有剩余的单例，这里的剩余其实是指我们自己定义的bean(spring 内置的（比如说后置处理器、环境变量、系统配置参数）实际上也属于springBean）
 				// Instantiate all remaining (non-lazy-init) singletons.
 				finishBeanFactoryInitialization(beanFactory);
 
+				// 11. Spring 应用上下文刷新完成阶段
 				// Last step: publish corresponding event.
 				finishRefresh();
 			}
@@ -764,7 +775,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void initMessageSource() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		// 判读是否存在
 		if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
+			// 实际上这里是可以从外部配置一个 messageSource， 例如 Springboot 就会自己定义一个 MessageSource 并使用 @Bean的方式注入进来
 			this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
 			// Make MessageSource aware of parent MessageSource.
 			if (this.parent != null && this.messageSource instanceof HierarchicalMessageSource) {
@@ -780,8 +793,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
+			// 如果不存在，这里定义了一个默认的空的 MessageSource （空的意思就是有这个对象，但是对象里面并没有国际化文案内容）
+			// 这里 Spring 注释也说了是为了支持 getMessage 调用
 			// Use empty MessageSource to be able to accept getMessage calls.
 			DelegatingMessageSource dms = new DelegatingMessageSource();
+			// 委托给父类实现 DelegatingMessageSource 是实现了 HierarchicalMessageSource 层次性接口的
 			dms.setParentMessageSource(getInternalParentMessageSource());
 			this.messageSource = dms;
 			beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, this.messageSource);
@@ -809,6 +825,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		else {
 			// 如果当前上下文中不存在，这里会 new 一个
 			this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+			// applicationEventMulticaster 在 Spring 应用上下文中必须存在而且是唯一存在
 			beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
 			if (logger.isTraceEnabled()) {
 				logger.trace("No '" + APPLICATION_EVENT_MULTICASTER_BEAN_NAME + "' bean, using " +
@@ -872,6 +889,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// 早期注册事件回放
+		/** 如果我们的 Bean 同事实现了 BeanPostProcessor 和 ApplicationEventPublisherAware 接口，
+		 *  那么在容器生命周期 registerBeanPostProcessors() 阶段会执行
+		 *  {@link ApplicationEventPublisherAware#setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher)}
+		 *  方法回调，但是这个时候 还没有执行到 initApplicationEventMulticaster() 方法，所以 ApplicationEventMulticaster 是空，
+		 *  所以会把事件先放到 earlyApplicationEvents 里
+		 *  这里就是从 earlyApplicationEvents 取出来进行事件回放重新再放回到 ApplicationEventMulticaster 中去
+		 **/
 		// Publish early application events now that we finally have a multicaster...
 		Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
 		this.earlyApplicationEvents = null;

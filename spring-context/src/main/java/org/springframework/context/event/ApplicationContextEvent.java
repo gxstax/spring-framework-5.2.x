@@ -25,6 +25,17 @@ import org.springframework.context.ApplicationEvent;
  * @author Juergen Hoeller
  * @since 2.5
  */
+// Spring 标准事件，继承了 ApplicationEvent -> EventObject(java 标准事件)
+
+/**
+ * Spring 应用上下文 （ApplicationContext）作为事件源
+ * 具体实现：
+ * 		  1：org.springframework.context.event.ContextClosedEvent (关闭事件)
+ * 		  2: org.springframework.context.event.ContextRefreshedEvent （刷新）
+ * 		  3: org.springframework.context.event.ContextStartedEvent （启动）
+ * 		  4: org.springframework.context.event.ContextStoppedEvent （停止）
+ */
+
 @SuppressWarnings("serial")
 public abstract class ApplicationContextEvent extends ApplicationEvent {
 

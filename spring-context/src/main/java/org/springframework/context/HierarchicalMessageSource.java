@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * 国际话的层次性接口
+ * 国际化的层次性接口
  */
 public interface HierarchicalMessageSource extends MessageSource {
 

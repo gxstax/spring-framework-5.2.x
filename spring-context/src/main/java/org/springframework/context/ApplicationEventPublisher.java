@@ -47,6 +47,8 @@ public interface ApplicationEventPublisher {
 	 * @see #publishEvent(Object)
 	 * @see org.springframework.context.event.ContextRefreshedEvent
 	 * @see org.springframework.context.event.ContextClosedEvent
+	 *
+	 * 发布 ApplicationEvent Spring基本事件类型事件
 	 */
 	default void publishEvent(ApplicationEvent event) {
 		publishEvent((Object) event);
@@ -66,6 +68,9 @@ public interface ApplicationEventPublisher {
 	 * @since 4.2
 	 * @see #publishEvent(ApplicationEvent)
 	 * @see PayloadApplicationEvent
+	 * 发布普通事件 并不是继承 ApplicationEvent 事件
+	 * 使用场景：简化 Spring 事件发送，如果我们只关注事件源主体，
+	 * 可以使用一个普通事件，那么这么我们这里并不需要 new ApplicationEvent
 	 */
 	void publishEvent(Object event);
 

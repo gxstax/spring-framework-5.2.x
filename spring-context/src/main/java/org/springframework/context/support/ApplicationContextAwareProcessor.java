@@ -94,6 +94,10 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 		}
 
 		if (acc != null) {
+			// 如果 Bean 实现了 EnvironmentAware、EmbeddedValueResolverAware、
+			// ResourceLoaderAware、ApplicationEventPublisherAware、
+			// MessageSourceAware、ApplicationContextAware 中的任何一个
+			// 这里就执行函数回调
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 				// 如果实现了 aware 接口，这里回回调接口的方法，实现比如说上下文环境的依赖
 				invokeAwareInterfaces(bean);

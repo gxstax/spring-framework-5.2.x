@@ -220,8 +220,7 @@ final class PostProcessorRegistrationDelegate {
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
 		for (String ppName : postProcessorNames) {
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
-				// BeanPostProcessor 如果同时实现了 ApplicationEventPublisher 那么在代码初始化的过程中会伴随回调的发生，
-				// 这个在 Spring 3.x 之前的版本是有 bug 存在
+
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 				priorityOrderedPostProcessors.add(pp);
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
@@ -255,6 +254,8 @@ final class PostProcessorRegistrationDelegate {
 		// Now, register all regular BeanPostProcessors.
 		List<BeanPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
 		for (String ppName : nonOrderedPostProcessorNames) {
+			// BeanPostProcessor 如果同时实现了 ApplicationEventPublisher 那么在代码初始化的过程中会伴随回调的发生，
+			// 这个在 Spring 3.x 之前的版本是有 bug 存在
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			nonOrderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {

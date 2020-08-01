@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -65,12 +66,28 @@ public class ApplicationListenerDemo implements ApplicationEventPublisherAware {
 	}
 
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		applicationEventPublisher.publishEvent(new ApplicationEvent("Hello, World") {
 		});
 
 		// 发布  PayloadApplicationEvent 事件
 		applicationEventPublisher.publishEvent("Hello, World");
+
+		applicationEventPublisher.publishEvent(new MyPayloadApplicationEvent(this, "Hello World"));
+	}
+
+	static class MyPayloadApplicationEvent<String> extends PayloadApplicationEvent<String> {
+
+		/**
+		 * Create a new PayloadApplicationEvent.
+		 *
+		 * @param source  the object on which the event initially occurred (never {@code null})
+		 * @param payload the payload object (never {@code null})
+		 */
+		public MyPayloadApplicationEvent(Object source, String payload) {
+			super(source, payload);
+		}
 	}
 
 	static class MyApplicationListener implements ApplicationListener<ContextClosedEvent> {
