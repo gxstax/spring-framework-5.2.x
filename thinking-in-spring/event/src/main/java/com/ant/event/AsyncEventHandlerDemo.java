@@ -57,7 +57,7 @@ public class AsyncEventHandlerDemo {
 				}
 			});
 
-			simpleApplicationEventMulticaster.setErrorHandler(e->{
+			simpleApplicationEventMulticaster.setErrorHandler(e -> {
 				System.err.println("Spring 事件执行异常，异常信息：" + e.getMessage());
 			});
 

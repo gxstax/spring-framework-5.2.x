@@ -211,7 +211,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
-	// 手动添加进来的监听器
+	// 手动添加进来的监听器（临时存储，后面会放到 applicationEventMulticaster里面去 ）
 	/** Statically specified listeners. */
 	private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<>();
 
@@ -876,11 +876,25 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Doesn't affect other listeners, which can be added without being beans.
 	 */
 	protected void registerListeners() {
+		/**
+		 * 注册应用上下文 refresh() 也就是ApplicationEventMulticaster 没有初始化之前添加的监听器
+		 * 当Spring 应用上下文还没有 refrsh() 的时候，如果这个时候通过调用
+		 * {@link AbstractApplicationContext#addApplicationListener(ApplicationListener)}
+		 * 添加的监听器都会被临时存储在 applicationListeners
+		 * 这里就是取出 applicationListeners 里面的监听器放到 ApplicationEventMulticaster 里面去
+		 * 为什么这个时候可以添加呢？因为 registerListeners() 方法实在 initApplicationEventMulticaster() 方法之后
+		 * 这个时候 ApplicationEventMulticaster 已经初始化好了
+		 */
+
 		// Register statically specified listeners first.
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
 
+		// 这里通过依赖查找添加事件监听器（正常渠道，比如过通过api 或注解方式添加的监听器）
+		// 这里注意时间上这里添加进来的不是 Bean 而是 BeanDefinition
+		// 这样我们就可以做到当事件广播发生的时候我们才实例化具体的 Bean 来执行监听逻辑
+		// 这样我们就可以实现按需广播
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let post-processors apply to them!
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
@@ -888,8 +902,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
 		}
 
-		// 早期注册事件回放
-		/** 如果我们的 Bean 同事实现了 BeanPostProcessor 和 ApplicationEventPublisherAware 接口，
+		// 早期注册事件回放 （解决 Spring4 之前版本的bug，spring4之前的版本 如果同时实现 BeanPostProcessor 和 ApplicationEventPublisherAware 接口会报错 ）
+		/**
+		 *  如果我们的 Bean 同时实现了 BeanPostProcessor 和 ApplicationEventPublisherAware 接口，
 		 *  那么在容器生命周期 registerBeanPostProcessors() 阶段会执行
 		 *  {@link ApplicationEventPublisherAware#setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher)}
 		 *  方法回调，但是这个时候 还没有执行到 initApplicationEventMulticaster() 方法，所以 ApplicationEventMulticaster 是空，

@@ -66,6 +66,8 @@ public abstract class AbstractApplicationEventMulticaster
 	// 保存所有的listeners,可以看作是观察者
 	private final ListenerRetriever defaultRetriever = new ListenerRetriever(false);
 
+	// 这里的 ListenerCacheKey 表示的是一个事件类型，ListenerRetriever 表示一个或多个监听器
+	// 就是表示一个事件类型可以被多个监听器监听
 	final Map<ListenerCacheKey, ListenerRetriever> retrieverCache = new ConcurrentHashMap<>(64);
 
 	@Nullable
