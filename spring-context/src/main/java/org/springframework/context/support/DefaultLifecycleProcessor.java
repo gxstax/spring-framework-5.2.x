@@ -49,6 +49,7 @@ import org.springframework.util.Assert;
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 3.0
+ * 生命周期后置处理器默认实现
  */
 public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactoryAware {
 
@@ -56,6 +57,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 
 	private volatile long timeoutPerShutdownPhase = 30000;
 
+	// Spring 容器是否在运行
 	private volatile boolean running;
 
 	@Nullable

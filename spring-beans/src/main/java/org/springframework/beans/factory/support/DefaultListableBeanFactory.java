@@ -177,6 +177,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map of singleton-only bean names, keyed by dependency type. */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
+	// beanDefinitionNames 这里用list 说明是有顺序的，Spring Bean 的先进先出特性
 	/** List of bean definition names, in registration order. */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
@@ -466,6 +467,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	public String[] getBeanDefinitionNames() {
 		String[] frozenNames = this.frozenBeanDefinitionNames;
 		if (frozenNames != null) {
+			// 这里返回的是一个克隆对象，为什么要返回克隆对象呢
+			// 因为假设把原始对象返回回去，外部可能对它进行修改，这样就破坏了内部数据
 			return frozenNames.clone();
 		}
 		else {
@@ -879,6 +882,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+				// 判断是否通过 FactoryBean 生成的 Bean （一般不是）
 				if (isFactoryBean(beanName)) {
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {

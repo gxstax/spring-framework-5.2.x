@@ -842,6 +842,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void initLifecycleProcessor() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(LIFECYCLE_PROCESSOR_BEAN_NAME)) {
+			// 依赖查找获取 lifecycleProcessor
 			this.lifecycleProcessor =
 					beanFactory.getBean(LIFECYCLE_PROCESSOR_BEAN_NAME, LifecycleProcessor.class);
 			if (logger.isTraceEnabled()) {
@@ -849,9 +850,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
+			// 创建一个默认的 LifecycleProcessor 对象 DefaultLifecycleProcessor
 			DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
+			// 设置 LifecycleProcessor 的 beanFactory 属性
 			defaultProcessor.setBeanFactory(beanFactory);
 			this.lifecycleProcessor = defaultProcessor;
+			// 把 LifecycleProcessor 注册到 beanFactory
 			beanFactory.registerSingleton(LIFECYCLE_PROCESSOR_BEAN_NAME, this.lifecycleProcessor);
 			if (logger.isTraceEnabled()) {
 				logger.trace("No '" + LIFECYCLE_PROCESSOR_BEAN_NAME + "' bean, using " +
@@ -926,6 +930,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * initializing all remaining singleton beans.
 	 */
 	protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+		// BeanFactory 关联 ConversionService Bean, 如果存在
 		// Initialize conversion service for this context.
 		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
 				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
@@ -946,13 +951,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			getBean(weaverAwareName);
 		}
 
+		// 把临时的 ClassLoader tempClassLoader 置为空 （常用在 AOP ）
 		// Stop using the temporary ClassLoader for type matching.
 		beanFactory.setTempClassLoader(null);
 
+		// 冻结配置
 		// Allow for caching all bean definition metadata, not expecting further changes.
 		beanFactory.freezeConfiguration();
 
-		// bean初始化预处理
+		// bean初始化预处理 （初始化非延迟单例 Beans）
 		// Instantiate all remaining (non-lazy-init) singletons.
 		beanFactory.preInstantiateSingletons();
 	}
@@ -963,19 +970,23 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * {@link org.springframework.context.event.ContextRefreshedEvent}.
 	 */
 	protected void finishRefresh() {
+		// 清楚 ResourceLoader 缓存
 		// Clear context-level resource caches (such as ASM metadata from scanning).
 		clearResourceCaches();
 
+		// 初始化 LifecycleProcessor 对象
 		// Initialize lifecycle processor for this context.
 		initLifecycleProcessor();
 
+		// 上面初始化完成，这里调用 onRefresh() 方法
 		// Propagate refresh to lifecycle processor first.
 		getLifecycleProcessor().onRefresh();
 
 		// Publish the final event.
-		// 发布 ContextRefreshedEvent 事件
+		// 发布 Spring ContextRefreshedEvent (应用上下文刷新) 事件
 		publishEvent(new ContextRefreshedEvent(this));
 
+		// 向 MBeanServer 托管 Live Beans
 		// Participate in LiveBeansView MBean, if active.
 		LiveBeansView.registerApplicationContext(this);
 	}
