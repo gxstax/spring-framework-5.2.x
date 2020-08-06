@@ -284,6 +284,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @see #getSingletonMutex()
 	 */
 	protected void removeSingleton(String beanName) {
+		// 清楚 SpringIod 容器中的Bean （引用断开，等待GC）
 		synchronized (this.singletonObjects) {
 			this.singletonObjects.remove(beanName);
 			this.singletonFactories.remove(beanName);
@@ -546,6 +547,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @see #destroyBean
 	 */
 	public void destroySingleton(String beanName) {
+		// 清楚注册的Bean
 		// Remove a registered singleton of the given name, if any.
 		removeSingleton(beanName);
 
@@ -554,6 +556,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		synchronized (this.disposableBeans) {
 			disposableBean = (DisposableBean) this.disposableBeans.remove(beanName);
 		}
+
 		destroyBean(beanName, disposableBean);
 	}
 

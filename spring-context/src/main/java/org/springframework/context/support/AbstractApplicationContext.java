@@ -1062,6 +1062,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Also removes a JVM shutdown hook, if registered, as it's not needed anymore.
 	 * @see #doClose()
 	 * @see #registerShutdownHook()
+	 * 关闭 Spring 应用上下文
 	 */
 	@Override
 	public void close() {
@@ -1071,6 +1072,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// We've already explicitly closed the context.
 			if (this.shutdownHook != null) {
 				try {
+					// 移除 ShutdownHook
 					Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
 				}
 				catch (IllegalStateException ex) {
@@ -1110,16 +1112,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// Stop all Lifecycle beans, to avoid delays during individual destruction.
 			if (this.lifecycleProcessor != null) {
 				try {
+					// 生命周期关闭
 					this.lifecycleProcessor.onClose();
 				}
 				catch (Throwable ex) {
 					logger.warn("Exception thrown from LifecycleProcessor on context close", ex);
 				}
 			}
-
+			// 销毁所有 BeanFactory 缓存的单例
 			// Destroy all cached singletons in the context's BeanFactory.
 			destroyBeans();
 
+			//
 			// Close the state of this context itself.
 			closeBeanFactory();
 
