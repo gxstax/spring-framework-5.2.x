@@ -1,8 +1,11 @@
 package com.ant.bean.scope;
 
+import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.lang.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +41,7 @@ public class ThreadLocalScope implements Scope {
 		return object;
 	}
 
+	@NonNull
 	private Map<String, Object> getContext() {
 		return threadLocal.get();
 	}

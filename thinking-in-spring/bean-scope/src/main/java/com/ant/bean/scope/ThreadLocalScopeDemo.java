@@ -48,9 +48,14 @@ public class ThreadLocalScopeDemo {
 
 	public static void scopeBeansByLookUp(AnnotationConfigApplicationContext context) {
 		for (int i = 0; i < 3; i++) {
-			// user 是共享 Bean 对象
-			User user = context.getBean("user", User.class);
-			System.out.println("user-->" + user);
+			Thread thread = new Thread(() -> {
+				// user 是共享 Bean 对象
+				User user = context.getBean("user", User.class);
+				System.out.println("user-->" + user);
+			});
+
+			thread.start();
+
 		}
 	}
 
