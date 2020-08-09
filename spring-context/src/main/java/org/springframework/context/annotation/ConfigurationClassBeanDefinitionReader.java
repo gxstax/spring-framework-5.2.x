@@ -140,6 +140,7 @@ class ConfigurationClassBeanDefinitionReader {
 		if (configClass.isImported()) {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
+		// 这里它会把我们加了 @Bean 的方法解析为 Beandefinition 从而变成和 @Component 等注解标注的类一样
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
@@ -173,6 +174,9 @@ class ConfigurationClassBeanDefinitionReader {
 	/**
 	 * Read the given {@link BeanMethod}, registering bean definitions
 	 * with the BeanDefinitionRegistry based on its contents.
+	 *
+	 * 这个方法就是把 BeanMethod 解析注册成一个 BeanDefinition
+	 * （BeanMethod 来源之一就有 @Bean 标注的方法，它在 parser 那里会被解析放入到 {@link ConfigurationClassParser#configurationClasses} 中）
 	 */
 	@SuppressWarnings("deprecation")  // for RequiredAnnotationBeanPostProcessor.SKIP_REQUIRED_CHECK_ATTRIBUTE
 	private void loadBeanDefinitionsForBeanMethod(BeanMethod beanMethod) {
@@ -181,6 +185,7 @@ class ConfigurationClassBeanDefinitionReader {
 		String methodName = metadata.getMethodName();
 
 		// Do we need to mark the bean as skipped by its condition?
+		// 判断是否要跳过， 比如如果标注了 @Condition 注解，看 match 是否符合
 		if (this.conditionEvaluator.shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN)) {
 			configClass.skippedBeanMethods.add(methodName);
 			return;
@@ -214,17 +219,22 @@ class ConfigurationClassBeanDefinitionReader {
 		ConfigurationClassBeanDefinition beanDef = new ConfigurationClassBeanDefinition(configClass, metadata);
 		beanDef.setSource(this.sourceExtractor.extractSource(metadata, configClass.getResource()));
 
+		// 如果 @Bean 标注的是否是一个静态方法
 		if (metadata.isStatic()) {
 			// static @Bean method
+			// 如果是静态方法，那么 spring 就直接用 Configuration Class 的静态方法构建 Bean （不依赖 Coonfiguration 的实例化）
+			// 所以 如果 @Bean 标注的是一个静态方法，那么可以在 Configuration Class 实例化前实例
 			if (configClass.getMetadata() instanceof StandardAnnotationMetadata) {
 				beanDef.setBeanClass(((StandardAnnotationMetadata) configClass.getMetadata()).getIntrospectedClass());
-			}
-			else {
+			} else {
 				beanDef.setBeanClassName(configClass.getMetadata().getClassName());
 			}
 			beanDef.setUniqueFactoryMethodName(methodName);
 		}
+		// 如果 @Bean 标注的是一个实例方法
 		else {
+			// 如果是实例方法，那么这里会首先构建当前方法所在的 Configuration Class 这里必将伴随这 Configuration Class 的初始化和实例化
+			// 基于上面的原因，@Bean 标注的实例方法的初始化将会比静态类要滞后
 			// instance @Bean method
 			beanDef.setFactoryBeanName(configClass.getBeanName());
 			beanDef.setUniqueFactoryMethodName(methodName);

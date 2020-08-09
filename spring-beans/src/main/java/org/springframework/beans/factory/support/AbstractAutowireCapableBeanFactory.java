@@ -516,6 +516,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			// 初始化前解析 (BeanPostProcessor#postProcessBeforeInstantiation() 方法会在这里执行，包括我们自己定义的 BeanPostProcessor)
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
+			// 如果我们自己定义了指定返回的 Bean 这里就不再往下解析了，直接返回我们自己定义的 Bean
 			if (bean != null) {
 				return bean;
 			}
@@ -594,6 +595,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
+
 		// Eagerly cache singletons to be able to resolve circular references
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
@@ -603,6 +605,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
+			/**
+			 * 当 singletonObjects 容器中还没有这个 Bean 的时候（singletonObjects 实际上是一个缓存单例 Bean 的一个容器）
+			 * 则先放入到 singletonFactories 容器中，解决循环依赖
+			 */
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 

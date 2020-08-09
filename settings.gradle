@@ -76,4 +76,6 @@ include 'thinking-in-spring:container-lifecycle'
 findProject(':thinking-in-spring:container-lifecycle')?.name = 'container-lifecycle'
 include 'thinking-in-spring:application-context-lifecycle'
 findProject(':thinking-in-spring:application-context-lifecycle')?.name = 'application-context-lifecycle'
+include 'thinking-in-spring:questions'
+findProject(':thinking-in-spring:questions')?.name = 'questions'
 

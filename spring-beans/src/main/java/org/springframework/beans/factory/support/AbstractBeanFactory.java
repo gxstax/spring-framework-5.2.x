@@ -252,7 +252,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object bean;
 
 		/**
-		 * spring 在进行依赖查找到的时候首先是先从 singletonObjects 集合中去查找
+		 * spring 在进行依赖查找到的时候首先是先从 singletonObjects 集合中去查找（能取到说明是已经缓存起来的单例 Bean ）
 		 * 而不是直接去 beanDefinitionMap 集合中查找，因为如果从 beanDefinitionMap 集合中去查找，
 		 * spring 还需要进行一系列操作把 beanDefiniton 变为 bean，并且可以被 spring 进行生命周期管理
 		 */
@@ -328,14 +328,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					}
 				}
 
+				// 当 merge 后的 Bean 是单例的（单例 Bean 的依赖查找）
 				// Create bean instance.
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							// 创建 Bean
 							return createBean(beanName, mbd, args);
-						}
-						catch (BeansException ex) {
+						} catch (BeansException ex) {
 							// Explicitly remove instance from singleton cache: It might have been put there
 							// eagerly by the creation process, to allow for circular reference resolution.
 							// Also remove any beans that received a temporary reference to the bean.
@@ -344,9 +344,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						}
 					});
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
-				}
-
-				else if (mbd.isPrototype()) {
+				} else if (mbd.isPrototype()) { // 原型 Bean 的依赖查找
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
 					try {

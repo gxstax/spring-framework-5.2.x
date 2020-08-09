@@ -246,6 +246,7 @@ class ConfigurationClassParser {
 		// Recursively process the configuration class and its superclass hierarchy.
 		SourceClass sourceClass = asSourceClass(configClass, filter);
 		do {
+			// 这一步执行完 configClass 就把 BeanMethod() 放入进去了
 			sourceClass = doProcessConfigurationClass(configClass, sourceClass, filter);
 		}
 		while (sourceClass != null);
@@ -324,12 +325,14 @@ class ConfigurationClassParser {
 			}
 		}
 
+		// 处理独立的标注了 @Bean 的方法
 		// Process individual @Bean methods
 		Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
 		for (MethodMetadata methodMetadata : beanMethods) {
 			configClass.addBeanMethod(new BeanMethod(methodMetadata, configClass));
 		}
 
+		// 解析超类中是否也有 @Bean 方法
 		// Process default methods on interfaces
 		processInterfaces(configClass, sourceClass);
 
