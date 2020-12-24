@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.22">
+<file name="/Users/mayi/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/i18n/src/main/java/com/ant/i18n/CustomizedMessageSourceBeanDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="4" column="8" severity="error" message="无用导入 - org.springframework.boot.SpringBootConfiguration 。" source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="14" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="22" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="26" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="29" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="30" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="31" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="32" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="34" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="36" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="37" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="38" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="39" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="41" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="43" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="45" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="48" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="49" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="51" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="52" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="56" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+<error line="57" severity="error" message="Line has leading space characters; indentation should be performed with tabs only." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"/>
+</file>
+<file name="/Users/mayi/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/i18n/src/main/java/com/ant/i18n/DynamicResourceMessageSource.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="5" severity="error" message="导入 &apos;org.springframework.context.MessageSource&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" severity="error" message="导入 &apos;java.io.File&apos; 顺序错误。" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="50" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="90" column="25" severity="error" message="第 4 个字符 &apos;}&apos; 应独占一行。" source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="90" column="46" severity="error" message="Single letter catch variable (use &quot;ex&quot; instead)." source="io.spring.javaformat.checkstyle.check.SpringCatchCheck"/>
+<error line="96" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="101" severity="error" message="@标签应有非空说明。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.NonEmptyAtclauseDescriptionCheck"/>
+<error line="102" severity="error" message="无用标签。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="105" column="17" severity="error" message="对实例属性 &apos;executorService&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+<error line="123" column="79" severity="error" message="对实例属性 &apos;messageProperties&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+<error line="124" column="73" severity="error" message="对实例属性 &apos;messageProperties&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+<error line="125" column="73" severity="error" message="对实例属性 &apos;messageProperties&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+<error line="130" column="33" severity="error" message="第 5 个字符 &apos;}&apos; 应独占一行。" source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="146" column="17" severity="error" message="第 3 个字符 &apos;}&apos; 应独占一行。" source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="146" column="38" severity="error" message="Single letter catch variable (use &quot;ex&quot; instead)." source="io.spring.javaformat.checkstyle.check.SpringCatchCheck"/>
+<error line="157" column="17" severity="error" message="第 3 个字符 &apos;}&apos; 应独占一行。" source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="157" column="38" severity="error" message="Single letter catch variable (use &quot;ex&quot; instead)." source="io.spring.javaformat.checkstyle.check.SpringCatchCheck"/>
+<error line="159" column="17" severity="error" message="第 3 个字符 &apos;}&apos; 应独占一行。" source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="176" column="41" severity="error" message="对实例属性 &apos;messageProperties&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+<error line="189" column="46" severity="error" message="对实例属性 &apos;resourceLoader&apos; 的引用需要 &quot;this.&quot;。" source="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck"/>
+</file>
+<file name="/Users/mayi/work/Ant/project/java/spring-source/spring-framework/thinking-in-spring/i18n/src/main/java/com/ant/i18n/MessageFormatDemo.java">
+<error line="1" severity="error" message="header.mismatch" source="io.spring.javaformat.checkstyle.check.SpringHeaderCheck"/>
+<error line="8" severity="error" message="Javadoc 首句应以句号结尾。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="15" severity="error" message="@标签应按以下顺序出现：&apos;[@author, @since, @param, @see, @version, @serial, @deprecated]&apos;。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.AtclauseOrderCheck"/>
+<error line="17" severity="error" message="标签 @author 必须匹配： &apos;.+\s.+&apos; 。" source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
+<error line="17" column="1" severity="error" message="工具类应隐藏 public 构造器。" source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
+</file>
+</checkstyle>

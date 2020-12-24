@@ -33,7 +33,7 @@ include "framework-bom"
 include "integration-tests"
 
 
-rootProject.name = "spring"
+rootProject.name = "spring-framework"
 rootProject.children.each {project ->
 	project.buildFileName = "${project.name}.gradle"
 }
@@ -78,4 +78,6 @@ include 'thinking-in-spring:application-context-lifecycle'
 findProject(':thinking-in-spring:application-context-lifecycle')?.name = 'application-context-lifecycle'
 include 'thinking-in-spring:questions'
 findProject(':thinking-in-spring:questions')?.name = 'questions'
+include 'thinking-in-spring:aop-overview'
+findProject(':thinking-in-spring:aop-overview')?.name = 'aop-overview'
 
