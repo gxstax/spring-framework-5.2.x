@@ -20,6 +20,6 @@ public class ProxyEchoService implements EchoService {
 		long startTime = System.nanoTime();
 		echoService.echo(message);
 		long costTime = System.nanoTime() - startTime;
-		return "echo 方法执行的实现：" + costTime/1000 + "us";
+		return "echo 方法执行的时间：" + costTime/1000 + "us";
 	}
 }
