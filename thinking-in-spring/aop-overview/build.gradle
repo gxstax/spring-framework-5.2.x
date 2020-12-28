@@ -16,6 +16,6 @@ dependencies {
 
     compile(project(":thinking-in-spring:ioc-container-overview"))
 
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+    compile(project(":spring-aop"))
+
 }
