@@ -12,7 +12,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @since 2021/1/1 4:24 下午
  */
 @Aspect
-@EnableAspectJAutoProxy
 public class AspectConfiguration {
 
 }

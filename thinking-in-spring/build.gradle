@@ -14,7 +14,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.6.RELEASE'
+//    testCompile group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.6.RELEASE'
 
 //    testCompile group: 'org.springframework', name: 'spring-core', version: '4.3.26.RELEASE'
 

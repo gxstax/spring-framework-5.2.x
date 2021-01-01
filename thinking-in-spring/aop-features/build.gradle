@@ -18,6 +18,7 @@ dependencies {
 
     compile(project(":thinking-in-spring:ioc-container-overview"))
 
-    compile group: 'aspectj', name: 'aspectjrt', version: '1.9.5'
+// https://mvnrepository.com/artifact/aspectj/aspectjrt
+    compile group: 'aspectj', name: 'aspectjrt', version: '1.5.3'
 
 }
