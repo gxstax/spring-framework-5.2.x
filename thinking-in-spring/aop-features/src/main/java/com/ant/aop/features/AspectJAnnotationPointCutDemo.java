@@ -1,33 +1,40 @@
 package com.ant.aop.features;
 
-import org.aspectj.lang.annotation.Aspect;
+import com.ant.aop.features.aspect.AspectConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * <p>
- * 功能描述
+ * Pointcut 示例
  * </p>
  *
  * @author Ant
  * @since 2021/1/1 4:10 下午
  */
-@Aspect // 声明 Aspect 切面
 @Configuration // Configuration class
 @EnableAspectJAutoProxy // 激活 Aspect 注解自动代理
-public class AspectJAnnotationDemo {
+public class AspectJAnnotationPointCutDemo {
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.register(AspectJAnnotationDemo.class);
+
+		context.register(AspectJAnnotationPointCutDemo.class, AspectConfiguration.class);
+
 		// 启动 Spring 容器
 		context.refresh();
 
-		AspectJAnnotationDemo aspectJAnnotationDemo = context.getBean(AspectJAnnotationDemo.class);
+		AspectJAnnotationPointCutDemo aspectJAnnotationDemo = context.getBean(AspectJAnnotationPointCutDemo.class);
+
+		aspectJAnnotationDemo.execute();
 
 		// 关闭 Spring 容器
 		context.close();
+	}
+
+	public void execute() {
+		System.out.println("execute()....");
 	}
 
 }

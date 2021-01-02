@@ -6,10 +6,30 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/beans/spring-aop.xsd
+       http://www.springframework.org/schema/aop/spring-aop.xsd
 	   http://www.springframework.org/schema/context
        http://www.springframework.org/schema/beans/spring-context.xsd">
 
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<aop:aspectj-autoproxy/>
+
+	<bean id="aspectXmlConfig" class="com.ant.aop.features.aspect.AspectXmlConfiguration"></bean>
+
+	<aop:config>
+		<aop:aspect id="AspectXmlConfig" ref="aspectXmlConfig">
+			<aop:pointcut id="anyPublicMethod" expression="execution(public * echo(..))"/>
+			<aop:before method="beforeAnyPublicMethods" pointcut-ref="anyPublicMethod"></aop:before>
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="echoService" class="com.ant.aop.overview.DefaultEchoService"/>
+
+	<bean id="echoServiceMethodInterceptor" class="com.ant.aop.features.interceptor.EchoServiceMethodInterceptor"></bean>
+
+	<bean id="echoServiceProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="targetName" value="echoService"></property>
+		<property name="interceptorNames">
+			<value>echoServiceMethodInterceptor</value>
+		</property>
+	</bean>
 
 </beans>

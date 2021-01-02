@@ -18,7 +18,13 @@ dependencies {
 
     compile(project(":thinking-in-spring:ioc-container-overview"))
 
+    compile(project(":thinking-in-spring:aop-overview"))
+
 // https://mvnrepository.com/artifact/aspectj/aspectjrt
     compile group: 'aspectj', name: 'aspectjrt', version: '1.5.3'
+
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    runtime group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.5'
+
 
 }

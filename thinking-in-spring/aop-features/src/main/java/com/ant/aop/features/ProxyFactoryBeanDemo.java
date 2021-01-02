@@ -1,7 +1,8 @@
 package com.ant.aop.features;
 
+import com.ant.aop.overview.DefaultEchoService;
+import com.ant.aop.overview.EchoService;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,20 +12,20 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * </p>
  *
  * @author Ant
- * @since 2021/1/1 4:10 下午
+ * @since 2021/1/1 6:47 下午
  */
 @Aspect
 @Configuration
-public class AspectJXmlDemo {
-
+public class ProxyFactoryBeanDemo {
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context =
 				new ClassPathXmlApplicationContext("META-INF/spring-aop-context.xml");
 
-//		AspectJXmlDemo aspectJAnnotationDemo = context.getBean(AspectJXmlDemo.class);
+		EchoService echoService = context.getBean("echoServiceProxyFactoryBean", EchoService.class);
+
+		System.out.println(echoService.echo("Hello, World"));
 
 		// 关闭 Spring 容器
 		context.close();
 	}
-
 }
