@@ -1,12 +1,8 @@
 package com.ant.aop.features;
 
-import com.ant.aop.overview.EchoService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import com.ant.aop.features.aspect.AspectConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.ant.aop.overview.EchoService;
 
 /**
  * <p>
@@ -16,12 +12,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Ant
  * @since 2021/1/1 4:10 下午
  */
-public class AspectJSchemaBasedPointCutDemo {
+public class AspectJSchemaBasedAutoProxyDemo {
 
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context =
-				new ClassPathXmlApplicationContext("classpath:/META-INF/spring-aop-context.xml");
-
+				new ClassPathXmlApplicationContext("classpath:/META-INF/spring-aop-auto-proxy-context.xml");
 
 		EchoService echoService = context.getBean("echoService", EchoService.class);
 

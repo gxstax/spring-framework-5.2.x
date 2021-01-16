@@ -1,6 +1,7 @@
 package com.ant.aop.features;
 
 import com.ant.aop.features.aspect.AspectConfiguration;
+import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -35,7 +36,21 @@ public class AspectJAnnotationUsingAPIDemo {
 			@Override
 			public void before(Method method, Object[] args, Object target) throws Throwable {
 				if ("put".equals(method.getName()) && args.length == 2) {
-					System.out.printf("当前存放的 key: %s, Value: %s \n", args[0], args[1]);
+					System.out.printf("[MethodBeforeAdvice] 当前存放的 key: %s, Value: %s \n", args[0], args[1]);
+				}
+			}
+		});
+
+		// 添加 AfterReturningAdvice
+		proxyFactory.addAdvice(new AfterReturningAdvice() {
+			@Override
+			public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+				if ("put".equals(method.getName()) && args.length == 2) {
+					System.out.printf("[AfterReturningAdvice] 当前存放的 key: %s, 新存放的 Value: %s, 之前关联的 Value %s \n",
+							args[0], // key
+							args[1], // new value
+							returnValue // old value
+					);
 				}
 			}
 		});

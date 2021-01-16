@@ -22,4 +22,5 @@ public class DefaultEchoService implements EchoService {
 	public String echo(String message) {
 		return "[ECHO]: " + message;
 	}
+
 }

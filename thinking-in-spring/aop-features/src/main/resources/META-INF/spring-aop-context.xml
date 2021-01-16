@@ -18,6 +18,11 @@
 		<aop:aspect id="AspectXmlConfig" ref="aspectXmlConfig">
 			<aop:pointcut id="anyPublicMethod" expression="execution(public * echo(..))"/>
 			<aop:before method="beforeAnyPublicMethods" pointcut-ref="anyPublicMethod"></aop:before>
+			<aop:around method="aroundAnyPublicMethods" pointcut-ref="anyPublicMethod"></aop:around>
+			<aop:before method="beforeAnyPublicMethods" pointcut="execution(public * echo(..))"></aop:before>
+			<aop:after method="afterAnyPublicMethods" pointcut="execution(public * echo(..))"></aop:after>
+			<aop:after-returning method="afterReturningAnyPublicMethods" pointcut="execution(public * echo(..))"></aop:after-returning>
+			<aop:after-throwing method="afterThrowingAnyPublicMethods" pointcut="execution(public * echo(..))"></aop:after-throwing>
 		</aop:aspect>
 	</aop:config>
 
@@ -25,11 +30,17 @@
 
 	<bean id="echoServiceMethodInterceptor" class="com.ant.aop.features.interceptor.EchoServiceMethodInterceptor"></bean>
 
+	<bean id="targetSource" class="org.springframework.aop.target.HotSwappableTargetSource">
+		<constructor-arg ref="echoService"></constructor-arg>
+	</bean>
+
+
 	<bean id="echoServiceProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetName" value="echoService"></property>
 		<property name="interceptorNames">
 			<value>echoServiceMethodInterceptor</value>
 		</property>
+		<property name="targetSource" ref="targetSource"></property>
 	</bean>
 
 </beans>
