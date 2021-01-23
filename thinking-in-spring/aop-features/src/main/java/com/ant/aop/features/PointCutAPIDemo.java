@@ -2,12 +2,14 @@ package com.ant.aop.features;
 
 import com.ant.aop.features.aspect.AspectConfiguration;
 import com.ant.aop.features.interceptor.EchoServiceMethodInterceptor;
+import com.ant.aop.features.pointcut.EchoServiceEchoMethodPointCut;
 import com.ant.aop.features.pointcut.EchoServicePointCut;
 import com.ant.aop.overview.DefaultEchoService;
 import com.ant.aop.overview.EchoService;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.ComposablePointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 import java.lang.reflect.Method;
@@ -24,7 +26,13 @@ import java.lang.reflect.Method;
 public class PointCutAPIDemo {
 
 	public static void main(String[] args) {
-		EchoServicePointCut pointCut = new EchoServicePointCut("echo", EchoService.class);
+
+		EchoServicePointCut echoServicePointCut = new EchoServicePointCut("echo", EchoService.class);
+
+		ComposablePointcut pointCut = new ComposablePointcut(EchoServiceEchoMethodPointCut.INSTANT);
+
+		pointCut.intersection(echoServicePointCut.getClassFilter());
+		pointCut.intersection(echoServicePointCut.getMethodMatcher());
 
 		// 将 Pointcut 适配成 Advisor
 		DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(pointCut, new EchoServiceMethodInterceptor());

@@ -36,6 +36,8 @@ import java.util.regex.PatternSyntaxException;
  * @author Dmitriy Kopylenko
  * @author Rob Harrop
  * @since 1.1
+ *
+ * PointCut 便利实现之正则表达式实现
  */
 @SuppressWarnings("serial")
 public class JdkRegexpMethodPointcut extends AbstractRegexpMethodPointcut {

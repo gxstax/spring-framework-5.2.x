@@ -36,6 +36,8 @@ import org.springframework.util.ObjectUtils;
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Sam Brannen
+ *
+ * 控制流切点
  */
 @SuppressWarnings("serial")
 public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher, Serializable {
