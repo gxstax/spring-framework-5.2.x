@@ -56,13 +56,13 @@ public class ApplicationListenerDemo implements ApplicationEventPublisherAware {
 		context.refresh(); // 会发布 ContextRefreshedEvent 内建事件
 
 		// 启动 Spring 应用上下文
-		context.start(); // 会发布 ContextStartedEvent 内建事件
+//		context.start(); // 会发布 ContextStartedEvent 内建事件
 
 		// 停止 Spring 应用上下文
-		context.stop(); // 会发布 ContextStoppedEvent 内建事件
+//		context.stop(); // 会发布 ContextStoppedEvent 内建事件
 
 		// 关闭 Spring 应用上下文
-		context.close(); // 会发布 ContextClosedEvent 内建事件
+//		context.close(); // 会发布 ContextClosedEvent 内建事件
 	}
 
 	@Override

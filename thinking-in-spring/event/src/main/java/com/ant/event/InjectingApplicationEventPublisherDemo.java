@@ -32,7 +32,7 @@ public class InjectingApplicationEventPublisherDemo implements ApplicationEventP
 	private ApplicationContext applicationContext;
 
 	@PostConstruct
-	public void intit() {
+	public void init() {
 		// #3
 		applicationEventPublisher.publishEvent(new MySpringEvent("The event from @Autowired ApplicationEventPublisher"));
 		// #4
