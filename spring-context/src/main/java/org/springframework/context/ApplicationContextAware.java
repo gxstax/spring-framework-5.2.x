@@ -59,6 +59,9 @@ import org.springframework.beans.factory.Aware;
 public interface ApplicationContextAware extends Aware {
 
 	/**
+	 * ApplicationContext 接口回调，意思就是每当我的 bean 继承了这个接口的类，都会通过回调set方法把
+	 * ApplicationContext 注入进去，从而可以拿到 ApplicationContext 对象
+	 *
 	 * Set the ApplicationContext that this object runs in.
 	 * Normally this call will be used to initialize the object.
 	 * <p>Invoked after population of normal bean properties but before an init callback such

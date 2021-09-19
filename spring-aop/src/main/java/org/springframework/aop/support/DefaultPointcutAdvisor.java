@@ -53,6 +53,7 @@ public class DefaultPointcutAdvisor extends AbstractGenericPointcutAdvisor imple
 	 * Create a DefaultPointcutAdvisor that matches all methods.
 	 * <p>{@code Pointcut.TRUE} will be used as Pointcut.
 	 * @param advice the Advice to use
+	 *
 	 */
 	public DefaultPointcutAdvisor(Advice advice) {
 		this(Pointcut.TRUE, advice);

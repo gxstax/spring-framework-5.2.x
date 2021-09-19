@@ -24,5 +24,7 @@ dependencies {
 
     compile(project(":spring-core"))
 
+    compile(project(":spring-webflux"))
+
 }
 
