@@ -41,6 +41,9 @@ import org.springframework.beans.BeansException;
 public interface BeanFactoryAware extends Aware {
 
 	/**
+	 * BeanFactory 接口回调，意思就是每当我的 bean 继承了这个接口的类，都会通过回调set方法把
+	 * BeanFactory 注入进去，从而可以拿到 BeanFactory 对象
+	 *
 	 * Callback that supplies the owning factory to a bean instance.
 	 * <p>Invoked after the population of normal bean properties
 	 * but before an initialization callback such as
