@@ -80,4 +80,6 @@ include 'thinking-in-spring:aop-overview'
 findProject(':thinking-in-spring:aop-overview')?.name = 'aop-overview'
 include 'thinking-in-spring:aop-features'
 findProject(':thinking-in-spring:aop-features')?.name = 'aop-features'
+include 'thinking-in-spring:java-beans-demo'
+findProject(':thinking-in-spring:java-beans-demo')?.name = 'java-beans-demo'
 

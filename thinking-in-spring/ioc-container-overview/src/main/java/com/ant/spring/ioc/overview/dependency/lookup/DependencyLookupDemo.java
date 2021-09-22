@@ -4,6 +4,7 @@ import com.ant.spring.ioc.overview.annotation.Super;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -17,10 +18,17 @@ import java.util.Map;
  * @since 2020-01-03 09:21
  */
 public class DependencyLookupDemo {
+
     public static void main(String[] args) {
         // 初始化spring容器上下文环境
         ClassPathXmlApplicationContext context
-                = new ClassPathXmlApplicationContext("/META-INF/dependency-lookup-context.xml");
+                = new ClassPathXmlApplicationContext("classpath:/META-INF/dependency-lookup-context.xml");
+
+		// 延迟查找
+		lookupInLazy(context);
+
+		// 实时查找
+		lookupInRealTime(context);
 
         // 按照类型查找
 //        lookupByType(context);
@@ -29,13 +37,7 @@ public class DependencyLookupDemo {
 //        lookupByCollectionType(context);
 
         // 通过注解查找
-        lookupByAnnotation(context);
-
-        // 延迟查找
-//        lookupInLazy(context);
-
-        // 实时查找
-//        lookupInRealTime(context);
+//        lookupByAnnotation(context);
     }
 
 
@@ -61,14 +63,16 @@ public class DependencyLookupDemo {
         System.out.println("类型查找：" + bean);
     }
 
-//    public static void lookupInLazy(BeanFactory beanFactory) {
-//        // ObjectFactory 并没有生成新的bean，而FactoryBean会生成一个新的bean，这就是它俩的区别
-//        ObjectFactory<User> objectBeanFactory = (ObjectFactory<User>) beanFactory.getBean("objectBeanFactory");
-//        User user = objectBeanFactory.getObject();
-//        System.out.println("延时查找：" + user);
-//    }
+	@SuppressWarnings("unchecked")
+	public static void lookupInLazy(BeanFactory beanFactory) {
+        // ObjectFactory 并没有生成新的bean，而FactoryBean会生成一个新的bean，这就是它俩的区别
+        ObjectFactory<User> objectBeanFactory = (ObjectFactory<User>) beanFactory.getBean("objectBeanFactory");
+        User user = objectBeanFactory.getObject();
+        System.out.println("延时查找：" + user);
+    }
 
-    public static void lookupInRealTime(BeanFactory beanFactory) {
+	@SuppressWarnings("unchecked")
+	public static void lookupInRealTime(BeanFactory beanFactory) {
         User bean = (User) beanFactory.getBean("user");
         System.out.println("实时查找：" + bean);
     }

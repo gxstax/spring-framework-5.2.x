@@ -23,10 +23,10 @@ public class SuperUser extends User{
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "SuperUser{" +
-                "address='" + address + '\'' +
-                "} " + super.toString();
-    }
+	@Override
+	public String toString() {
+		return "SuperUser{" +
+				"address='" + address + '\'' +
+				"} " + super.toString();
+	}
 }
