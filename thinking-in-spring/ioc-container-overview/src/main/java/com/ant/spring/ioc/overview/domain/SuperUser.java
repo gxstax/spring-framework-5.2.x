@@ -11,7 +11,7 @@ import com.ant.spring.ioc.overview.annotation.Super;
  * @since 2020-01-06 09:06
  */
 @Super
-public class SuperUser extends User{
+public class SuperUser extends User {
 
     private String address;
 

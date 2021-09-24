@@ -10,15 +10,15 @@
     <import resource="dependency-lookup-context.xml"></import>
 
     <bean id="userRepository" class="com.ant.spring.ioc.overview.dependency.repository.UserRepository"
-          autowire="byType"> <!-- Auto Writing-->
+          > <!-- Auto Writing-->
 
         <!-- 手动配置 -->
-        <!--<property name="users">-->
-            <!--<util:list>-->
-                <!--<ref bean="user"></ref>-->
-                <!--<ref bean="superUser"></ref>-->
-            <!--</util:list>-->
-        <!--</property>-->
+        <property name="users">
+            <util:list>
+				<ref bean="superUser"></ref>
+				<ref bean="user"></ref>
+            </util:list>
+        </property>
     </bean>
 
 </beans>

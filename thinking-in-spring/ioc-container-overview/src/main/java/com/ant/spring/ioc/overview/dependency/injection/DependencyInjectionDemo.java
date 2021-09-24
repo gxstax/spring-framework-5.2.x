@@ -23,6 +23,7 @@ public class DependencyInjectionDemo {
 
         // 依赖来源一：自定义的bean
         UserRepository userPository = (UserRepository) applicationContext.getBean("userRepository");
+		System.out.println(userPository.getUsers());
 
         // 依赖来源二：内建的依赖
         System.out.println(userPository.getBeanFactory());
