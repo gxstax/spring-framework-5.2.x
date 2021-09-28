@@ -1,6 +1,8 @@
 package com.ant.spring.ioc.overview.dependency.injection;
 
 import com.ant.spring.ioc.overview.dependency.repository.UserRepository;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.Environment;
@@ -14,16 +16,20 @@ import org.springframework.core.env.Environment;
  * @since 2020-01-03 09:21
  */
 public class DependencyInjectionDemo {
+
+	@SuppressWarnings(value = "rawtypes")
     public static void main(String[] args) {
         // 初始化spring容器上下文环境
-//        ClassPathXmlApplicationContext context
-//                = new ClassPathXmlApplicationContext("META-INF/dependency-injection-context.xml");
+        BeanFactory beanFactory
+                = new ClassPathXmlApplicationContext("META-INF/dependency-injection-context.xml");
         ApplicationContext applicationContext
                 = new ClassPathXmlApplicationContext("META-INF/dependency-injection-context.xml");
 
         // 依赖来源一：自定义的bean
         UserRepository userPository = (UserRepository) applicationContext.getBean("userRepository");
-		System.out.println(userPository.getUsers());
+//		System.out.println(userPository.getUsers());
+
+//		System.out.println(userPository.getBeanFactory() == beanFactory);
 
         // 依赖来源二：内建的依赖
         System.out.println(userPository.getBeanFactory());
@@ -35,8 +41,13 @@ public class DependencyInjectionDemo {
         Environment environment = applicationContext.getBean(Environment.class);
         System.out.println("获取 Environment 类型的 Bean" + environment);
 
+		ObjectFactory objectFactory = userPository.getObjectFactory();
 
-        whoIsIocContainer(userPository, applicationContext);
+		System.out.println(objectFactory.getObject());
+		System.out.println(objectFactory.getObject() == beanFactory);
+
+
+		whoIsIocContainer(userPository, applicationContext);
 
     }
 
