@@ -15,7 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @since 2020/2/16 12:27 下午
  */
 public class TypeSafetyDependencyLookupDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // 初始化Spring上下文环境
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         // 注册 ObjectProviderDemo Class(配置类)
@@ -23,10 +23,12 @@ public class TypeSafetyDependencyLookupDemo {
         // 启动 Spring 应用上下文
         context.refresh();
 
-//        // 演示 Beanfactory#getBean 方法的安全性(类型非安全)
-//        displayBeanFactoryGetBean(context);
-//
-//        // 演示 Beanfactory#getObject 方法的安全性(类型非安全)
+        // 演示 Beanfactory#getBean 方法的安全性(类型非安全)
+        displayBeanFactoryGetBean(context);
+
+        displayBeanFactoryGetBeanByName(context);
+
+        // 演示 Beanfactory#getObject 方法的安全性(类型非安全)
 //        displayBeanFactoryGetObject(context);
 
         // 演示 ObjectProvider#getIfAvailable 方法的安全性(类型安全)
@@ -42,33 +44,71 @@ public class TypeSafetyDependencyLookupDemo {
         context.close();
     }
 
-    private static void displayObjectProviderStreamOps(AnnotationConfigApplicationContext context) {
-        ObjectProvider<User> beanProvider = context.getBeanProvider(User.class);
-        printBeansException("displayObjectProviderStreamOps", () -> beanProvider.stream().forEach(System.out::println));
-    }
+	/**
+	 * <p>
+	 * 演示 {@link BeanFactory#getBean(Class)} 方法的安全性 (类型非安全)
+	 * </p>
+	 *
+	 * @param beanFactory
+	 * @return void
+	 */
+	private static void displayBeanFactoryGetBean(BeanFactory beanFactory) {
+		printBeansException("displayBeanFactoryGetBean", () -> beanFactory.getBean(User.class));
+	}
 
+    /**
+     * <p>
+     * 演示 {@link BeanFactory#getBean(String)} 方法的安全性 (类型非安全)
+     * </p>
+     *
+     * @param context
+     * @return void
+     */
+	private static void displayBeanFactoryGetBeanByName(AnnotationConfigApplicationContext context) {
+		printBeansException("displayBeanFactoryGetBeanByName", () -> context.getBean("user"));
+	}
+
+    /**
+     * <p>
+     * 演示 {@link ListableBeanFactory#getBeansOfType(Class)}) 方法的安全性 (类型安全)
+     * </p>
+     *
+     * @param beanFactory
+     * @return void
+     */
     private static void displayListableBeanFactoryGetBeansOfType(ListableBeanFactory beanFactory) {
-
         printBeansException("displayListableBeanFactoryGetBeansOfType", () -> beanFactory.getBeansOfType(User.class));
     }
 
+    /**
+     * <p>
+     * 演示 {@link ObjectProvider#getIfAvailable() } 方法的安全性(类型安全)
+     * </p>
+     *
+     * @param context
+     * @return void
+     */
     private static void displayObjectProvideGetIfAvailable(AnnotationConfigApplicationContext context) {
         ObjectProvider<User> beanProvider = context.getBeanProvider(User.class);
-        printBeansException("displayObjectProviderIfAvailable", () -> beanProvider.getIfAvailable());
+		printBeansException("displayObjectProviderIfAvailable", () -> beanProvider.getIfAvailable());
     }
+
+	/**
+	 * <p>
+	 * 演示 {@link ObjectProvider#stream()} 方法的安全性 (类型安全)
+	 * </p>
+	 *
+	 * @param context
+	 * @return void
+	 */
+	private static void displayObjectProviderStreamOps(AnnotationConfigApplicationContext context) {
+		ObjectProvider<User> beanProvider = context.getBeanProvider(User.class);
+		printBeansException("displayObjectProviderStreamOps", () -> beanProvider.stream().forEach(System.out::println));
+	}
 
     private static void displayBeanFactoryGetObject(AnnotationConfigApplicationContext context) {
         ObjectProvider<User> beanProvider = context.getBeanProvider(User.class);
         printBeansException("displayBeanFactoryGetObject", () -> beanProvider.getObject());
-    }
-
-    private static void displayBeanFactoryGetBean(BeanFactory beanFactory) {
-//        try {
-//            User bean = beanFactory.getBean(User.class);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        printBeansException("displayBeanFactoryGetBean", () -> beanFactory.getBean(User.class));
     }
 
     private static void printBeansException(String source, Runnable runnable) {

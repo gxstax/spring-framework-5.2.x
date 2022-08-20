@@ -172,6 +172,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ApplicationContext parent;
 
+	/** 内建对象（用于 "外部化配置以及 profiles" 使用场景） */
 	/** Environment used by this context. */
 	@Nullable
 	private ConfigurableEnvironment environment;
@@ -198,16 +199,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/** ResourcePatternResolver used by this context. */
 	private ResourcePatternResolver resourcePatternResolver;
 
+	/** 内建对象（用于 Lifecycle Bean 处理器） */
 	/** LifecycleProcessor for managing the lifecycle of beans within this context. */
 	@Nullable
 	private LifecycleProcessor lifecycleProcessor;
 
+	/** 内建对象（用于"国际化文案" 使用场景） */
 	/** MessageSource we delegate our implementation of this interface to. */
 	@Nullable
 	private MessageSource messageSource;
 
+	/** 内建对象 (spring 事件组播（多播) */
 	/** Helper class used in event publishing. */
-	/** 事件组播（多播）*/
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
 

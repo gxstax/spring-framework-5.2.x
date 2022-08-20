@@ -8,6 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import javax.annotation.PostConstruct;
 import java.util.stream.Stream;
@@ -54,6 +55,10 @@ public class InjectingResourceLoaderDemo implements ResourceLoaderAware {
 		// 启动 Spring 上下文
 		context.refresh();
 
+		final InjectingResourceLoaderDemo bean = context.getBean(InjectingResourceLoaderDemo.class);
+
+		System.out.println(bean.getResources());
+
 		// 关闭 Spring 上下文
 		context.close();
 	}
@@ -62,4 +67,12 @@ public class InjectingResourceLoaderDemo implements ResourceLoaderAware {
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
+
+	public Resource[] getResources() {
+		final Resource resource = resourceLoader.getResource("classpath*:META-INF/*.properties");
+		System.out.println(ResourceUtil.getContent(resource));
+		return null;
+	}
+
+
 }

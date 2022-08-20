@@ -44,7 +44,7 @@ public class CustomizedResourcePatternResolverDemo {
 
 		@Override
 		public boolean isPattern(String path) {
-			return path.endsWith(".java");
+			return true;
 		}
 
 		@Override
