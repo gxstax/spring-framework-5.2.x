@@ -31,8 +31,6 @@ public class AnnotationDependencyConstructorInjectionDemo {
         context.refresh();
 
 
-
-
         UserHolder bean = context.getBean(UserHolder.class);
         System.out.println(bean);
 

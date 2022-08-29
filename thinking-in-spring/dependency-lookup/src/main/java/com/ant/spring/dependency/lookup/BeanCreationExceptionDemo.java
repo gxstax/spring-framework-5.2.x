@@ -22,7 +22,7 @@ public class BeanCreationExceptionDemo {
 
         // 注册
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(POJO.class);
-        context.registerBeanDefinition("errorBean", builder.getBeanDefinition());
+        context.registerBeanDefinition("errorCreateBean", builder.getBeanDefinition());
 
         // 启动 Spring 应用上下文
         context.refresh();
@@ -34,8 +34,8 @@ public class BeanCreationExceptionDemo {
     static class POJO implements InitializingBean {
 
         @PostConstruct //CommonAnnotationBeanPostProcessor 来进行处理
-        public void init() throws Throwable{
-            throw new Throwable("inti(): For purposes...");
+        public void init() throws Throwable {
+            throw new Throwable("init(): For purposes...");
         }
 
         @Override

@@ -1,8 +1,10 @@
 package com.ant.spring.dependency.lookup;
 
 import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 /**
  * <p>
@@ -21,6 +23,12 @@ public class NoUniqueBeanDefinitionExceptionDemo {
         // 启动 Spring 应用上下文
         context.refresh();
 
+
+		// 注册 一个接口类型的Bean
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(String.class);
+		builder.setPrimary(true);
+		context.registerBeanDefinition("bean3", builder.getBeanDefinition());
+
         try {
             // 由于Spring上下文中存在两个 String 类型的bean，所以通过单一类型查找会抛出异常
             context.getBean(String.class);
@@ -37,12 +45,13 @@ public class NoUniqueBeanDefinitionExceptionDemo {
     }
 
     @Bean
+	@Primary
     private String bean1() {
         return "bean1";
     }
 
     @Bean
-    private String bean2() {
+	private String bean2() {
         return "bean2";
     }
 }

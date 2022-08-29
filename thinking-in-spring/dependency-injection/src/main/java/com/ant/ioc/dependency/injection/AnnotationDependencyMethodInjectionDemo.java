@@ -58,11 +58,9 @@ public class AnnotationDependencyMethodInjectionDemo {
         // 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
         AnnotationDependencyMethodInjectionDemo demo = context.getBean(AnnotationDependencyMethodInjectionDemo.class);
 
-        UserHolder userHolder = demo.userHolder;
-        System.out.println(userHolder);
+        System.out.println(demo.userHolder);
         System.out.println(demo.userHolder2);
-        System.out.println(userHolder == demo.userHolder2);
-
+        System.out.println(demo.userHolder == demo.userHolder2);
 
         // 显式的关闭Spring应用上下文
         context.close();

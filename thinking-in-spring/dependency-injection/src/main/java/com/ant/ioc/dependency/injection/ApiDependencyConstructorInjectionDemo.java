@@ -29,16 +29,11 @@ public class ApiDependencyConstructorInjectionDemo {
         // 加载 XML 资源，解析并且生成 BeanDefinition
         reader.loadBeanDefinitions(xmlResourcePath);
 
-
         // 启动 Spring 应用上下文
         context.refresh();
 
-
-
-
         UserHolder bean = context.getBean(UserHolder.class);
         System.out.println(bean);
-
 
         // 显式的关闭Spring应用上下文
         context.close();
@@ -55,7 +50,6 @@ public class ApiDependencyConstructorInjectionDemo {
     private static BeanDefinition createUserHolderBeanDefinition() {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(UserHolder.class);
         builder.addConstructorArgReference("superUser");
-
         return builder.getBeanDefinition();
     }
 

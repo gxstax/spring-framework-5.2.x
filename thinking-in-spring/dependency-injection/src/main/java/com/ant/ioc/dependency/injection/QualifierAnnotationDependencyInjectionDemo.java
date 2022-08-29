@@ -9,6 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -30,11 +31,11 @@ public class QualifierAnnotationDependencyInjectionDemo {
 
     @Autowired
     @Qualifier
-    private Collection<User> qualifierUser; // 限定类型的bean -> user1, user2
+    private Collection<User> qualifierUser; // 限定类型的bean -> user1, user2, user3, user4
 
     @Autowired
     @UserGroup
-    private Collection<User> groupUser;
+    private Collection<User> groupUser; // 限定类型bean -> user3, user4
 
     @Autowired
     private User user;
@@ -98,7 +99,7 @@ public class QualifierAnnotationDependencyInjectionDemo {
 
         // 期待输出 user, superUser
         System.out.println("demo.allUser" + demo.allUser);
-        // 期待输出 user1，user2
+        // 期待输出 user1,user2,user3,user4
         System.out.println("demo.qualifierUser" + demo.qualifierUser);
         // 期待输出 user3，user4
         System.out.println("demo.groupUser" + demo.groupUser);

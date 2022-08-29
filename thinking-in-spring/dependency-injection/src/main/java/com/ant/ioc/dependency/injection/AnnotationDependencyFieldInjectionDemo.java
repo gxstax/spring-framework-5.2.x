@@ -44,11 +44,11 @@ public class AnnotationDependencyFieldInjectionDemo {
         // 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
         AnnotationDependencyFieldInjectionDemo demo = context.getBean(AnnotationDependencyFieldInjectionDemo.class);
 
-        UserHolder userHolder = demo.userHolder;
-        System.out.println(userHolder);
+        // @Autowired 字段关联
+        System.out.println(demo.userHolder);
         System.out.println(demo.userHolder2);
 
-        System.out.println(userHolder == demo.userHolder2);
+        System.out.println(demo.userHolder == demo.userHolder2);
 
 
         // 显式的关闭Spring应用上下文
