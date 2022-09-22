@@ -621,8 +621,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 				}
 			}
 			return AUTOWIRE_CONSTRUCTOR;
-		}
-		else {
+		} else {
 			return this.autowireMode;
 		}
 	}

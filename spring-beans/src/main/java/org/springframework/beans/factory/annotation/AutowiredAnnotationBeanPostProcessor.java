@@ -399,16 +399,25 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 		return (candidateConstructors.length > 0 ? candidateConstructors : null);
 	}
 
+	/**
+	 * <p>
+	 * 依赖注入属性处理
+	 * </p>
+	 *
+	 * @param pvs
+	 * @param bean
+	 * @param beanName
+	 * @return org.springframework.beans.PropertyValues
+	 */
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
+		// 这里的 metadata 是在 postProcessMergedBeanDefinition 方法中添加进去的
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);
 		try {
 			metadata.inject(bean, beanName, pvs);
-		}
-		catch (BeanCreationException ex) {
+		} catch (BeanCreationException ex) {
 			throw ex;
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			throw new BeanCreationException(beanName, "Injection of autowired dependencies failed", ex);
 		}
 		return pvs;
@@ -630,6 +639,16 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			this.required = required;
 		}
 
+		/**
+		 * <p>
+		 * 注入依赖Bean
+		 * </p>
+		 *
+		 * @param bean
+		 * @param beanName
+		 * @param pvs
+		 * @return void
+		 */
 		@Override
 		protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 			Field field = (Field) this.member;

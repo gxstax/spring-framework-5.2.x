@@ -255,7 +255,7 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
-		// 判断是否要跳过解析，比如加了 @Conditional 注解
+		/** 判断是否要跳过解析，比如加了{@link Conditional} } 注解 */
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
 		}
@@ -267,7 +267,7 @@ public class AnnotatedBeanDefinitionReader {
 		// 生成 beanName
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
-		// 对Beandifinition 做一些基本的判断，比如是否 lazy 是否 DependsOn
+		// 对 BeanDefinition 做一些基本的判断，比如是否 lazy 是否 DependsOn
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {

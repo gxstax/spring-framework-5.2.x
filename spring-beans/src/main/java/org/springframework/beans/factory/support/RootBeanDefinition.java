@@ -422,6 +422,14 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 		return this.factoryMethodToIntrospect;
 	}
 
+	/**
+	 * <p>
+	 * 注册依赖的 Bean 放入 externallyManagedConfigMembers 属性中
+	 * </p>
+	 *
+	 * @param configMember
+	 * @return void
+	 */
 	public void registerExternallyManagedConfigMember(Member configMember) {
 		synchronized (this.postProcessingLock) {
 			if (this.externallyManagedConfigMembers == null) {

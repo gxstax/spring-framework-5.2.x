@@ -204,6 +204,7 @@ final class PostProcessorRegistrationDelegate {
 	public static void registerBeanPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
 
+		// 获取所有实现了 BeanPostProcessor 接口的 Processors
 		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
 		// Register BeanPostProcessorChecker that logs an info message when
@@ -226,19 +227,20 @@ final class PostProcessorRegistrationDelegate {
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
 					internalPostProcessors.add(pp);
 				}
-			}
-			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
+			} else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
 				orderedPostProcessorNames.add(ppName);
-			}
-			else {
+			} else {
 				nonOrderedPostProcessorNames.add(ppName);
 			}
 		}
 
+		// step1: 注册实现了 PriorityOrdered 接口的 BeanPostProcessors
 		// First, register the BeanPostProcessors that implement PriorityOrdered.
 		sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
+		/** 添加 beanPostProcessor 到 {@link DefaultListableBeanFactory#beanPostProcessors} */
 		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors);
 
+		// 然后，注册实现了 Ordered 接口的 BeanPostProcessors
 		// Next, register the BeanPostProcessors that implement Ordered.
 		List<BeanPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
 		for (String ppName : orderedPostProcessorNames) {
@@ -249,13 +251,16 @@ final class PostProcessorRegistrationDelegate {
 			}
 		}
 		sortPostProcessors(orderedPostProcessors, beanFactory);
+		/** 添加 beanPostProcessor 到 {@link DefaultListableBeanFactory#beanPostProcessors} */
 		registerBeanPostProcessors(beanFactory, orderedPostProcessors);
 
 		// Now, register all regular BeanPostProcessors.
 		List<BeanPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
 		for (String ppName : nonOrderedPostProcessorNames) {
-			// BeanPostProcessor 如果同时实现了 ApplicationEventPublisher 那么在代码初始化的过程中会伴随回调的发生，
-			// 这个在 Spring 3.x 之前的版本是有 bug 存在
+			/** BeanPostProcessor 如果同时实现了 {@link org.springframework.context.ApplicationEventPublisher}
+			 * 那么在代码初始化的过程中会伴随回调的发生，
+			 * 这个在 Spring 3.x 之前的版本是有 bug 存在
+			 */
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			nonOrderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {
@@ -282,6 +287,7 @@ final class PostProcessorRegistrationDelegate {
 		if (beanFactory instanceof DefaultListableBeanFactory) {
 			comparatorToUse = ((DefaultListableBeanFactory) beanFactory).getDependencyComparator();
 		}
+		// 如果 DefaultListableBeanFactory 没有自定义的排序实现，则使用默认的 OrderComparator
 		if (comparatorToUse == null) {
 			comparatorToUse = OrderComparator.INSTANCE;
 		}

@@ -323,7 +323,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
-		// 这个判断为空，说明 evirenment 是可以注入进来的
+		// 这个判断为空，说明 environment 是可以注入进来的
 		if (this.environment == null) {
 			this.environment = createEnvironment();
 		}
@@ -614,8 +614,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		if (logger.isDebugEnabled()) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Refreshing " + this);
-			}
-			else {
+			} else {
 				logger.debug("Refreshing " + getDisplayName());
 			}
 		}
@@ -816,8 +815,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			if (logger.isTraceEnabled()) {
 				logger.trace("Using ApplicationEventMulticaster [" + this.applicationEventMulticaster + "]");
 			}
-		}
-		else {
+		} else {
 			// 如果当前上下文中不存在，这里会 new 一个
 			this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
 			// applicationEventMulticaster 在 Spring 应用上下文中必须存在而且是唯一存在

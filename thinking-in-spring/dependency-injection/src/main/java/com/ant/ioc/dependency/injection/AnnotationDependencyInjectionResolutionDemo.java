@@ -34,9 +34,9 @@ import static org.springframework.context.annotation.AnnotationConfigUtils.AUTOW
  */
 public class AnnotationDependencyInjectionResolutionDemo {
 
-	@Autowired
-	@Lazy
-	private User lazyUser;
+//	@Autowired
+//	@Lazy
+//	private User lazyUser;
 
     @Autowired         // 依赖查找
     private User user; // DependencyDescriptor ->
@@ -49,18 +49,18 @@ public class AnnotationDependencyInjectionResolutionDemo {
 
 	@Autowired  // 集合类型依赖注入
 	private Map<String, User> users; // —>user, superUser
-
-	@Autowired
-	private Optional<User> userOptional;
-
-	@MyAutowired
-	private Optional<User> myAutowiredUser;
-
-	@Inject
-	private User injectUser;
-
-	@AntInject
-	private User antInjectUser;
+//
+//	@Autowired
+//	private Optional<User> userOptional;
+//
+//	@MyAutowired
+//	private Optional<User> myAutowiredUser;
+//
+//	@Inject
+//	private User injectUser;
+//
+//	@AntInject
+//	private User antInjectUser;
 
 	/**
 	 * 这样的实现方式有一个弊端就是 @Inject 是基于 JSR 330 API;
@@ -76,14 +76,14 @@ public class AnnotationDependencyInjectionResolutionDemo {
 //		return processor;
 //	}
 
-	@Bean
-	@Order(Ordered.LOWEST_PRECEDENCE - 3)
-	public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
-		AutowiredAnnotationBeanPostProcessor processor = new AutowiredAnnotationBeanPostProcessor();
-		//  @AntInject新注解
-		processor.setAutowiredAnnotationType(AntInject.class);
-		return processor;
-	}
+//	@Bean
+//	@Order(Ordered.LOWEST_PRECEDENCE - 3)
+//	public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+//		AutowiredAnnotationBeanPostProcessor processor = new AutowiredAnnotationBeanPostProcessor();
+//		//  @AntInject新注解
+//		processor.setAutowiredAnnotationType(AntInject.class);
+//		return processor;
+//	}
 
     public static void main(String[] args) {
 		// 初始化Spring上下文环境
@@ -103,24 +103,24 @@ public class AnnotationDependencyInjectionResolutionDemo {
 		// 依赖查找 AnnotationDependencyFieldInjectionDemo Bean
 		AnnotationDependencyInjectionResolutionDemo demo = context.getBean(AnnotationDependencyInjectionResolutionDemo.class);
 
-		System.out.println("demo.lazyUser-->" + demo.lazyUser);
+//		System.out.println("demo.lazyUser-->" + demo.lazyUser);
 
 		// 期待输出 superUser
 		System.out.println("demo.user-->" + demo.user);
 
 		// 期待输出 superUser
-		System.out.println("demo.injectUser-->" + demo.injectUser);
-
-		// 期待输出 superUser
-		System.out.println("demo.antInjectUser-->" + demo.antInjectUser);
-
+//		System.out.println("demo.injectUser-->" + demo.injectUser);
+//
+//		// 期待输出 superUser
+//		System.out.println("demo.antInjectUser-->" + demo.antInjectUser);
+//
 		// 期待输出 user superUser
 		System.out.println("demo.users-->" + demo.users);
-
-		// 期待输出 userOptional
-		System.out.println("demo.userOptional-->" + demo.userOptional);
-
-		System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
+//
+//		// 期待输出 userOptional
+//		System.out.println("demo.userOptional-->" + demo.userOptional);
+//
+//		System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
 
 		// 显式的关闭Spring应用上下文
 		context.close();

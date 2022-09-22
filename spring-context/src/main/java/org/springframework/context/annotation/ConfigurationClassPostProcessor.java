@@ -253,7 +253,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		if (!this.registriesPostProcessed.contains(factoryId)) {
 			// BeanDefinitionRegistryPostProcessor hook apparently not supported...
 			// Simply call processConfigurationClasses lazily at this point then.
-			// 处理 BeanDifinitions
+			// 处理 BeanDefinitions
 			processConfigBeanDefinitions((BeanDefinitionRegistry) beanFactory);
 		}
 
@@ -395,9 +395,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 				AbstractBeanDefinition abd = (AbstractBeanDefinition) beanDef;
 				if (!abd.hasBeanClass()) {
 					try {
+						// 给 AbstractBeanDefinition 的 beanClass 属性赋值
 						abd.resolveBeanClass(this.beanClassLoader);
-					}
-					catch (Throwable ex) {
+					} catch (Throwable ex) {
 						throw new IllegalStateException(
 								"Cannot load configuration class: " + beanDef.getBeanClassName(), ex);
 					}
