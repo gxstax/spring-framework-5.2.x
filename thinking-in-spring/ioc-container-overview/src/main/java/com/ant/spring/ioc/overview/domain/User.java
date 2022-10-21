@@ -140,12 +140,12 @@ public class User implements BeanNameAware {
 
 	@PostConstruct
     public void init() {
-		System.out.println("用户 Bean【" + beanName + "】对象初始化...");
+//		System.out.println("用户 Bean【" + beanName + "】对象初始化...");
 	}
 
 	@PreDestroy
 	public void destroy() {
-		System.out.println("用户 Bean【" + beanName + "】对象销毁中...");
+//		System.out.println("用户 Bean【" + beanName + "】对象销毁中...");
 	}
 
 

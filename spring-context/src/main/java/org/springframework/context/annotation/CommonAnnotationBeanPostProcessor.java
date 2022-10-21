@@ -143,6 +143,11 @@ import org.springframework.util.StringValueResolver;
  * @see org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
  *
  * spring 通用注解注入处理器
+ * 它可以处理的注解大概有以下几种:
+ * {@link Resource} 		java 的 Resource 注解
+ * {@link Annotation} 		自定义注解
+ * {@link PostConstruct} 	PostConstruct 注解
+ * {@link PreDestroy}    	PreDestroy 注解
  */
 @SuppressWarnings("serial")
 public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBeanPostProcessor

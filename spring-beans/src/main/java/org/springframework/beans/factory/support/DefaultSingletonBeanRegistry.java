@@ -124,6 +124,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		/**
 		 * singleton 的bean注册也是放入到 {@link ConcurrentHashMap} 类型的 singletonObjects
 		 * 而且这里也是 加了锁的，因为对 singletonObjects 的操作是二元操作，先拿出来判断没有，再 put
+		 * singletonObjects 一级缓存
 		 */
 		synchronized (this.singletonObjects) {
 			Object oldObject = this.singletonObjects.get(beanName);
@@ -287,7 +288,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @see #getSingletonMutex()
 	 */
 	protected void removeSingleton(String beanName) {
-		// 清楚 SpringIod 容器中的Bean （引用断开，等待GC）
+		// 清除 SpringIOC 容器中的Bean （引用断开，等待GC）
 		synchronized (this.singletonObjects) {
 			this.singletonObjects.remove(beanName);
 			this.singletonFactories.remove(beanName);

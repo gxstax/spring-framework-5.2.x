@@ -934,7 +934,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
-		// 校验是否有 重名的 bean 已经存在了，spring 从 2.1 开始就已经不允许 bean 重名
+		// 校验是否有 重名的 bean 已经存在了，springboot 从 2.1 开始就已经不允许 bean 重名
 		if (existingDefinition != null) {
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
@@ -976,6 +976,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				 * 这里 spring 为什么会分别用 两个集合来存呢？
 				 * 其实原因是 beanDefinitionMap 是一个 {@link ConcurrentHashMap} 是一个无序的
 				 * 所以 spring 用了一个 beanDefinitionNames ({@link ArrayList}) 来保证顺序
+				 * 这样 Spring 在后续的初始化过程中会根据 beanDefinitionNames 按顺序迭代初始化
 				 */
 				// Still in startup registration phase
 				this.beanDefinitionMap.put(beanName, beanDefinition);

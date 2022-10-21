@@ -42,11 +42,11 @@ public class ExternalConfigurationDependencySourceDemo {
 		// 依赖查找 ExternalConfigurationDependencySourceDemo Bean
 		ExternalConfigurationDependencySourceDemo demo = context.getBean(ExternalConfigurationDependencySourceDemo.class);
 
-		System.out.println("demo.id " + demo.id);
+		System.out.println("demo.id= " + demo.id);
 
-		System.out.println("demo.name " + demo.name);
+		System.out.println("demo.name= " + demo.name);
 
-		System.out.println("demo.resource " + demo.resource);
+		System.out.println("demo.resource= " + demo.resource);
 
 		// 显式的关闭Spring应用上下文
 		context.close();

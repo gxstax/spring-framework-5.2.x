@@ -53,8 +53,8 @@ public class AnnotationDependencyInjectionResolutionDemo {
 //	@Autowired
 //	private Optional<User> userOptional;
 //
-//	@MyAutowired
-//	private Optional<User> myAutowiredUser;
+	@MyAutowired
+	private Optional<User> myAutowiredUser;
 //
 //	@Inject
 //	private User injectUser;
@@ -119,8 +119,8 @@ public class AnnotationDependencyInjectionResolutionDemo {
 //
 //		// 期待输出 userOptional
 //		System.out.println("demo.userOptional-->" + demo.userOptional);
-//
-//		System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
+
+		System.out.println("demo.myAutowiredUser-->" + demo.myAutowiredUser);
 
 		// 显式的关闭Spring应用上下文
 		context.close();
