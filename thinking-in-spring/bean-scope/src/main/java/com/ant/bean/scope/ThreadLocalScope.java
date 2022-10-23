@@ -1,6 +1,5 @@
 package com.ant.bean.scope;
 
-import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 import org.springframework.core.NamedThreadLocal;

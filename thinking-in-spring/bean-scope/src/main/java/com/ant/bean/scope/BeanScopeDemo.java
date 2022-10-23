@@ -115,7 +115,7 @@ public class BeanScopeDemo implements DisposableBean {
 
 		scopeBeansByLookUp(context);
 
-		scopeBeansByInjection(context);
+//		scopeBeansByInjection(context);
 
 
 		// 显式的关闭Spring应用上下文
@@ -166,6 +166,6 @@ public class BeanScopeDemo implements DisposableBean {
 			}
 		}
 
-		System.out.println("当前 BeanScopeDemo Bean 正在销毁完成！！！");
+		System.out.println("当前 BeanScopeDemo Bean 销毁完成！！！");
 	}
 }

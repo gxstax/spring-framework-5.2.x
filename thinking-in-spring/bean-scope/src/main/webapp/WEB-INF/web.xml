@@ -3,4 +3,8 @@
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		 version="3.0">
 
+	<servlet>
+		<servlet-name>dispatcher-servlet</servlet-name>
+		<servlet-class>org.springframework.web.</servlet-class>
+	</servlet>
 </web-app>
