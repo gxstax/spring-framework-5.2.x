@@ -139,6 +139,7 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		System.out.println("afterSingletonsInstantiated() = " + description);
 	}
 
+	@Override
 	protected void finalize() throws Throwable {
 		System.out.println("The UserHolder is finalized...");
 	}
