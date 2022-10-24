@@ -13,7 +13,7 @@ import org.springframework.util.ObjectUtils;
  * 功能描述
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/23 9:35 下午
  */
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
  * 功能描述
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/24 4:51 下午
  */
 public class BeanLifecycleDemo {

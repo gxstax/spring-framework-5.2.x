@@ -526,7 +526,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 前面如果我们自己实现过 InstantiationAwareBeanPostProcessor 并且过滤掉了 我们要过滤的 Bean
 		// 下面是没有经过 InstantiationAwareBeanPostProcessor 处理的正常创建的 bean 的过程
 		try {
-			// 这里当然就是创建Bean对象的逻辑喽
+			// 这里当然就是实例化Bean对象的逻辑喽
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
 				logger.trace("Finished creating instance of bean '" + beanName + "'");
@@ -566,7 +566,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			// 创建 Bean 实例
+			// 创建 Bean 实例（Bean 实例化）
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 
@@ -1153,7 +1153,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Nullable
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
-			/** InstantiationAwareBeanPostProcessor 是 Bean 实例化前的处理器
+			/** InstantiationAwareBeanPostProcessor 是 spring 生命周期「Spring Bean 实例化前阶段」的后置处理器
 			 *  我们可以定义自己 BeanPostProcessor 只需要实现 InstantiationAwareBeanPostProcessor接口，
 			 *  然后注册到 Spring IOC 容器中去
 			 */
@@ -1162,8 +1162,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName);
 				/**
 				 * 如果我们自己实现的 InstantiationAwareBeanPostProcessor 实现类中过滤，
-				 * 不需要改变Bean 只需要返回 null 就可以；
-				 * 如果我们这里返回 null 这里就还是 spring 容器帮我们初始化的 Bean
+				 * 如果我们的实现方法，自定义了返回对象，则spring 容器不会再执行doCreateBean()去创建，而是直接使用我们自定义的Bean;
+				 * 如果我们实现方法里返回 null 这里就还是 spring 容器帮我们初始化的 Bean;
 				 */
 				if (result != null) {
 					return result;
@@ -1226,7 +1226,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Candidate constructors for autowiring?
-		// 是否我们有指定自己的构造方法，我们自己可以实现 SmartInstantiationAwareBeanPostProcessor 来指定我们创建 Bean 的构造方法
+		// 是否我们有指定自己的构造方法，我们自己可以实现 SmartInstantiationAwareBeanPostProcessor 来指定我们实例化 Bean 的构造方法
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
@@ -1331,6 +1331,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return a BeanWrapper for the new instance
 	 */
 	protected BeanWrapper instantiateBean(final String beanName, final RootBeanDefinition mbd) {
+		/** 使用无参构造器实例化 Bean **/
 		try {
 			Object beanInstance;
 			final BeanFactory parent = this;
@@ -1339,6 +1340,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 						getInstantiationStrategy().instantiate(mbd, beanName, parent),
 						getAccessControlContext());
 			} else {
+				// 传统的实例化方式
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, parent);
 			}
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);

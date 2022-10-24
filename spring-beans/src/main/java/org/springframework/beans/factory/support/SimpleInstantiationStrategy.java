@@ -65,8 +65,10 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			synchronized (bd.constructorArgumentLock) {
 				constructorToUse = (Constructor<?>) bd.resolvedConstructorOrFactoryMethod;
 				if (constructorToUse == null) {
-					// 这里 BeanClass 是我们前面在 resolveBeanClass 的时候，
-					// 从 string（类名）通过传统 java classLoader转换为了 Class 对象
+					/* 这里 BeanClass 是我们前面在 resolveBeanClass 的时候，也就是在spring bean 生命周期的「Bean Class 加载阶段」
+					 * 通过解析 从 string（类名）通过传统 java classLoader转换为了 Class 对象，
+					 * 放入到 beanDefinition 的 Object beanClass 属性中去的
+					 */
 					final Class<?> clazz = bd.getBeanClass();
 					// 这里不能为接口，接口是不能实例化的
 					if (clazz.isInterface()) {
@@ -76,8 +78,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 						if (System.getSecurityManager() != null) {
 							constructorToUse = AccessController.doPrivileged(
 									(PrivilegedExceptionAction<Constructor<?>>) clazz::getDeclaredConstructor);
-						}
-						else {
+						} else {
 							constructorToUse = clazz.getDeclaredConstructor();
 						}
 						// 这里就和前面的重复创建那里呼应上了，
@@ -90,8 +91,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 				}
 			}
 			return BeanUtils.instantiateClass(constructorToUse);
-		}
-		else {
+		} else {
 			// Must generate CGLIB subclass.
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}

@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Bean 初始化生命周期示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/20 9:13 上午
  */
 public class BeanInitializationLifecycleDemo {
@@ -26,8 +26,11 @@ public class BeanInitializationLifecycleDemo {
 	private static void executeBeanFactory() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-		//添加 BeanPostProcessor 的实现类 MyInstantiationAwareBeanPostProcessor
+		// 添加 BeanPostProcessor 的实现类 MyInstantiationAwareBeanPostProcessor
 		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
+
+		// 添加自定义 BeanPostProcessor 的实现类 CustomSmartInstantiationAwareBeanPostProcessor
+		beanFactory.addBeanPostProcessor(new CustomSmartInstantiationAwareBeanPostProcessor());
 
 		// 添加 CommonAnnotationBeanPostProcessor 解决 @PostConstruct
 		beanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());

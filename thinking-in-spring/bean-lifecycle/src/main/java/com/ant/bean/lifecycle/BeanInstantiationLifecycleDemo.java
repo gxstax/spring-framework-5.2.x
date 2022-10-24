@@ -20,7 +20,7 @@ import org.springframework.util.ObjectUtils;
  * Bean 实例化生命周期示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/20 9:13 上午
  */
 public class BeanInstantiationLifecycleDemo {

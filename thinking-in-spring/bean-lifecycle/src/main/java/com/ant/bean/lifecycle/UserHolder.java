@@ -68,7 +68,7 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		// initPostConstruct V4 -> afterPropertiesSet V5
 		this.description = "The userHolder V5";
 		System.out.println("afterPropertiesSet() = " + description);
