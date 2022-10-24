@@ -11,7 +11,7 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
  * 功能描述
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/7/29 9:48 上午
  */
 public class MyPostProcessor2 implements BeanDefinitionRegistryPostProcessor {

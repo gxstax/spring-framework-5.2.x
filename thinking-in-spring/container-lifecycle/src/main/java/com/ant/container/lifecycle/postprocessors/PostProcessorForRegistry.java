@@ -9,7 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * 功能描述
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/7/29 10:07 上午
  */
 public class PostProcessorForRegistry implements BeanFactoryPostProcessor {

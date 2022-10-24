@@ -16,17 +16,15 @@ import org.springframework.context.annotation.ComponentScan;
 public class AnnotationBeanDefinitionParsingDemo {
 	public static void main(String[] args) {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-
 		// 基于 java 注解的 BeanDefinitionReader 实现
-		AnnotatedBeanDefinitionReader reader = new AnnotatedBeanDefinitionReader(beanFactory);
+		AnnotatedBeanDefinitionReader beanDefinitionReader = new AnnotatedBeanDefinitionReader(beanFactory);
+
 		int beforeCount = beanFactory.getBeanDefinitionCount();
-
 		// 注册当前 Bean (非 @Component 注解的类)
-		reader.register(AnnotationBeanDefinitionParsingDemo.class);
+		beanDefinitionReader.register(AnnotationBeanDefinitionParsingDemo.class);
 		int afterCount = beanFactory.getBeanDefinitionCount();
-
-		int beanDefinitonCount = afterCount - beforeCount;
-		System.out.printf("已加载了 %d 个 BeanDefinition %n", beanDefinitonCount);
+		int beanDefinitionCount = afterCount - beforeCount;
+		System.out.printf("已加载了 %d 个 BeanDefinition %n", beanDefinitionCount);
 
 		// 普通的 Class 作为 Component 注册到 Spring IOC 容器中后，通常 Bean 的名字为 首字母小写的类名 annotationBeanDefinitionParsingDemo
 		// Bean 的名称生成来自于 BeanNameGenerator 类; 注解的生成是来自于 AnnotationBeanNameGenerator
@@ -34,6 +32,6 @@ public class AnnotationBeanDefinitionParsingDemo {
 		AnnotationBeanDefinitionParsingDemo demo = beanFactory.getBean("annotationBeanDefinitionParsingDemo",
 						AnnotationBeanDefinitionParsingDemo.class);
 		System.out.println(demo);
-
 	}
+
 }

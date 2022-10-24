@@ -14,7 +14,7 @@ import org.springframework.core.io.support.EncodedResource;
  * {@link PropertiesBeanDefinitionReader} 示例
  * </p>
  *
- * @author GaoXin
+ * @author Ant
  * @since 2020/5/27 9:09 上午
  */
 @SuppressWarnings("uncheck")
