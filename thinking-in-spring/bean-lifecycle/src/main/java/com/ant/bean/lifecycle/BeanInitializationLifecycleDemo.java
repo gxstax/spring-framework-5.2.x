@@ -30,7 +30,7 @@ public class BeanInitializationLifecycleDemo {
 		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
 		// 添加自定义 BeanPostProcessor 的实现类 CustomSmartInstantiationAwareBeanPostProcessor
-		beanFactory.addBeanPostProcessor(new CustomSmartInstantiationAwareBeanPostProcessor());
+//		beanFactory.addBeanPostProcessor(new CustomSmartInstantiationAwareBeanPostProcessor());
 
 		// 添加 CommonAnnotationBeanPostProcessor 解决 @PostConstruct
 		beanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());
