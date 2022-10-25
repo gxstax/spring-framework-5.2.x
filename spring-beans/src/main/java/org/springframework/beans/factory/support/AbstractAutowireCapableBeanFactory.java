@@ -610,9 +610,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			// Spring Bean 生命周期 「Spring Bean 属性赋值前阶段」
 			// 这里就是属性填充，依赖注入就是在这里进行的
 			populateBean(beanName, mbd, instanceWrapper);
-			// bean 的初始化
+			// Spring Bean 生命周期 「Spring Bean 初始化阶段」
+			// 各种 ***Aware 接口的回调在这里做回调操作
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		} catch (Throwable ex) {
 			if (ex instanceof BeanCreationException && beanName.equals(((BeanCreationException) ex).getBeanName())) {

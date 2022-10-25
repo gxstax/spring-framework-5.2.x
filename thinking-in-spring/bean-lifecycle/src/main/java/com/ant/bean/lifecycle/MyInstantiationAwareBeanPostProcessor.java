@@ -72,6 +72,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 
 			// 原始配置 <property name="description" value="The UserHolder" />
 			if (pvs.contains("description")) {
+				// propertyValue 是不可变的
 				mutablePropertyValues.removePropertyValue("description");
 				mutablePropertyValues.addPropertyValue("description", "The UserHolder V2");
 			}

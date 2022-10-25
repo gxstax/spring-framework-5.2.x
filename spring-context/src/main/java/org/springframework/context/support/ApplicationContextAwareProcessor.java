@@ -112,6 +112,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	}
 
 	// Aware 接口回调
+	// 下面的 Aware 接口只能在 ApplicationContext才能回调到，beanFactory是无法回调到的
 	private void invokeAwareInterfaces(Object bean) {
 		if (bean instanceof EnvironmentAware) {
 			((EnvironmentAware) bean).setEnvironment(this.applicationContext.getEnvironment());

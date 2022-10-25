@@ -11,7 +11,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -111,27 +110,65 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 				'}';
 	}
 
+	/**
+	 * <p>
+	 * BeanNameAware 接口回调
+	 * </p>
+	 *
+	 * @param name	BeanName
+	 * @return void
+	 */
 	@Override
 	public void setBeanName(String name) {
 		this.beanName = beanName;
 	}
 
+	/**
+	 * <p>
+	 * BeanClassLoaderAware 接口回调
+	 * </p>
+	 *
+	 * @param classLoader	类加载器
+	 * @return void
+	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
 
+	/**
+	 * <p>
+	 * BeanFactoryAware 接口回调
+	 * </p>
+	 *
+	 * @param beanFactory	spring Bean工厂
+	 * @return void
+	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
 
+	/**
+	 * <p>
+	 * EnvironmentAware 接口回调
+	 * </p>
+	 *
+	 * @param environment	Environment
+	 * @return void
+	 */
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
 	}
 
-
+	/**
+	 * <p>
+	 *	SmartInitializingSingleton 接口回调
+	 * </p>
+	 *
+	 * @return void
+	 */
 	@Override
 	public void afterSingletonsInstantiated() {
 		// postProcessorAfterInitialization V7 -> afterSingletonsInstantiated V8
@@ -139,6 +176,13 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		System.out.println("afterSingletonsInstantiated() = " + description);
 	}
 
+	/**
+	 * <p>
+	 * DisposableBean 接口回调
+	 * </p>
+	 *
+	 * @return void
+	 */
 	@Override
 	protected void finalize() throws Throwable {
 		System.out.println("The UserHolder is finalized...");
