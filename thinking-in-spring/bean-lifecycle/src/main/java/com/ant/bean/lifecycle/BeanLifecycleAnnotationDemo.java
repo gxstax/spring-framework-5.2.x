@@ -2,7 +2,6 @@ package com.ant.bean.lifecycle;
 
 
 import com.ant.bean.lifecycle.bean.LifecycleBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
@@ -16,22 +15,24 @@ import org.springframework.context.annotation.Bean;
  **/
 public class BeanLifecycleAnnotationDemo {
 
-	@Autowired
-	private LifecycleBean depBean;
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(BeanLifecycleAnnotationDemo.class);
-		context.getBeanFactory().addBeanPostProcessor(new LifecycleBean.LifecycleInstantiationAwareBeanPostProcessor());
+		context.getBeanFactory().addBeanPostProcessor(new LifecycleBean.LifecycleBeanPostProcessor());
 		context.refresh();
 
-		LifecycleBean bean = context.getBean(LifecycleBean.class);
+		// 容器关闭
+		context.close();
 
-		System.out.println(bean);
+		// 强制GC
+		System.gc();
 
+		Thread.sleep(2000L);
+
+		System.gc();
 	}
 
-	@Bean(initMethod = "init")
+	@Bean(initMethod = "doInit", destroyMethod = "doDestroy")
 	public LifecycleBean lifecycleBean() {
 		LifecycleBean lifecycleBean = new LifecycleBean();
 		lifecycleBean.setDescription("The LifecycleBean");

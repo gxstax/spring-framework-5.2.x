@@ -136,8 +136,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 			if (executor != null) {
 				// 通常来说如果我们要异步处理监听事件，最好把 taskExcutor的核心线程数设置为1来避免线程池浪费
 				executor.execute(() -> invokeListener(listener, event));
-			}
-			else {
+			} else {
 				invokeListener(listener, event);
 			}
 		}

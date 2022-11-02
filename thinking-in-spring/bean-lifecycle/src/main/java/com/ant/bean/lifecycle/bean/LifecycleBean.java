@@ -4,11 +4,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.util.ObjectUtils;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +21,8 @@ import java.util.logging.Logger;
  * @author Ant
  * @since 2022/11/01 4:36 下午
  **/
-public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware, InitializingBean{
+public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware,
+		InitializingBean, SmartInitializingSingleton, DisposableBean {
 
 	Logger log = Logger.getLogger(LifecycleBean.class.getName());
 
@@ -42,6 +45,14 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 		log.info("添加了 @PostConstruct 注解的 LifecycleBean#postConstruct() 方法调用: initPostConstruct() -> " + description + "\n");
 	}
 
+	/**
+	 * <p>
+	 * InitializingBean#afterPropertiesSet 回调
+	 * </p>
+	 *
+	 * @param
+	 * @return void
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		this.description = "LifecycleBean version: V5";
@@ -56,9 +67,9 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 	 * @param
 	 * @return void
 	 */
-	public void init() {
+	public void doInit() {
 		this.description = "LifecycleBean version: V6";
-		log.info("自定义初始化方法回调 init() -> " + description + "\n");
+		log.info("自定义初始化方法回调 doInit() -> " + description + "\n");
 	}
 
 	@Override
@@ -139,12 +150,74 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 		this.environment = environment;
 	}
 
-	public static class LifecycleInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
-		Logger log = Logger.getLogger(LifecycleInstantiationAwareBeanPostProcessor.class.getSimpleName());
+	/**
+	 * <p>
+	 * 该回调方法是在我们的 bean 完全初始化后来进行回调
+	 * 「spring生命周期-「Spring Bean 初始化完成阶段」阶段回调
+	 * </p>
+	 *
+	 * @param
+	 * @return void
+	 */
+	@Override
+	public void afterSingletonsInstantiated() {
+		this.description = "LifecycleBean version: V8";
+		log.info("SmartInitializingSingleton#afterSingletonsInstantiated()方法回调 -> " + description + "\n");
+	}
+
+	@PreDestroy
+	public void preDestroy() {
+		this.description = "LifecycleBean version: V10";
+		log.info("添加了 @PreDestroy 注解的 LifecycleBean#preDestroy() 方法调用: preDestroy() -> " + description + "\n");
+	}
+
+	/**
+	 * <p>
+	 * DisposableBean#destroy() 回调
+	 * </p>
+	 *
+	 * @param
+	 * @return void
+	 */
+	@Override
+	public void destroy() throws Exception {
+		this.description = "LifecycleBean version: V11";
+		log.info("DisposableBean#destroy() 回调: destroy() -> " + description + "\n");
+	}
+
+	/**
+	 * <p>
+	 * 自定义的销毁方法
+	 * </p>
+	 *
+	 * @param
+	 * @return void
+	 */
+	public void doDestroy() {
+		this.description = "LifecycleBean version: V12";
+		log.info("自定义销毁方法回调 doDestroy() -> " + description + "\n");
+	}
+
+	/**
+	 * <p>
+	 * 垃圾回收
+	 * </p>
+	 *
+	 * @param
+	 * @return void
+	 */
+	protected void finalize() throws Throwable {
+		this.description = "LifecycleBean version: V13";
+		log.info("JVM 垃圾回收 LifecycleBean is finalized！！！ " + description + "\n");
+	}
+
+
+	public static class LifecycleBeanPostProcessor implements InstantiationAwareBeanPostProcessor, DestructionAwareBeanPostProcessor {
+		Logger log = Logger.getLogger(LifecycleBeanPostProcessor.class.getSimpleName());
 
 		/**
 		 * <p>
-		 *	spring生命周期-「Spring Bean 实例化前阶段」阶段回调
+		 *	spring生命周期-「Spring Bean 实例化前阶段」回调
 		 * </p>
 		 *
 		 * @param beanClass
@@ -167,7 +240,7 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 
 		/**
 		 * <p>
-		 * spring生命周期-「Spring Bean 实例化后阶段」阶段回调
+		 * spring生命周期-「Spring Bean 实例化后阶段」回调
 		 * </p>
 		 *
 		 * @param bean:
@@ -192,7 +265,7 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 
 		/**
 		 * <p>
-		 * spring生命周期-「Spring Bean 属性赋值前阶段」阶段回调
+		 * spring生命周期-「Spring Bean 属性赋值前阶段」回调
 		 * </p>
 		 *
 		 * @param pvs:
@@ -204,7 +277,6 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 		public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
 			// 对 "lifecycle" Bean 进行拦截
 			if (ObjectUtils.nullSafeEquals("lifecycleBean", beanName) && LifecycleBean.class.equals(bean.getClass())) {
-				log.info("InstantiationAwareBeanPostProcessor#postProcessProperties 方法回调" + "\n");
 				// 假设我们的 Bean 配置有这么一条 <property name="number" value="1">
 				// 那么 PropertyValues 就包含了 PropertyValue(number=1) 这个元素
 				final MutablePropertyValues mutablePropertyValues;
@@ -226,7 +298,7 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 				} else {
 					mutablePropertyValues.addPropertyValue("description", "LifecycleBean version: V2");
 				}
-
+				log.info("InstantiationAwareBeanPostProcessor#postProcessProperties 方法回调 " + mutablePropertyValues.get("description") + "\n");
 				return mutablePropertyValues;
 			}
 			return null;
@@ -234,7 +306,7 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 
 		/**
 		 * <p>
-		 * spring生命周期-「Spring Bean 初始化前阶段」阶段回调
+		 * spring生命周期-「Spring Bean 初始化前阶段」回调
 		 * </p>
 		 *
 		 * @param bean
@@ -244,21 +316,49 @@ public class LifecycleBean implements BeanNameAware, BeanClassLoaderAware, BeanF
 		@Override
 		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 			if (ObjectUtils.nullSafeEquals("lifecycleBean", beanName) && LifecycleBean.class.equals(bean.getClass()) ) {
-				log.info("BeanPostProcessor#postProcessBeforeInitialization 方法回调" + "\n");
 				LifecycleBean lifecycleBean = (LifecycleBean) bean;
 				lifecycleBean.setDescription("LifecycleBean version: V3");
+				log.info("BeanPostProcessor#postProcessBeforeInitialization 方法回调 " + lifecycleBean.getDescription() + "\n");
 			}
 			return bean;
 		}
 
+		/**
+		 * <p>
+		 * spring生命周期-「Spring Bean 初始化后阶段」回调
+		 * </p>
+		 *
+		 * @param bean
+		 * @param beanName
+		 * @return java.lang.Object
+		 */
 		@Override
 		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 			if (ObjectUtils.nullSafeEquals("lifecycleBean", beanName) && LifecycleBean.class.equals(bean.getClass()) ) {
-				log.info("BeanPostProcessor#postProcessAfterInitialization 方法回调" + "\n");
 				LifecycleBean lifecycleBean = (LifecycleBean) bean;
 				lifecycleBean.setDescription("LifecycleBean version: V7");
+				log.info("BeanPostProcessor#postProcessAfterInitialization 方法回调 " + lifecycleBean.getDescription() + "\n");
+
 			}
 			return bean;
+		}
+
+		/**
+		 * <p>
+		 * spring生命周期-「Spring Bean 销毁前阶段」回调
+		 * </p>
+		 *
+		 * @param bean
+		 * @param beanName
+		 * @return void
+		 */
+		@Override
+		public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
+			if (ObjectUtils.nullSafeEquals("lifecycleBean", beanName) && LifecycleBean.class.equals(bean.getClass()) ) {
+				LifecycleBean lifecycleBean = (LifecycleBean) bean;
+				lifecycleBean.setDescription("LifecycleBean version: V9");
+				log.info("DestructionAwareBeanPostProcessor#postProcessBeforeDestruction 方法回调 " + lifecycleBean.getDescription() + "\n");
+			}
 		}
 	}
 }

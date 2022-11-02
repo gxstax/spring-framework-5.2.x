@@ -214,6 +214,13 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	 */
 	@Nullable
 	private List<DestructionAwareBeanPostProcessor> filterPostProcessors(List<BeanPostProcessor> processors, Object bean) {
+		/** 把实现了 DestructionAwareBeanPostProcessors 的 processors 过滤，供后续 bean的 销毁过程回调
+		 *  这里要注意下面 dabpp.requiresDestruction(bean) 这个过滤方法，如果说我们自己实现的 DestructionAwareBeanPostProcessor 接口，
+		 *  这里的 dabpp.requiresDestruction(bean) 默认返回true，所以我们自己实现的过滤器可以添加进来。
+		 *  但是这里 还有一个spring的通用注解处理器，也就是 {@link CommonAnnotationBeanPostProcessor} 实现，它只在bean 定义了 destroyMethod
+		 *  方法，或者有加了 {@see PreDestroy} 注解，才会返回true
+		 *  所以当前bean 如果有前面两点，这里的才会把 CommonAnnotationBeanPostProcessor 添加到 filteredPostProcessors供销毁回调
+		 **/
 		List<DestructionAwareBeanPostProcessor> filteredPostProcessors = null;
 		if (!CollectionUtils.isEmpty(processors)) {
 			filteredPostProcessors = new ArrayList<>(processors.size());

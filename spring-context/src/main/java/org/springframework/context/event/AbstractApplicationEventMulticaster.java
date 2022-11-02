@@ -202,8 +202,7 @@ public abstract class AbstractApplicationEventMulticaster
 				this.retrieverCache.put(cacheKey, retriever);
 				return listeners;
 			}
-		}
-		else {
+		} else {
 			// No ListenerRetriever caching -> no synchronization necessary
 			return retrieveApplicationListeners(eventType, sourceType, null);
 		}

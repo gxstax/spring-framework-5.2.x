@@ -362,6 +362,15 @@ public class InitDestroyAnnotationBeanPostProcessor
 			}
 		}
 
+		/**
+		 * <p>
+		 * 执行销毁方法
+		 * </p>
+		 *
+		 * @param target
+		 * @param beanName
+		 * @return void
+		 */
 		public void invokeDestroyMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedDestroyMethods = this.checkedDestroyMethods;
 			Collection<LifecycleElement> destroyMethodsToUse =
