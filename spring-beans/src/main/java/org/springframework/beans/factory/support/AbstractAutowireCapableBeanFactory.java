@@ -433,8 +433,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			// 这个是干啥，自己拍大腿想
-			// 如果如果我们有实现 BeanPostProcessor#postProcessBeforeInitialization方法，
+			// 如果如果我们有实现 BeanPostProcessor#postProcessAfterInitialization方法，
 			// 那么会返回我们自己处理过的 Bean 对象
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
@@ -512,7 +511,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			// 初始化前解析 (BeanPostProcessor#postProcessBeforeInstantiation() 方法会在这里执行，包括我们自己定义的 BeanPostProcessor)
+			/**
+			 * 初始化前解析，实现了
+			 * {@link InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation }
+			 * 方法会在这里执行，包括我们自己定义的 BeanPostProcessor
+			 */
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			// 如果我们自己定义了指定返回的 Bean 这里就不再往下解析了，直接返回我们自己定义的 Bean
 			if (bean != null) {
@@ -523,7 +526,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					"BeanPostProcessor before instantiation of bean failed", ex);
 		}
 
-		// 前面如果我们自己实现过 InstantiationAwareBeanPostProcessor 并且过滤掉了 我们要过滤的 Bean
+		// 前面如果我们自己实现过 InstantiationAwareBeanPostProcessor 并且过滤掉了我们要过滤的 Bean
 		// 下面是没有经过 InstantiationAwareBeanPostProcessor 处理的正常创建的 bean 的过程
 		try {
 			// 这里当然就是实例化Bean对象的逻辑喽
@@ -613,6 +616,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			// Spring Bean 生命周期 「Spring Bean 属性赋值前阶段」
 			// 这里就是属性填充，依赖注入就是在这里进行的
 			populateBean(beanName, mbd, instanceWrapper);
+
 			// Spring Bean 生命周期 「Spring Bean 初始化阶段」
 			// 各种 ***Aware 接口的回调在这里做回调操作
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
@@ -1817,8 +1821,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			//2、执行 BeanPostProcessorsBeforeInitialization 回调
-			// Bean 初始化前处理
+			/**
+			 * 2、执行 {@link BeanPostProcessor#postProcessBeforeInitialization} 回调
+			 * Bean 初始化前处理
+			 * 注意: 这里也会处理添加了注解 {@link javax.annotation.PostConstruct} 的方法回调
+			 */
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1831,7 +1838,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			//4、执行 BeanPostProcessorsBeforeInitialization 回调
+			/**
+			 * 4、执行 {@link BeanPostProcessor#postProcessAfterInitialization} 回调
+			 * Bean 初始化前处理
+			 */
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
@@ -1890,6 +1900,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
+		// 回调执行配置在 @Bean 注解伤的 initMethod 方法，或者配置在xml文件的 init-method="init" 属性方法
 		if (mbd != null && bean.getClass() != NullBean.class) {
 			String initMethodName = mbd.getInitMethodName();
 			if (StringUtils.hasLength(initMethodName) &&
@@ -1944,18 +1955,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			try {
 				AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () ->
 						methodToInvoke.invoke(bean), getAccessControlContext());
-			}
-			catch (PrivilegedActionException pae) {
+			} catch (PrivilegedActionException pae) {
 				InvocationTargetException ex = (InvocationTargetException) pae.getException();
 				throw ex.getTargetException();
 			}
-		}
-		else {
+		} else {
 			try {
 				ReflectionUtils.makeAccessible(methodToInvoke);
 				methodToInvoke.invoke(bean);
-			}
-			catch (InvocationTargetException ex) {
+			} catch (InvocationTargetException ex) {
 				throw ex.getTargetException();
 			}
 		}

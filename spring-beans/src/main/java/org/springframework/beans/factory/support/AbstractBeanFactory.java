@@ -416,8 +416,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (beanInstance != null) {
 			if (beanInstance instanceof FactoryBean) {
 				return (BeanFactoryUtils.isFactoryDereference(name) || ((FactoryBean<?>) beanInstance).isSingleton());
-			}
-			else {
+			} else {
 				return !BeanFactoryUtils.isFactoryDereference(name);
 			}
 		}
@@ -439,12 +438,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 				FactoryBean<?> factoryBean = (FactoryBean<?>) getBean(FACTORY_BEAN_PREFIX + beanName);
 				return factoryBean.isSingleton();
-			}
-			else {
+			} else {
 				return !BeanFactoryUtils.isFactoryDereference(name);
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -668,8 +665,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (beanInstance != null && beanInstance.getClass() != NullBean.class) {
 			if (beanInstance instanceof FactoryBean && !BeanFactoryUtils.isFactoryDereference(name)) {
 				return getTypeForFactoryBean((FactoryBean<?>) beanInstance);
-			}
-			else {
+			} else {
 				return beanInstance.getClass();
 			}
 		}
@@ -701,12 +697,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			if (!BeanFactoryUtils.isFactoryDereference(name)) {
 				// If it's a FactoryBean, we want to look at what it creates, not at the factory class.
 				return getTypeForFactoryBean(beanName, mbd, allowFactoryBeanInit).resolve();
-			}
-			else {
+			} else {
 				return beanClass;
 			}
-		}
-		else {
+		} else {
 			return (!BeanFactoryUtils.isFactoryDereference(name) ? beanClass : null);
 		}
 	}
@@ -978,8 +972,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			if (logger.isDebugEnabled()) {
 				logger.debug("Replacing scope '" + scopeName + "' from [" + previous + "] to [" + scope + "]");
 			}
-		}
-		else {
+		} else {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Registering scope '" + scopeName + "' with implementation [" + scope + "]");
 			}
@@ -1037,8 +1030,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					otherAbstractFactory.hasDestructionAwareBeanPostProcessors;
 			this.scopes.putAll(otherAbstractFactory.scopes);
 			this.securityContextProvider = otherAbstractFactory.securityContextProvider;
-		}
-		else {
+		} else {
 			setTypeConverter(otherFactory.getTypeConverter());
 			String[] otherScopeNames = otherFactory.getRegisteredScopeNames();
 			for (String scopeName : otherScopeNames) {
@@ -1117,14 +1109,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object curVal = this.prototypesCurrentlyInCreation.get();
 		if (curVal == null) {
 			this.prototypesCurrentlyInCreation.set(beanName);
-		}
-		else if (curVal instanceof String) {
+		} else if (curVal instanceof String) {
 			Set<String> beanNameSet = new HashSet<>(2);
 			beanNameSet.add((String) curVal);
 			beanNameSet.add(beanName);
 			this.prototypesCurrentlyInCreation.set(beanNameSet);
-		}
-		else {
+		} else {
 			Set<String> beanNameSet = (Set<String>) curVal;
 			beanNameSet.add(beanName);
 		}
@@ -1141,8 +1131,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object curVal = this.prototypesCurrentlyInCreation.get();
 		if (curVal instanceof String) {
 			this.prototypesCurrentlyInCreation.remove();
-		}
-		else if (curVal instanceof Set) {
+		} else if (curVal instanceof Set) {
 			Set<String> beanNameSet = (Set<String>) curVal;
 			beanNameSet.remove(beanName);
 			if (beanNameSet.isEmpty()) {
@@ -1244,8 +1233,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			for (PropertyEditorRegistrar registrar : this.propertyEditorRegistrars) {
 				try {
 					registrar.registerCustomEditors(registry);
-				}
-				catch (BeanCreationException ex) {
+				} catch (BeanCreationException ex) {
 					Throwable rootCause = ex.getMostSpecificCause();
 					if (rootCause instanceof BeanCurrentlyInCreationException) {
 						BeanCreationException bce = (BeanCreationException) rootCause;
@@ -1482,19 +1470,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 具体的 beandefinition 解析
 				return AccessController.doPrivileged((PrivilegedExceptionAction<Class<?>>) () ->
 					doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
-			}
-			else {
+			} else {
 				return doResolveBeanClass(mbd, typesToMatch);
 			}
-		}
-		catch (PrivilegedActionException pae) {
+		} catch (PrivilegedActionException pae) {
 			ClassNotFoundException ex = (ClassNotFoundException) pae.getException();
 			throw new CannotLoadBeanClassException(mbd.getResourceDescription(), beanName, mbd.getBeanClassName(), ex);
-		}
-		catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException ex) {
 			throw new CannotLoadBeanClassException(mbd.getResourceDescription(), beanName, mbd.getBeanClassName(), ex);
-		}
-		catch (LinkageError err) {
+		} catch (LinkageError err) {
 			throw new CannotLoadBeanClassException(mbd.getResourceDescription(), beanName, mbd.getBeanClassName(), err);
 		}
 	}
@@ -1768,8 +1752,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (!this.alreadyCreated.contains(beanName)) {
 			removeSingleton(beanName);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -1820,8 +1803,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object object = null;
 		if (mbd != null) {
 			mbd.isFactoryBean = true;
-		}
-		else {
+		} else {
 			object = getCachedObjectForFactoryBean(beanName);
 		}
 		if (object == null) {
@@ -1884,8 +1866,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// DisposableBean interface, custom destroy method.
 				registerDisposableBean(beanName,
 						new DisposableBeanAdapter(bean, beanName, mbd, getBeanPostProcessors(), acc));
-			}
-			else {
+			} else {
 				// A bean with a custom scope...
 				Scope scope = this.scopes.get(mbd.getScope());
 				if (scope == null) {

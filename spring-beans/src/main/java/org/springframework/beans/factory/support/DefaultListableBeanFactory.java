@@ -888,6 +888,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						}
 					}
 				} else {
+					// 普通的 bean 依赖查找过程
 					getBean(beanName);
 				}
 			}

@@ -93,11 +93,13 @@ final class PostProcessorRegistrationDelegate {
 			 * 的回调方法
 			 **/
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
+			// 这里的对象其实如果没有额外添加的话，只有 org.springframework.context.annotation.internalConfigurationAnnotationProcessor 一个
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				// 判断是否实现了 PriorityOrdered 接口
 				if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+					// 这里的依赖查找，实际上就会完整的执行一便 spring Bean 生命周期过程
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
 					processedBeans.add(ppName);
 				}

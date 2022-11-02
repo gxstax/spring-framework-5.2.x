@@ -75,6 +75,10 @@ import org.springframework.util.ReflectionUtils;
  * @since 2.5
  * @see #setInitAnnotationType
  * @see #setDestroyAnnotationType
+ * 初始化已经销毁注解后置处理器（处理初始化已经销毁方法的回调）
+ * 它可以处理的注解大概有以下几种（需要有 JSR-250 的支持）:
+ * {@link javax.annotation.PostConstruct} java 注解
+ * {@link javax.annotation.PreDestroy}    java 注解
  */
 @SuppressWarnings("serial")
 public class InitDestroyAnnotationBeanPostProcessor
@@ -159,15 +163,14 @@ public class InitDestroyAnnotationBeanPostProcessor
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
+		// 该步骤是解析出 bean 定义了 初始化方法的地方，然后放到 LifecycleMetadata 对象中
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
 			// 执行 @PostConstruct 方法回调
 			metadata.invokeInitMethods(bean, beanName);
-		}
-		catch (InvocationTargetException ex) {
+		} catch (InvocationTargetException ex) {
 			throw new BeanCreationException(beanName, "Invocation of init method failed", ex.getTargetException());
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			throw new BeanCreationException(beanName, "Failed to invoke init method", ex);
 		}
 		return bean;
@@ -181,21 +184,20 @@ public class InitDestroyAnnotationBeanPostProcessor
 	/** 执行生命周期元注解 一般情况下（没有自定义注解）是{@link javax.annotation.PreDestroy} 标注的方法**/
 	@Override
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
+
+		// 该步骤是解析出 bean 定义了 销毁方法的地方，然后放到 LifecycleMetadata 对象中
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());
 		try {
 			// 销毁方法回调
 			metadata.invokeDestroyMethods(bean, beanName);
-		}
-		catch (InvocationTargetException ex) {
+		} catch (InvocationTargetException ex) {
 			String msg = "Destroy method on bean with name '" + beanName + "' threw an exception";
 			if (logger.isDebugEnabled()) {
 				logger.warn(msg, ex.getTargetException());
-			}
-			else {
+			} else {
 				logger.warn(msg + ": " + ex.getTargetException());
 			}
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			logger.warn("Failed to invoke destroy method on bean with name '" + beanName + "'", ex);
 		}
 	}
@@ -337,6 +339,15 @@ public class InitDestroyAnnotationBeanPostProcessor
 			this.checkedDestroyMethods = checkedDestroyMethods;
 		}
 
+		/**
+		 * <p>
+		 * 执行初始化方法
+		 * </p>
+		 *
+		 * @param target
+		 * @param beanName
+		 * @return void
+		 */
 		public void invokeInitMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedInitMethods = this.checkedInitMethods;
 			Collection<LifecycleElement> initMethodsToIterate =

@@ -2,6 +2,7 @@ package com.ant.bean.lifecycle;
 
 
 import com.ant.bean.lifecycle.bean.LifecycleBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
@@ -14,6 +15,9 @@ import org.springframework.context.annotation.Bean;
  * @since 2022/11/01 4:51 下午
  **/
 public class BeanLifecycleAnnotationDemo {
+
+	@Autowired
+	private LifecycleBean depBean;
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
