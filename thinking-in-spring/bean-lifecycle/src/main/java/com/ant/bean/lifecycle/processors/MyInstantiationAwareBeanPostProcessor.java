@@ -1,5 +1,6 @@
-package com.ant.bean.lifecycle;
+package com.ant.bean.lifecycle.processors;
 
+import com.ant.bean.lifecycle.UserHolder;
 import com.ant.spring.ioc.overview.domain.SuperUser;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.BeansException;

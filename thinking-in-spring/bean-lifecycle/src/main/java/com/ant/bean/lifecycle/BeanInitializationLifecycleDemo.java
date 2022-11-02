@@ -1,10 +1,10 @@
 package com.ant.bean.lifecycle;
 
+import com.ant.bean.lifecycle.processors.MyInstantiationAwareBeanPostProcessor;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * <p>

@@ -2,7 +2,6 @@ package com.ant.questions;
 
 import com.ant.questions.referenceclass.ClassRoom;
 import com.ant.questions.referenceclass.Student;
-import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 

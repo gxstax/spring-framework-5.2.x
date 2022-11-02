@@ -117,7 +117,8 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @since 5.1
 	 * @see #postProcessPropertyValues
-	 * 从spring 5.1版本新加的方法，原来的方法就是下面的 postProcessPropertyValues 方法，官方已经不推荐使用了
+	 * 从spring 5.1版本新加的方法，原来的方法就是下面的 postProcessPropertyValues 方法，只不过
+	 * 	@see #postProcessPropertyValues 官方已经不推荐使用了
 	 */
 	@Nullable
 	default PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)

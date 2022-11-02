@@ -1,5 +1,6 @@
-package com.ant.bean.lifecycle;
+package com.ant.bean.lifecycle.processors;
 
+import com.ant.bean.lifecycle.UserHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.util.ObjectUtils;
