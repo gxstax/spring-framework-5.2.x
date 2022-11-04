@@ -121,14 +121,18 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
+		/** 这里处理 {@link Configuration} 注解的 full/lite 模式
+		 * 当 @Configuration(proxyBeanMethods = true) 的proxyBeanMethods 配置为 true 时为 full 模式
+		 * 该模式下注入容器中的同一个组件无论被取出多少次都是同一个bean实例，即单实例对象；
+		 * 当 @Configuration(proxyBeanMethods = false) 的 proxyBeanMethods 配置为 false 时为lite 模式
+		 * 该模式下注入容器中的同一个组件无论被取出多少次都是不同的bean实例，即多实例对象
+		 */
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
-		}
-		else if (config != null || isConfigurationCandidate(metadata)) {
+		} else if (config != null || isConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
-		}
-		else {
+		} else {
 			return false;
 		}
 

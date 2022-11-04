@@ -107,6 +107,7 @@ class ConditionEvaluator {
 		AnnotationAwareOrderComparator.sort(conditions);
 
 		// 判断是否符合所有的 Conditional 的 match 条件
+		// 这种特性在spring-boot的条件注入场景中用到的特别多
 		for (Condition condition : conditions) {
 			ConfigurationPhase requiredPhase = null;
 			if (condition instanceof ConfigurationCondition) {

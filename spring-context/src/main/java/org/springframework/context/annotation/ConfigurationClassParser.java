@@ -310,6 +310,7 @@ class ConfigurationClassParser {
 			}
 		}
 
+		/** 配置类中的 {@link Import} 注解信息*/
 		// Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), filter, true);
 

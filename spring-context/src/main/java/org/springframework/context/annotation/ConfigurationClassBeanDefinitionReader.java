@@ -145,7 +145,10 @@ class ConfigurationClassBeanDefinitionReader {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
+		/** 处理配置类的 {@see ImportResource} 注解*/
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
+
+		/** 处理配置类导入的继承 {@see ImportBeanDefinitionRegistrar} 的类*/
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
 	}
 
@@ -176,7 +179,7 @@ class ConfigurationClassBeanDefinitionReader {
 	 * with the BeanDefinitionRegistry based on its contents.
 	 *
 	 * 这个方法就是把 BeanMethod 解析注册成一个 BeanDefinition
-	 * （BeanMethod 来源之一就有 @Bean 标注的方法，它在 parser 那里会被解析放入到 {@link ConfigurationClassParser#configurationClasses} 中）
+	 * （BeanMethod 来源之一就有 @Bean 标注的方法，它在 parser 那里会被解析放入到 {@link ConfigurationClassParser.configurationClasses} 中）
 	 */
 	@SuppressWarnings("deprecation")  // for RequiredAnnotationBeanPostProcessor.SKIP_REQUIRED_CHECK_ATTRIBUTE
 	private void loadBeanDefinitionsForBeanMethod(BeanMethod beanMethod) {
@@ -260,11 +263,17 @@ class ConfigurationClassBeanDefinitionReader {
 			beanDef.setAutowireCandidate(false);
 		}
 
+		/** 设置 initMethod 方法（在「Spring Bean 初始化阶段」回调）
+		 * {@see AbstractAutowireCapableBeanFactory#invokeInitMethods()}
+		 * */
 		String initMethodName = bean.getString("initMethod");
 		if (StringUtils.hasText(initMethodName)) {
 			beanDef.setInitMethodName(initMethodName);
 		}
 
+		/** 设置 destroyMethod 方法（在「Spring Bean 销毁阶段」回调）
+		 * {@see DisposableBeanAdapter#invokeCustomDestroyMethod()}
+		 * */
 		String destroyMethodName = bean.getString("destroyMethod");
 		beanDef.setDestroyMethodName(destroyMethodName);
 
@@ -293,6 +302,7 @@ class ConfigurationClassBeanDefinitionReader {
 			logger.trace(String.format("Registering bean definition for @Bean method %s.%s()",
 					configClass.getMetadata().getClassName(), beanName));
 		}
+		// beanDefinition 放入到容器
 		this.registry.registerBeanDefinition(beanName, beanDefToRegister);
 	}
 

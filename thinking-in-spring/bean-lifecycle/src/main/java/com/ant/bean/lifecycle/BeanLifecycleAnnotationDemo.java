@@ -4,6 +4,8 @@ package com.ant.bean.lifecycle;
 import com.ant.bean.lifecycle.bean.LifecycleBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * <p>
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Bean;
  * @author Ant
  * @since 2022/11/01 4:51 下午
  **/
+@Configuration(proxyBeanMethods = true)
 public class BeanLifecycleAnnotationDemo {
 
 	public static void main(String[] args) throws InterruptedException {

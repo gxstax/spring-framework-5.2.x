@@ -326,6 +326,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 当 merge 后的 Bean 是单例的（单例 Bean 的依赖查找）
 				// Create bean instance.
 				if (mbd.isSingleton()) {
+					// getSingleton() 方法会把初始化后的 bean 放入到 singletonObjects 对象中
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							// 创建 Bean
