@@ -38,10 +38,10 @@
 ### 第七章: Spring IOC 依赖来源
 ### 第八章: Spring Bean 作用域
 ### 第九章: Spring Bean 生命周期
-``` 
-  配套代码目录  |—thinking-in-spring
-              |—————— bean-lifecycle
-  ```
+
+<details>
+<summary>完整生命周期</summary>
+
 1.  Spring Bean 元信息配置阶段
 2.  Spring Bean 元信息解析阶段
 3.  Spring Bean 注册阶段
@@ -59,6 +59,14 @@
 15. Spring Bean 销毁前阶段
 16. Spring Bean 销毁阶段
 17. Spring Bean 垃圾收集
+
+</details>
+
+``` 
+  配套代码目录  |—thinking-in-spring
+              |—————— bean-lifecycle
+  ```
+
 
   
 ### 第十章: Spring 配置元信息

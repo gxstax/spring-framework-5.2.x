@@ -106,7 +106,9 @@ final class PostProcessorRegistrationDelegate {
 			}
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
-			// 配置类的回调解析这里如果我们的配置类信息有 @Bean注解，就会处理为 BeanDefinition
+			/** 配置类的回调解析这里如果我们的配置类信息有 @Bean注解，就会处理为 BeanDefinition
+			 *  SpringBoot 的各种 {@link org.springframework.context.annotation.Condition} 派生的条件注解也是在这里解析
+			 */
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 			currentRegistryProcessors.clear();
 
