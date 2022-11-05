@@ -256,6 +256,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		 * spring 在进行依赖查找到的时候首先是先从 singletonObjects 集合中去查找（能取到说明是已经缓存起来的单例 Bean ）
 		 * 而不是直接去 beanDefinitionMap 集合中查找，因为如果从 beanDefinitionMap 集合中去查找，
 		 * spring 还需要进行一系列操作把 beanDefinition 变为 bean，并且可以被 spring 进行生命周期管理
+		 *
+		 * 这里可以解释一下，如果是相同Bean名称的两个 Bean，第二个根本就不会进去 Spring Bean的生命周期而直接在这里返回了
+		 * 所以相同名称的 Bean 初始化的永远是第一个，根据Bean名称进行依赖查找的时候只会拿到最先初始化的 Bean
 		 */
 		// Eagerly check singleton cache for manually registered singletons.
 		Object sharedInstance = getSingleton(beanName);
