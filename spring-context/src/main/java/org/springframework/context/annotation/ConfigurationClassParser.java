@@ -172,18 +172,14 @@ class ConfigurationClassParser {
 			try {
 				if (bd instanceof AnnotatedBeanDefinition) {
 					parse(((AnnotatedBeanDefinition) bd).getMetadata(), holder.getBeanName());
-				}
-				else if (bd instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) bd).hasBeanClass()) {
+				} else if (bd instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) bd).hasBeanClass()) {
 					parse(((AbstractBeanDefinition) bd).getBeanClass(), holder.getBeanName());
-				}
-				else {
+				} else {
 					parse(bd.getBeanClassName(), holder.getBeanName());
 				}
-			}
-			catch (BeanDefinitionStoreException ex) {
+			} catch (BeanDefinitionStoreException ex) {
 				throw ex;
-			}
-			catch (Throwable ex) {
+			} catch (Throwable ex) {
 				throw new BeanDefinitionStoreException(
 						"Failed to parse configuration class [" + bd.getBeanClassName() + "]", ex);
 			}
@@ -234,8 +230,7 @@ class ConfigurationClassParser {
 				}
 				// Otherwise ignore new imported config class; existing non-imported class overrides it.
 				return;
-			}
-			else {
+			} else {
 				// Explicit bean definition found, probably replacing an import.
 				// Let's remove the old one and go with the new one.
 				this.configurationClasses.remove(configClass);
@@ -273,14 +268,14 @@ class ConfigurationClassParser {
 			processMemberClasses(configClass, sourceClass, filter);
 		}
 
+		// 处理 {@PropertySource} 注解
 		// Process any @PropertySource annotations
 		for (AnnotationAttributes propertySource : AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), PropertySources.class,
 				org.springframework.context.annotation.PropertySource.class)) {
 			if (this.environment instanceof ConfigurableEnvironment) {
 				processPropertySource(propertySource);
-			}
-			else {
+			} else {
 				logger.info("Ignoring @PropertySource annotation on [" + sourceClass.getMetadata().getClassName() +
 						"]. Reason: Environment must implement ConfigurableEnvironment");
 			}
@@ -462,10 +457,12 @@ class ConfigurationClassParser {
 		PropertySourceFactory factory = (factoryClass == PropertySourceFactory.class ?
 				DEFAULT_PROPERTY_SOURCE_FACTORY : BeanUtils.instantiateClass(factoryClass));
 
+		// 这里是处理本地的配置(我们使用 @PropertySource("classpath:*.properties")) 注入进来的配置就是在这里解析
 		for (String location : locations) {
 			try {
 				String resolvedLocation = this.environment.resolveRequiredPlaceholders(location);
 				Resource resource = this.resourceLoader.getResource(resolvedLocation);
+				// 这一步就是把解析的配置信息放入到 environment 环境变量里面（这里注意 environment 是归属于上层容器：ApplicationContext的）
 				addPropertySource(factory.createPropertySource(name, new EncodedResource(resource, encoding)));
 			}
 			catch (IllegalArgumentException | FileNotFoundException | UnknownHostException ex) {
@@ -484,6 +481,8 @@ class ConfigurationClassParser {
 
 	private void addPropertySource(PropertySource<?> propertySource) {
 		String name = propertySource.getName();
+		// 拿到容器的 environment，把解析的数据放入进去
+		// （这里注意 environment 是归属于上层容器：ApplicationContext的）而不是底层容器 DefaultListableBeanFactory
 		MutablePropertySources propertySources = ((ConfigurableEnvironment) this.environment).getPropertySources();
 
 		if (this.propertySourceNames.contains(name)) {
@@ -510,8 +509,7 @@ class ConfigurationClassParser {
 
 		if (this.propertySourceNames.isEmpty()) {
 			propertySources.addLast(propertySource);
-		}
-		else {
+		} else {
 			String firstProcessed = this.propertySourceNames.get(this.propertySourceNames.size() - 1);
 			propertySources.addBefore(firstProcessed, propertySource);
 		}
@@ -566,8 +564,7 @@ class ConfigurationClassParser {
 
 		if (checkForCircularImports && isChainedImportOnStack(configClass)) {
 			this.problemReporter.error(new CircularImportProblem(configClass, this.importStack));
-		}
-		else {
+		} else {
 			this.importStack.push(configClass);
 			try {
 				for (SourceClass candidate : importCandidates) {
@@ -582,14 +579,13 @@ class ConfigurationClassParser {
 						}
 						if (selector instanceof DeferredImportSelector) {
 							this.deferredImportSelectorHandler.handle(configClass, (DeferredImportSelector) selector);
-						}
-						else {
+						} else {
 							String[] importClassNames = selector.selectImports(currentSourceClass.getMetadata());
 							Collection<SourceClass> importSourceClasses = asSourceClasses(importClassNames, exclusionFilter);
+							// 递归调用
 							processImports(configClass, currentSourceClass, importSourceClasses, exclusionFilter, false);
 						}
-					}
-					else if (candidate.isAssignable(ImportBeanDefinitionRegistrar.class)) {
+					} else if (candidate.isAssignable(ImportBeanDefinitionRegistrar.class)) {
 						// Candidate class is an ImportBeanDefinitionRegistrar ->
 						// delegate to it to register additional bean definitions
 						Class<?> candidateClass = candidate.loadClass();
@@ -597,8 +593,7 @@ class ConfigurationClassParser {
 								ParserStrategyUtils.instantiateClass(candidateClass, ImportBeanDefinitionRegistrar.class,
 										this.environment, this.resourceLoader, this.registry);
 						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata());
-					}
-					else {
+					} else {
 						// Candidate class not an ImportSelector or ImportBeanDefinitionRegistrar ->
 						// process it as an @Configuration class
 						this.importStack.registerImport(
@@ -606,16 +601,13 @@ class ConfigurationClassParser {
 						processConfigurationClass(candidate.asConfigClass(configClass), exclusionFilter);
 					}
 				}
-			}
-			catch (BeanDefinitionStoreException ex) {
+			} catch (BeanDefinitionStoreException ex) {
 				throw ex;
-			}
-			catch (Throwable ex) {
+			} catch (Throwable ex) {
 				throw new BeanDefinitionStoreException(
 						"Failed to process import candidates for configuration class [" +
 						configClass.getMetadata().getClassName() + "]", ex);
-			}
-			finally {
+			} finally {
 				this.importStack.pop();
 			}
 		}
@@ -769,8 +761,7 @@ class ConfigurationClassParser {
 				DeferredImportSelectorGroupingHandler handler = new DeferredImportSelectorGroupingHandler();
 				handler.register(holder);
 				handler.processGroupImports();
-			}
-			else {
+			} else {
 				this.deferredImportSelectors.add(holder);
 			}
 		}

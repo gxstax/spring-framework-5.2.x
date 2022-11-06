@@ -140,7 +140,7 @@ class ConfigurationClassBeanDefinitionReader {
 		if (configClass.isImported()) {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
-		// 这里它会把我们加了 @Bean 的方法解析为 Beandefinition 从而变成和 @Component 等注解标注的类一样
+		// 这里它会把我们加了 @Bean 的方法解析为 BeanDefinition 从而变成和 @Component 等注解标注的类一样
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
@@ -225,7 +225,7 @@ class ConfigurationClassBeanDefinitionReader {
 		// 如果 @Bean 标注的是否是一个静态方法
 		if (metadata.isStatic()) {
 			// static @Bean method
-			// 如果是静态方法，那么 spring 就直接用 Configuration Class 的静态方法构建 Bean （不依赖 Coonfiguration 的实例化）
+			// 如果是静态方法，那么 spring 就直接用 Configuration Class 的静态方法构建 Bean （不依赖 Configuration类 的实例化）
 			// 所以 如果 @Bean 标注的是一个静态方法，那么可以在 Configuration Class 实例化前实例化
 			if (configClass.getMetadata() instanceof StandardAnnotationMetadata) {
 				beanDef.setBeanClass(((StandardAnnotationMetadata) configClass.getMetadata()).getIntrospectedClass());

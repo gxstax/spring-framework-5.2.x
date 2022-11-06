@@ -1,11 +1,11 @@
 package com.ant.bean.lifecycle;
 
 
+import com.ant.bean.lifecycle.bean.EmptyBean;
 import com.ant.bean.lifecycle.bean.LifecycleBean;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.context.annotation.*;
 
 /**
  * <p>
@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2022/11/01 4:51 下午
  **/
 @Configuration(proxyBeanMethods = true)
+@PropertySource("classpath:META-INF/customer.properties")
 public class BeanLifecycleAnnotationDemo {
 
 	public static void main(String[] args) throws InterruptedException {

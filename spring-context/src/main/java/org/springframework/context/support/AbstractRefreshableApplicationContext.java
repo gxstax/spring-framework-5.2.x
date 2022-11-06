@@ -140,8 +140,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 				// 6. 关联新建的 BeanFactory 到 Spring 应用上下文
 				this.beanFactory = beanFactory;
 			}
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
 		}
 	}
