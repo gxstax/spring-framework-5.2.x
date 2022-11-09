@@ -28,7 +28,6 @@ public class AspectJAnnotationUsingAPIDemo {
 
 		// 创建 Proxy 工厂（Aspect）
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache);
-
 		// 增加 Aspect 配置类
 		proxyFactory.addAspect(AspectConfiguration.class);
 

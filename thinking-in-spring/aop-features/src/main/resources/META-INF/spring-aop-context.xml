@@ -26,7 +26,7 @@
 		</aop:aspect>
 	</aop:config>
 
-	<bean id="echoService" class="com.ant.aop.overview.DefaultEchoService"/>
+	<bean id="echoService" class="com.ant.aop.overview.proxy.DefaultEchoService"/>
 
 	<bean id="echoServiceMethodInterceptor" class="com.ant.aop.features.interceptor.EchoServiceMethodInterceptor"></bean>
 

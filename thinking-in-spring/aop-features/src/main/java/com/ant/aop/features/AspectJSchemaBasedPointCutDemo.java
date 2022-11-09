@@ -1,11 +1,7 @@
 package com.ant.aop.features;
 
-import com.ant.aop.overview.EchoService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import com.ant.aop.overview.proxy.EchoService;
 
-import com.ant.aop.features.aspect.AspectConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

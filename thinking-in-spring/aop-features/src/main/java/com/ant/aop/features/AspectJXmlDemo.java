@@ -13,15 +13,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Ant
  * @since 2021/1/1 4:10 下午
  */
-@Aspect
-@Configuration
+//@Aspect
+//@Configuration
 public class AspectJXmlDemo {
 
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context =
 				new ClassPathXmlApplicationContext("META-INF/spring-aop-context.xml");
 
-//		AspectJXmlDemo aspectJAnnotationDemo = context.getBean(AspectJXmlDemo.class);
+		AspectJXmlDemo aspectJAnnotationDemo = context.getBean(AspectJXmlDemo.class);
 
 		// 关闭 Spring 容器
 		context.close();

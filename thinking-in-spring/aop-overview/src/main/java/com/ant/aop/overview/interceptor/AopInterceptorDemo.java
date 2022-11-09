@@ -1,8 +1,8 @@
 package com.ant.aop.overview.interceptor;
 
-import com.ant.aop.overview.DefaultEchoService;
-import com.ant.aop.overview.EchoService;
-import com.ant.aop.overview.ProxyEchoService;
+import com.ant.aop.overview.proxy.DefaultEchoService;
+import com.ant.aop.overview.proxy.EchoService;
+import com.ant.aop.overview.proxy.ProxyEchoService;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

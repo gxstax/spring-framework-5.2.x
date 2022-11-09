@@ -51,6 +51,7 @@ public interface MethodInterceptor extends Interceptor {
 	 * might be intercepted by the interceptor
 	 * @throws Throwable if the interceptors or the target object
 	 * throws an exception
+	 * springAOP 仅支持方法级别的实现
 	 */
 	Object invoke(MethodInvocation invocation) throws Throwable;
 

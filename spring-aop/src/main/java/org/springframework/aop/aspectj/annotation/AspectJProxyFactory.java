@@ -65,6 +65,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 * Create a new AspectJProxyFactory.
 	 * <p>Will proxy all interfaces that the given target implements.
 	 * @param target the target object to be proxied
+	 * AspectJ代理工厂
 	 */
 	public AspectJProxyFactory(Object target) {
 		Assert.notNull(target, "Target object must not be null");

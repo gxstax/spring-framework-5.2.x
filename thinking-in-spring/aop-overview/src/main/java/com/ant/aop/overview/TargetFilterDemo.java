@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public class TargetFilterDemo {
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		String targetClassName = "com.ant.aop.overview.EchoService";
+		String targetClassName = "com.ant.aop.overview.proxy.EchoService";
 		// 获取目标类
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Class<?> targetClass = classLoader.loadClass(targetClassName);
@@ -24,23 +24,18 @@ public class TargetFilterDemo {
 		System.out.println(targetMethod);
 
 		// 查找 throws 类型为 NullPointerException 的方法
-		ReflectionUtils.doWithMethods(targetClass, new ReflectionUtils.MethodCallback() {
-			@Override
-			public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
-				System.out.println("仅抛出 NullPointerException 的方法为：" + method);
-			}
-		}, new ReflectionUtils.MethodFilter() {
-			@Override
-			public boolean matches(Method method) {
-				Class<?>[] parameterTypes = method.getParameterTypes();
-				Class<?>[] exceptionTypes = method.getExceptionTypes();
+		ReflectionUtils.doWithMethods(targetClass,
+				methodCallback ->
+						System.out.println("仅抛出 NullPointerException 的方法为：" + methodCallback),
+				methodFilter -> {
+					Class<?>[] parameterTypes = methodFilter.getParameterTypes();
+					Class<?>[] exceptionTypes = methodFilter.getExceptionTypes();
 
-				return parameterTypes.length == 1
-						&& parameterTypes[0].equals(String.class)
-						&& exceptionTypes.length == 1
-						&& exceptionTypes[0].equals(NullPointerException.class);
-			}
-		});
+					return parameterTypes.length == 1
+							&& parameterTypes[0].equals(String.class)
+							&& exceptionTypes.length == 1
+							&& exceptionTypes[0].equals(NullPointerException.class);
+				});
 	}
 
 }

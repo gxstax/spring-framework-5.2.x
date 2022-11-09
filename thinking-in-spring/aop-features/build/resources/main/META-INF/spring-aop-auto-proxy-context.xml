@@ -10,7 +10,7 @@
 	   http://www.springframework.org/schema/context
        http://www.springframework.org/schema/beans/spring-context.xsd">
 
-	<bean id="echoService" class="com.ant.aop.overview.DefaultEchoService"/>
+	<bean id="echoService" class="com.ant.aop.overview.proxy.DefaultEchoService"/>
 
 	<bean id="echoServiceMethodInterceptor" class="com.ant.aop.features.interceptor.EchoServiceMethodInterceptor"></bean>
 
@@ -28,7 +28,7 @@
 	<!-- Pointcut Bean -->
 	<bean id="echoServicePointCut" class="com.ant.aop.features.pointcut.EchoServicePointCut">
 		<constructor-arg index="0" value="echo"></constructor-arg>
-		<constructor-arg index="1" value="com.ant.aop.overview.DefaultEchoService"></constructor-arg>
+		<constructor-arg index="1" value="com.ant.aop.overview.proxy.DefaultEchoService"></constructor-arg>
 	</bean>
 
 	<!-- PointcutAdvisor Bean -->

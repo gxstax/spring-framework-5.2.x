@@ -1,11 +1,9 @@
 package com.ant.aop.features;
 
 import com.ant.aop.features.interceptor.EchoServiceMethodInterceptor;
-import com.ant.aop.overview.DefaultEchoService;
-import com.ant.aop.overview.EchoService;
+import com.ant.aop.overview.proxy.DefaultEchoService;
+import com.ant.aop.overview.proxy.EchoService;
 import org.springframework.aop.framework.ProxyFactory;
-
-import java.lang.reflect.Proxy;
 
 /**
  * <p>

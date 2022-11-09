@@ -15,7 +15,7 @@ import java.util.Random;
 
 /**
  * <p>
- * Aspect 配置
+ * Aspect 配置类
  * </p>
  *
  * @author Ant

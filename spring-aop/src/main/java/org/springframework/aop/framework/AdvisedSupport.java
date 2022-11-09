@@ -57,6 +57,7 @@ import org.springframework.util.CollectionUtils;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see org.springframework.aop.framework.AopProxy
+ * AOP代理实现的基类
  */
 public class AdvisedSupport extends ProxyConfig implements Advised {
 

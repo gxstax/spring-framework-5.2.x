@@ -2,7 +2,7 @@ package com.ant.aop.features;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.ant.aop.overview.EchoService;
+import com.ant.aop.overview.proxy.EchoService;
 
 /**
  * <p>

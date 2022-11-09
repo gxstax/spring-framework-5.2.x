@@ -1,6 +1,6 @@
 package com.ant.aop.features.pointcut;
 
-import com.ant.aop.overview.EchoService;
+import com.ant.aop.overview.proxy.EchoService;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
