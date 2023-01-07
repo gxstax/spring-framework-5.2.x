@@ -27,5 +27,7 @@ import org.aopalliance.aop.Advice;
  * @see BeforeAdvice
  */
 public interface AfterAdvice extends Advice {
-
+	/*
+	 * AOP After Advice API实现
+	 */
 }

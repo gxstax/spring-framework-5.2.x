@@ -14,6 +14,7 @@
 
 	<bean id="echoServiceMethodInterceptor" class="com.ant.aop.features.interceptor.EchoServiceMethodInterceptor"></bean>
 
+<!--	BeanNameAutoProxyCreator 这种方式需要我们手动指定拦截器，不便于扩展-->
 <!--	<bean id="beanNameAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">-->
 <!--		<property name="beanNames" value="echo*"></property>-->
 <!--		<property name="interceptorNames">-->

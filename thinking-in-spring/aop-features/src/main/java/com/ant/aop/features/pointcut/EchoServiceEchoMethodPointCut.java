@@ -29,6 +29,7 @@ public class EchoServiceEchoMethodPointCut implements Pointcut {
 		return new ClassFilter() {
 			@Override
 			public boolean matches(Class<?> clazz) {
+				// 凡是 EchoService 接口或者子类均可
 				return EchoService.class.isAssignableFrom(clazz);
 			}
 		};

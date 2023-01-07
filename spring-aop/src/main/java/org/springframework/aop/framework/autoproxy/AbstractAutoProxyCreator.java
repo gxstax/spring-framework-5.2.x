@@ -92,6 +92,10 @@ import org.springframework.util.StringUtils;
 @SuppressWarnings("serial")
 public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		implements SmartInstantiationAwareBeanPostProcessor, BeanFactoryAware {
+	/*
+	 * 该类继承了 SmartInstantiationAwareBeanPostProcessor接口，
+	 * 所以在自动代理过程中可以在Bean的生命周期回调过程中做一些特殊的处理
+	 */
 
 	/**
 	 * Convenience constant for subclasses: Return value for "do not proxy".
