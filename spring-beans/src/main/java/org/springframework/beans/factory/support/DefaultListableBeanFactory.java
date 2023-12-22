@@ -491,6 +491,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return getBeanNamesForType(type, true, true);
 	}
 
+	/**
+	 * <p>
+	 * 根据类型查找扫描出来的beanName
+	 * </p>
+	 *
+	 * @param type
+	 * @param includeNonSingletons
+	 * @param allowEagerInit
+	 * @return java.lang.String[]
+	 */
 	@Override
 	public String[] getBeanNamesForType(@Nullable Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
 		if (!isConfigurationFrozen() || type == null || !allowEagerInit) {

@@ -206,6 +206,17 @@ final class PostProcessorRegistrationDelegate {
 		beanFactory.clearMetadataCache();
 	}
 
+	/**
+	 * <p>
+	 * 注册各种 BeanPostProcessor
+	 * 有了这些 BeanPostProcessors 在Bean的声明周期调用的时候，这些BeanPostProcessors才会起作用
+	 * 比如 {@link org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor}
+	 * 就会在处理 {@link org.springframework.beans.factory.annotation.Autowired} 注解，然后才会处理我们代码的中自动依赖
+	 * </p>
+	 *
+	 * @param beanFactory
+	 * @param applicationContext
+	 */
 	public static void registerBeanPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
 

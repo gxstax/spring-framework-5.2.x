@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 // 第二步：通过 @Import 注解导入具体实现
 //@Import(HelloWorldConfiguration.class) // 方法一：通过 Configure Class 实现
 //@Import(HelloWorldImportSelector.class)  // 方法二：通过 ImportSelector 实现
-@Import(HelloWorldImportRegistrar.class)  // 方法二：通过 ImportBeanDefinitionRegistrar 实现
+@Import(HelloWorldImportRegistrar.class)  // 方法三：通过 ImportBeanDefinitionRegistrar 实现
 public @interface EnableHelloWorld { // 第一步：通过EnableXXX 命名
 
 }

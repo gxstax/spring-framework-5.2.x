@@ -55,4 +55,9 @@ public class AnnotatedSpringIocContainerMetadataConfigurationDemo {
 		// 关闭 Spring 应用上下文
 		context.close();
 	}
+
+
+	public String test(String params) {
+		return "hello";
+	}
 }
