@@ -1,4 +1,4 @@
-```
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **目录**  
@@ -81,4 +81,3 @@
 ### 第十八章: Spring 注解（Annotations）
 ### 第十九章: Spring Environment抽象（Environment Abstract）
 ### 第二十章: Spring 应用上下文生命周期（Container Lifecycle）
-  ```
