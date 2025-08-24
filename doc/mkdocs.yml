@@ -1,0 +1,5 @@
+site_name: Spring核心编程思想文档
+site_url: https://gxstax.com
+theme:
+  name: material
+  custom_dir: chapters
