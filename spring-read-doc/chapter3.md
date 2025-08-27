@@ -115,6 +115,14 @@ protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 > 这也是 userRepository.getBeanFactory() == applicationContext 为false的原因；
 
 ## Spring 应用上下文
+ApplicationContext 是一个面向企业级应用的上下文环境，相比于BeanFactory，ApplicationContext提供了更加丰富的企业级应用特性；比如：
+* 面向切面(AOP)
+* 配置元信息（Configuration Metadata）
+* 资源管理（Resources）
+* 事件（Events）
+* 国际化（i18n）
+* 注解（Annotations）
+* Environment 抽象（Enviroment Abstraction）
 
 ## 使用 Spring IOC 容器
 
