@@ -125,5 +125,75 @@ ApplicationContext 是一个面向企业级应用的上下文环境，相比于B
 * Environment 抽象（Enviroment Abstraction）
 
 ## 使用 Spring IOC 容器
+* BeanFactory 是 Spring 的底层IOC容器
+> **这里可以直接去看下示例代码**
+> （thinking-in-java）-> (ioc-container-overview) ->
+> com.ant.spring.ioc.overview.container.BeanFactoryAsIocContainerDemo
+
+* ApplicationContext 是具备应用特性的 BeanFactory 超集
+> **这里可以直接去看下示例代码**
+> （thinking-in-java）-> (ioc-container-overview) ->
+> com.ant.spring.ioc.overview.container.AnnotationApplicationContextAsIocContainerDemo
 
 ## Spring IOC 容器生命周期
+* 启动
+* 运行
+* 停止
+这里，我主要列举一下，AbstractApplicationContext这个类的refresh()方法里的具体代码；
+```java
+public void refresh() throws BeansException, IllegalStateException {
+    synchronized (this.startupShutdownMonitor) {
+        // 1. Spring应用上下文启动准备阶段
+        // Prepare this context for refreshing.
+        prepareRefresh();
+
+        // 2. BeanFactory 创建阶段
+        // Tell the subclass to refresh the internal bean factory.
+        ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+
+        // 3. BeanFactory 准备阶段
+        // Prepare the bean factory for use in this context.
+        prepareBeanFactory(beanFactory);
+
+        try {
+            // 4.1 BeanFactory 后置处理阶段 1-1
+            // Allows post-processing of the bean factory in context subclasses.
+            postProcessBeanFactory(beanFactory);
+            // 4.2 BeanFactory 后置处理阶段 1-2（回调工厂后置处理器，往spring容器中注册bean）
+            // Invoke factory processors registered as beans in the context.
+            invokeBeanFactoryPostProcessors(beanFactory);
+
+            // 5. BeanFactory 注册 BeanPostProcessor
+            // Register bean processors that intercept bean creation.
+            registerBeanPostProcessors(beanFactory);
+
+            // 6. 初始化内建 Bean -> MessageSource
+            // Initialize message source for this context.
+            initMessageSource();
+
+            // 7. 初始化内建 Bean -> Spring 事件广播器 ApplicationEventMulticaster
+            // Initialize event multicaster for this context.
+            initApplicationEventMulticaster();
+
+            // 8. Spring 应用上下文刷新
+            // Initialize other special beans in specific context subclasses.
+            onRefresh();
+
+            // 9. Spring 事件监听器注册阶段
+            // Check for listener beans and register them.
+            registerListeners();
+
+            // 10. BeanFactory 初始化完成阶段
+            // 实例化所有剩余的单例，这里的剩余其实是指我们自己定义的bean(spring 内置的（比如说后置处理器、环境变量、系统配置参数）实际上也属于springBean）
+            // Instantiate all remaining (non-lazy-init) singletons.
+            finishBeanFactoryInitialization(beanFactory);
+
+            // 11. Spring 应用上下文刷新完成阶段
+            // Last step: publish corresponding event.
+            finishRefresh();
+        } catch (Exception e) {
+            // ....
+        }
+    }
+}
+```
