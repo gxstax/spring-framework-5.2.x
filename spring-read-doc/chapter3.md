@@ -75,6 +75,44 @@
     * 基于 Java 注解
 
 ## Spring IOC 容器
+**ApplicationContext 和 BeanFactory 谁才是spring容器**
+可以先看下这段代码，然后思考下为什么不成立
+```java
+// 初始化spring容器上下文环境
+ApplicationContext applicationContext
+        = new ClassPathXmlApplicationContext("META-INF/dependency-injection-context.xml");// ... 省略部分代码，可以去工程里看完整代码
+UserRepository userPository = (UserRepository) applicationContext.getBean("userRepository");
+
+
+public static void whoIsIocContainer(UserRepository userRepository, ApplicationContext applicationContext) {
+
+  // ConfigurableApplicationContext <- ApplicationContext <- BeanFactory
+  // 这个表达式为什么不成立
+  System.out.println(userRepository.getBeanFactory() == applicationContext);
+}
+```
+
+step2: 接下来看下spring的这部份源码
+```java
+protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+    // ...省略部分源码
+  
+    // 6. 注入 ResolvableDependency 对象（BeanFactory、ResourceLoader、ApplicationEventPublisher、ApplicationContext）
+    beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory);
+    beanFactory.registerResolvableDependency(ResourceLoader.class, this);
+    beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
+    beanFactory.registerResolvableDependency(ApplicationContext.class, this);
+
+    // ...省略部分源码
+
+}
+```
+> 从底层实现上，ApplicationContext 就是 BeanFactory 的实现，也就是说ApplicationContext就是BeanFactory；<br/>
+> 而ApplicationContext的作用其实是一个应用上下文，底层依赖的依然是Spring IOC的底层容器，也就是BeanFactory的另一个抽象实现->DefaultListableBeanFactory;
+> 从上面的代码中，我们也不难看出，spring Bean工厂，注册的BeanFactory.class类型的是底层beanFactory对象；<br/>
+> 而注册的ApplicationContext.class类型的对象是this，也就是ApplicationContext本身，这个是属于应用上下文层面的，
+> 它底层依然是依赖springIoc的底层容器，也就是BeanFactory（DefaultListableBeanFactory）；
+> 这也是 userRepository.getBeanFactory() == applicationContext 为false的原因；
 
 ## Spring 应用上下文
 
