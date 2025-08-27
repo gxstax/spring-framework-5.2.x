@@ -14,7 +14,7 @@ import java.util.Map;
  * 依赖查找示例
  * </p>
  *
- * @author Ant gxstax@163.com
+ * @author <a href="mailto:gxstaxant@gmail.com">Ant</a>
  * @since 2020-01-03 09:21
  */
 public class DependencyLookupDemo {
@@ -28,7 +28,7 @@ public class DependencyLookupDemo {
 		lookupInLazy(context);
 
 		// 实时查找
-		lookupInRealTime(context);
+//		lookupInRealTime(context);
 
         // 按照类型查找
 //        lookupByType(context);

@@ -53,7 +53,7 @@ public class DependencyInjectionDemo {
 
     public static void whoIsIocContainer(UserRepository userRepository, ApplicationContext applicationContext) {
 
-        // ConfigurableApplicationContexgt <- ApplicationContext <- BeanFactory
+        // ConfigurableApplicationContext <- ApplicationContext <- BeanFactory
         // 这个表达式为什么不成立
         System.out.println(userRepository.getBeanFactory() == applicationContext);
     }
