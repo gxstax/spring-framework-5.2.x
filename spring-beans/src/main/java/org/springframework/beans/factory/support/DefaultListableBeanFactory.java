@@ -352,6 +352,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	public <T> T getBean(Class<T> requiredType, @Nullable Object... args) throws BeansException {
 		Assert.notNull(requiredType, "Required type must not be null");
 		Object resolved = resolveBean(ResolvableType.forRawClass(requiredType), args, false);
+		// 这里获取bean失败后会抛出异常，也从侧面验证了 BeanFactory#getBean(Class) 方法 是类型不安全的
 		if (resolved == null) {
 			throw new NoSuchBeanDefinitionException(requiredType);
 		}
@@ -371,6 +372,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			@Override
 			public T getObject() throws BeansException {
 				T resolved = resolveBean(requiredType, null, false);
+				// 这里会抛出异常，从侧面验证了 BeanFactory#getBean(Class) 方法 是类型不安全的
 				if (resolved == null) {
 					throw new NoSuchBeanDefinitionException(requiredType);
 				}
@@ -810,6 +812,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition bd = this.beanDefinitionMap.get(beanName);
+		// 这里根据bean名称查找失败后会抛出异常，也从侧面验证了 BeanFactory#getBean(beanName) 方法是类型不安全的
 		if (bd == null) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("No bean named '" + beanName + "' found in " + this);

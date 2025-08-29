@@ -3,6 +3,7 @@ package com.ant.spring.dependency.lookup;
 import com.ant.spring.ioc.overview.domain.User;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -29,7 +30,7 @@ public class TypeSafetyDependencyLookupDemo {
         displayBeanFactoryGetBeanByName(context);
 
         // 演示 Beanfactory#getObject 方法的安全性(类型非安全)
-//        displayBeanFactoryGetObject(context);
+        displayBeanFactoryGetObject(context);
 
         // 演示 ObjectProvider#getIfAvailable 方法的安全性(类型安全)
         displayObjectProvideGetIfAvailable(context);
@@ -107,8 +108,8 @@ public class TypeSafetyDependencyLookupDemo {
 	}
 
     private static void displayBeanFactoryGetObject(AnnotationConfigApplicationContext context) {
-        ObjectProvider<User> beanProvider = context.getBeanProvider(User.class);
-        printBeansException("displayBeanFactoryGetObject", () -> beanProvider.getObject());
+        ObjectFactory<User> userObjectFactory = context.getBeanProvider(User.class);
+        printBeansException("displayBeanFactoryGetObject", () -> userObjectFactory.getObject());
     }
 
     private static void printBeansException(String source, Runnable runnable) {

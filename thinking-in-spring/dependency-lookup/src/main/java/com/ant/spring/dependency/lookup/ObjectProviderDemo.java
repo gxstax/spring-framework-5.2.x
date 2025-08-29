@@ -25,9 +25,9 @@ public class ObjectProviderDemo {
 
         lookupByObjectProvider(context);
 
-        lookupIfAvaIfAvailable(context);
-
-        lookupByStreamOps(context);
+//        lookupIfAvaIfAvailable(context);
+//
+//        lookupByStreamOps(context);
 
 
         // 关闭 Spring 应用上下文
