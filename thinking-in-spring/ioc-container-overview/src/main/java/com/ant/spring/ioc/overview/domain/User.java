@@ -2,6 +2,7 @@ package com.ant.spring.ioc.overview.domain;
 
 import com.ant.spring.ioc.overview.enums.City;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.io.Resource;
 
 import javax.annotation.PostConstruct;

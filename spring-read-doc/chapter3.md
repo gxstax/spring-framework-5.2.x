@@ -139,6 +139,7 @@ ApplicationContext 是一个面向企业级应用的上下文环境，相比于B
 * 启动
 * 运行
 * 停止
+
 这里，我主要列举一下，AbstractApplicationContext这个类的refresh()方法里的具体代码；
 ```java
 public void refresh() throws BeansException, IllegalStateException {

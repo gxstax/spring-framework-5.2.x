@@ -61,28 +61,54 @@ public static void main(String[] args) {
 ```
 
 ## 命名 Spring Bean
-
+* Bean名称生成器（BeanNameGenerator）
+  * DefaultBeanNameGenerator 默认的
+  * AnnotationBeanNameGenerator 基于注解扫描的BeanNameGenerator
 
 
 ## Spring Bean 的别名
-
+> alias 属性
 
 
 ## 注册 Spring Bean
-
-
-
+### BeanDefinition 注册
+* XML 配置元信息
+  ```xml
+  <bean name="" ... />
+  ```
+* Java 注解配置元信息
+  * @Bean
+  * @Component
+  * @Import
+* Java API 配置元信息
+  * 命名方式
+  > BeanDefinitionRegistry#registerBeanDefinition(String, BeanDefinition)
+  * 非命名方式
+  > BeanDefinitionReaderUtils#registerWithGeneratedName(AbstractBeanDefinition, BeanDefinitionRegistry)
+  * 配置类方式
+  > AnnotatedBeanDefinitionReader#register(Class ...)
 ## 实例化 Spring Bean
 
 
 
 ## 初始化 Spring Bean
-
-
+* @PostConstruct 标注方法
+* 实现 InitializingBean 接口的 afterPropertiesSet() 方法
+  * 自定义初始化方法
+    * XML 配置：
+    ```xml
+      <bean init-method="" .../>
+    ```
+    * Java 注解 @Bean(initMethod="xx")
+    * Java API: AbstractBeanDefinition#setInitMethodName(String)
 
 ## 延迟初始化 Spring Bean
-
-
+### Bean 延迟初始化（Lazy Initialization）
+* XML 配置 
+```xml
+<bean lazy-init="true" ... />
+```
+* @Lazy 标注方法
 
 ## 销毁 Spring Bean
 

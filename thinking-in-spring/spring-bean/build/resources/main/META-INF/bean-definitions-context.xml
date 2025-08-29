@@ -9,6 +9,7 @@
     <!-- bean definitions here -->
     <import resource="dependency-lookup-context.xml"></import>
 
+	<!-- 将 Spring 容器中的user Bean 关联/建立别名 ant-user -->
     <alias name="user" alias="ant-user"></alias>
 
 </beans>
