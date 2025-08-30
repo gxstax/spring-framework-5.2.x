@@ -83,11 +83,47 @@
 | applicationEventPublisher | ApplicationEventPublisher 抽象类 | Spring 事件广播器        |
 
 ### 注解驱动 Spring 应用上下文内建可查找的依赖（部分）
-| Bean 名称                                                                                       | Bean 实例                                 | 使用场景                                       |
-|:----------------------------------------------------------------------------------------------|:----------------------------------------|:-------------------------------------------|
-| org.springframework.context.<br/>annotation.<br/>**internalConfigurationAnnotationProcessor** | ConfigurationClassPostProcessor 对象      | **处理Spring 配置类**                           |
-| org.springframework.context.<br/>annotation.<br/>**internalAutowiredAnnotationProcessor**     | AutowiredAnnotationBeanPostProcessor 对象 | **处理 @Autowired 以及 @Value 注解**             |
-| org.springframework.context.<br/>annotation.<br/>**internalCommonAnnotationProcessor**        | CommonAnnotationBeanPostProcessor 对象    | **（条件激活）处理 JSR-250 注解，如 @PostConstruct 等** |
-| org.springframework.context.<br/>event.<br/>**internalEventListenerProcessor**                     | EventListenerMethodProcessor 对象    | **处理 @EventListener 的 Spring事件监听方法**       |
-
+| Bean 名称                                                                                                | Bean 实例                                   | 使用场景                                              |
+|:-------------------------------------------------------------------------------------------------------|:------------------------------------------|:--------------------------------------------------|
+| org.springframework.context.<br/>annotation.<br/>**internalConfigurationAnnotationProcessor**          | ConfigurationClassPostProcessor 对象        | **处理Spring 配置类**                                  |
+| org.springframework.context.<br/>annotation.<br/>**internalAutowiredAnnotationProcessor**              | AutowiredAnnotationBeanPostProcessor 对象   | **处理 @Autowired 以及 @Value 注解**                    |
+| org.springframework.context.<br/>annotation.<br/>**internalCommonAnnotationProcessor**                 | CommonAnnotationBeanPostProcessor 对象      | **（条件激活）处理 JSR-250 注解，如 @PostConstruct 等**        |
+| org.springframework.context.<br/>event.<br/>**internalEventListenerProcessor**                         | EventListenerMethodProcessor 对象           | **处理 @EventListener 的 Spring事件监听方法**              |
+| org.springframework.<br/>context.event.<br/>**internalEventListenerFactory**                           | DefaultEventListenerFactory 对象            | **@Event Listener 事件监听方法适配为 ApplicationListener** |
+| org.springframework.<br/>context.annotation.<br/>**internalPersistenceAnnotationProcessor**            | PersistenceAnnotationBeanPostProcessor 对象 | **（条件激活）处理 JPA 注解场景**                             |
 ## 依赖查找中的经典异常
+### BeanException 字类型
+| 异常类型                            | 触发条件                      | 场景举例                                            |
+|:--------------------------------|:--------------------------|:------------------------------------------------|
+| NoSuchBeanDefinitionException   | 当查找 Bean 不存在于 IoC容器时      | BeanFactory#getBean<br/>ObjectFactory#getObject |
+| NoUniqueBeanDefinitionException | 类型依赖查找时，Ioc容器存在多个 Bean 实例 | BeanFactory#getBean(Class)                      |               
+| BeanInstantiationException      | 当 Bean 所对应的类型非具体类时        | BeanFactory#getBean                             |
+| BeanCreationException           | 当 Bean 初始化过程中             | Bean 初始化方法执行异常时                                 |
+| BeanDefinitionStoreException    | 当 BeanDefinition 配置元信息非法时 | XML 配置资源无法打开时                                   |
+
+
+## 面试题
+
+### BeanFactory#getBean 操作是否时线程安全的?
+> BeanFactory#getBean 操作是线程安全的，因为 getBean 方法内部会进行同步处理。
+> 这里我把具体调用的底层代码贴在这里，供大家参考。
+```java
+@Nullable
+	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+		Object singletonObject = this.singletonObjects.get(beanName);
+		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			synchronized (this.singletonObjects) {
+				singletonObject = this.earlySingletonObjects.get(beanName);
+				if (singletonObject == null && allowEarlyReference) {
+					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+					if (singletonFactory != null) {
+						singletonObject = singletonFactory.getObject();
+						this.earlySingletonObjects.put(beanName, singletonObject);
+						this.singletonFactories.remove(beanName);
+					}
+				}
+			}
+		}
+		return singletonObject;
+	}
+```

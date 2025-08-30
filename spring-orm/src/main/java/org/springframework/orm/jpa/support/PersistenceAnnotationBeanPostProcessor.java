@@ -168,6 +168,8 @@ import org.springframework.util.StringUtils;
  * @since 2.0
  * @see javax.persistence.PersistenceUnit
  * @see javax.persistence.PersistenceContext
+ *
+ * 处理 JPA 注解场景
  */
 @SuppressWarnings("serial")
 public class PersistenceAnnotationBeanPostProcessor
