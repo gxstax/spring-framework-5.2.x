@@ -136,3 +136,11 @@ public @interface LoadBalanced {
 }
 ```
 > 通过这种限定，Spring Cloud 就可以把RestTemplate 分成有负载均衡和无负载均衡两类
+
+## 延迟依赖注入
+### 使用 API ObjectFactory 延迟注入
+* 单一类型
+* 集合类型
+### 使用 API ObjectProvicer 延迟注入（<font color="green">推荐</font>）
+* 单一类型
+* 集合类型

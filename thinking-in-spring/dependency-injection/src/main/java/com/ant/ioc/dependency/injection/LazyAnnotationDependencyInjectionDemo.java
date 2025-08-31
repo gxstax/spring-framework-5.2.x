@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * <p>
- * {@link Qualifier} 注解依赖注入
+ * {@link ObjectProvider} 实现延时依赖注入
  * </p>
  *
  * @author Ant
@@ -56,7 +56,7 @@ public class LazyAnnotationDependencyInjectionDemo {
         // ObjectProvider.getObject();实际上是继承了ObjectFactory的getObject方法
         System.out.println("demo.userObjectProvider" + demo.userObjectProvider.getObject());
 
-        demo.userObjectProvider.forEach(System.out::println);
+		demo.userObjectProvider.forEach(System.out::println);
 
         demo.objectFactory.getObject().forEach(System.out::println);
 
