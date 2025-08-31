@@ -144,3 +144,43 @@ public @interface LoadBalanced {
 ### 使用 API ObjectProvicer 延迟注入（<font color="green">推荐</font>）
 * 单一类型
 * 集合类型
+
+## 依赖处理过程
+### 基础知识
+* 入口 - DefaultListableBeanFactory#resolveDependency
+* 依赖描述符 - DependencyDescriptor
+* 自定绑定候选对象处理器 - AutowireCandidateResolver
+
+> 延迟注入，依赖注入过程,可以着重看下 
+> result = doResolveDependency(descriptor, requestingBeanName, autowiredBeanNames, typeConverter);
+```java
+@Override
+	@Nullable
+	public Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
+			@Nullable Set<String> autowiredBeanNames, @Nullable TypeConverter typeConverter) throws BeansException {
+
+		// 获取 bean 的类型
+		descriptor.initParameterNameDiscovery(getParameterNameDiscoverer());
+
+		/*判断是否是 Optional 类型；如果定义如下的依赖注入方式，则会触发该条件
+		 *@Autowired
+		 *private Optional<User> userOptional;
+		 */
+		if (Optional.class == descriptor.getDependencyType()) {
+			return createOptionalDependency(descriptor, requestingBeanName);
+		} else if (ObjectFactory.class == descriptor.getDependencyType() ||
+				ObjectProvider.class == descriptor.getDependencyType()) { // 判断是否是 ObjectFactory 类型或 ObjectProvider 类型
+			return new DependencyObjectProvider(descriptor, requestingBeanName);
+		} else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
+			return new Jsr330Factory().createDependencyProvider(descriptor, requestingBeanName);
+		} else {
+			Object result = getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary(
+					descriptor, requestingBeanName);
+			if (result == null) {
+				// 解析依赖
+				result = doResolveDependency(descriptor, requestingBeanName, autowiredBeanNames, typeConverter);
+			}
+			return result;
+		}
+	}
+```

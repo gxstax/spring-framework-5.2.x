@@ -1222,7 +1222,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// 获取 bean 的类型
 		descriptor.initParameterNameDiscovery(getParameterNameDiscoverer());
 
-		// 判断是否是 Optional 类型
+		/*判断是否是 Optional 类型；如果定义如下的依赖注入方式，则会触发该条件
+		 *@Autowired
+		 *private Optional<User> userOptional;
+		 */
 		if (Optional.class == descriptor.getDependencyType()) {
 			return createOptionalDependency(descriptor, requestingBeanName);
 		} else if (ObjectFactory.class == descriptor.getDependencyType() ||
