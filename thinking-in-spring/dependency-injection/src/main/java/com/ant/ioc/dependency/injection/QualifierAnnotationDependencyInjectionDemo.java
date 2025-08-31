@@ -41,7 +41,7 @@ public class QualifierAnnotationDependencyInjectionDemo {
     private User user;
 
     @Autowired
-    @Qualifier("user")
+    @Qualifier("user") // 指定 Bean 名称或 ID
     private User nameUser;
 
     @Bean

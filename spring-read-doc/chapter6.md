@@ -120,3 +120,19 @@
 * 标量类型（Scalar）：Number、Character、Boolean、Enum、Locale、Charset、Currency、Properties、UUID
 * 常规类型（General）：Object、String、TimeZone、Calendar、Optional
 * Spring类型：Resource、InputSource、Formatter...
+### 限定注入
+* 使用注解 @Qualifier 限定
+  * 通过 Bean 名称限定
+  * 通过分组限定
+* 基于注解 @Qualifier 扩展限定
+  * 自定义注解-如 Spring Cloud @LoadBalanced
+
+> 依赖注入会根据是否有 @Qualifier 而分成了两组，一组为没有 @Qualifier，一组为有 @Qualifier；<br/>
+> 同样的我们还可以根据 @Qualifier 扩展自己的注解，如：@AntGroup；来划分更细粒度的分组；
+> 最典型的是 Spring Cloud 的@LoadBalance；
+```java
+@Qualifier
+public @interface LoadBalanced {
+}
+```
+> 通过这种限定，Spring Cloud 就可以把RestTemplate 分成有负载均衡和无负载均衡两类
