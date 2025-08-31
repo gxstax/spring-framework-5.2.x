@@ -184,3 +184,8 @@ public @interface LoadBalanced {
 		}
 	}
 ```
+## @Autowired 注入
+### @Autowired 注入过程
+* 元信息解析
+* 依赖查找
+* 依赖注入（字段 、方法）
