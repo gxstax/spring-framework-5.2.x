@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'war'
+    // 使用 community Gradle Tomcat plugin
+//    id 'com.bmuschko.tomcat' version '4.2.0'
 }
 
 group 'org.springframework'
@@ -31,7 +34,7 @@ dependencies {
     compile(project(":thinking-in-spring:ioc-container-overview"))
 
     // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-commons
     testCompileOnly group: 'org.springframework.cloud', name: 'spring-cloud-commons', version: '2.2.6.RELEASE'
@@ -39,3 +42,5 @@ dependencies {
     testCompileOnly group: 'org.springframework.cloud', name: 'spring-cloud-context', version: '2.2.6.RELEASE'
 
 }
+
+
