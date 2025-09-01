@@ -89,9 +89,33 @@ protected Map<String, Object> findAutowireCandidates(
 > Resolvable Dependency 这部份是游离对象，这部分对象是不能被**依赖查找**的，只能**依赖注入**；
 
 ## Spring BeanDefinition 作为依赖来源
+### 要素
+* 元数据: BeanDefinition
+* 注册：BeanDefinitionRegistry#registerBeanDefinition
+* 类型：延迟和非延迟
+* 顺序：Bean 生命周期顺序按照注册顺序 
  
-## 单例对象作为依赖来源
+## 单例对象作为依赖来源       
+### 要素
+* 来源：外部普通 Java 对象（不一定是POJO）
+* 注册：SingletonBeanRegistry#registerSingleton
+
+### 限制
+* 无生命周期管理
+* 无法实现延迟初始化
 
 ## 非 Spring 容器管理对象作为依赖来源
+### 要素
+* 注册：ConfigurableListableBeanFactory#registerResolvableDependency
+### 限制
+* 无生命周期管理
+* 无法实现延迟初始化 Bean
+* 无法通过依赖查找
 
 ## 外部化配置作为依赖来源
+### 要素
+* 类型：非常规 Spring 对象依赖来源
+### 限制
+* 无生命周期管理
+* 无法实现延迟初始化 Bean
+* 无法通过依赖查找

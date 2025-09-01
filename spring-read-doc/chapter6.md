@@ -12,7 +12,7 @@
 ### 依赖注入的类型
 | 依赖注入类型          | 配置元数据举例                                                                 |
 |:----------------|:------------------------------------------------------------------------|
-| Setter 方法       | <font color='gray'><\property name=' ' ref=' '/></font>                 |
+| Setter 方法       | <font color='gray'>\<property name=' ' ref=' '/></font>                 |
 | Constructor 构造器 | <font color='gray'><constructor-arg name=' ' ref=' '/></font>           |
 | Field 字段        | <font color='gray'>@Autowired User user</font>                          |
 | Method 方法       | <font color='gray'>@Autowired public void user(User user){...}</font>   |
