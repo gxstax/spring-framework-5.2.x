@@ -29,6 +29,51 @@
 
 
 ## 依赖注入的来源
+### 注入来源
+| 来源                    | 配置元数据                                    |
+|:----------------------|:-----------------------------------------|
+| Spring BeanDefinition | \<bean id="user" class="org.ant...User"> |
+|                       | @Bean public User user() {...}           |
+|                       | BeanDefinitionBuilder                    |
+| 单例对象                  | API实现                                    |
+| 非 Srping 容器管理对象      | API实现             ||
+
+对于非Spring 容器管理的对象，这里可以看下依赖注入的源码：
+```java
+protected Map<String, Object> findAutowireCandidates(
+			@Nullable String beanName, Class<?> requiredType, DependencyDescriptor descriptor) {
+
+    // 从 beanFactory 获取容器中的bean
+    String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
+            this, requiredType, true, descriptor.isEager());
+    Map<String, Object> result = new LinkedHashMap<>(candidateNames.length);
+    // 这里会判断是否有依赖Spring容器的内建对象，如果有就放入到result中
+    // resolvableDependencies 主要包含四个在 prepareBeanFactory 中注册进去的对象
+    // 1. BeanFactory 2. ResourceLoader 3. ApplicationContext 4. ApplicationEventPublisher
+    // 其中后面3个对应的都是 ApplicationContext 对象本身
+    for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) {
+        Class<?> autowiringType = classObjectEntry.getKey();
+        if (autowiringType.isAssignableFrom(requiredType)) {
+            Object autowiringValue = classObjectEntry.getValue();
+            autowiringValue = AutowireUtils.resolveAutowiringValue(autowiringValue, requiredType);
+            if (requiredType.isInstance(autowiringValue)) {
+                result.put(ObjectUtils.identityToString(autowiringValue), autowiringValue);
+                break;
+            }
+        }
+    }
+
+    // ....
+}
+```
+> 
+> resolvableDependencies 主要包含四个在 prepareBeanFactory 中注册进去的对象
+> 1. BeanFactory 
+> 2. ResourceLoader 
+> 3. ApplicationContext 
+> 4. ApplicationEventPublisher
+> 
+> 其中后面3个对应的都是 ApplicationContext 对象本身
 
 ## Spring容器管理和游离对象
 

@@ -1489,6 +1489,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 				this, requiredType, true, descriptor.isEager());
 		Map<String, Object> result = new LinkedHashMap<>(candidateNames.length);
+		// 这里会判断是否有依赖Spring容器的内建对象，如果有就放入到result中
+		// resolvableDependencies 主要包含四个在 prepareBeanFactory 中注册进去的对象
+		// 1. BeanFactory 2. ResourceLoader 3. ApplicationContext 4. ApplicationEventPublisher
+		// 其中后面3个对应的都是 ApplicationContext 对象本身
 		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) {
 			Class<?> autowiringType = classObjectEntry.getKey();
 			if (autowiringType.isAssignableFrom(requiredType)) {
