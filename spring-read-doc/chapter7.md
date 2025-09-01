@@ -76,9 +76,20 @@ protected Map<String, Object> findAutowireCandidates(
 > 其中后面3个对应的都是 ApplicationContext 对象本身
 
 ## Spring容器管理和游离对象
+### 依赖对象
+示例代码连接
+> thinking-in-spring -> dependency-source -></br>
+> com.ant.dependency.source.DependencySourceDemo
+
+| 来源                    | Spring Bean 对象 | 生命周期管理                     | 配置元信息                      | 使用场景      |   
+|:----------------------|:---------------|:---------------------------|:---------------------------|:----------|
+| Spring BeanDefinition | 是              | 是                          | 有                          | 依赖查找、依赖注入 |
+| 单体对象                  | 是              | <font color='red'>否</font> | <font color='red'>无</font>                           | 依赖查找、依赖注入 |
+| Resolvable Dependency | <font color='red'>否</font>              | <font color='red'>否</font>                          | <font color='red'>无</font> | 依赖注入      |
+> Resolvable Dependency 这部份是游离对象，这部分对象是不能被**依赖查找**的，只能**依赖注入**；
 
 ## Spring BeanDefinition 作为依赖来源
-
+ 
 ## 单例对象作为依赖来源
 
 ## 非 Spring 容器管理对象作为依赖来源
