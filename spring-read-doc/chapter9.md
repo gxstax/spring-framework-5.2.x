@@ -61,8 +61,24 @@ protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throw
 ```
 > 所有的 Bean （包括有继承关系的）注册，最终都会解析为 RootBeanDefinition；
 ## Spring Bean Class 加载阶段
+* ClassLoader 类加载
+* Java Security 安全控制
+* ConfigurableBeanFactory 临时 ClassLoader
+这里我截取一段代码片段,是在这个方法
+AbstractAutowireCapableBeanFactory.createBean(String, RootBeanDefinition,Object[])
+```java
+        // 这一步是 spring Bean 生命周期的 「Bean Class 加载阶段」阶段
+		// 这里通过解析 beanDefinition 最终通过 java 的 classLoader 获取 Bean 的 Class
+		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
+		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
+			mbdToUse = new RootBeanDefinition(mbd);
+			mbdToUse.setBeanClass(resolvedClass);
+		}
+```
 
 ## Spring Bean 实例化前阶段
+### 非主流生命周期 - Bean 实例化前阶段
+* InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
 
 ## Spring Bean 实例化阶段
 
