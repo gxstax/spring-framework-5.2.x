@@ -495,6 +495,7 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 			parent = this.defaultParentBean;
 		}
 
+		// 使用BeanDefinitionReaderUtils 注册 Bean
 		try {
 			AbstractBeanDefinition bd = BeanDefinitionReaderUtils.createBeanDefinition(
 					parent, className, getBeanClassLoader());
