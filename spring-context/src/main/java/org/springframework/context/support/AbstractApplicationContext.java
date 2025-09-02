@@ -866,6 +866,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void onRefresh() throws BeansException {
 		// For subclasses: do nothing by default.
+		// 由子类扩展，比如web服务器应用上下文，这里就会启动一个tomcat或其他类型的服务器
+		// ServletWebServerApplicationContext
 	}
 
 	/**

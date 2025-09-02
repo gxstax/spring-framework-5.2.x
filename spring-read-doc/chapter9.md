@@ -34,11 +34,32 @@
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
     // beanDefinitionNames 这里用list 说明是有顺序的，Spring Bean 的先进先出特性
-	/** List of bean definition names, in registration order. */
-	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
+    /** List of bean definition names, in registration order. */
+    private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 ```
 ## Spring BeanDefinition 合并阶段
-
+### BeanDefinition 合并
+* 父子 BeanDefinition 合并
+  * 当前 BeanFactory 查找
+  * 层次性 BeanFactory 查找
+源码位置：ConfigurableBeanFactory#getMergedBeanDefinition();
+```java
+protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
+  /**
+   * 快速检索：mergedBeanDefinitions 保存的是 RootBeanDefinition，如果能从这里获取到，那么说明两种情况
+   * 1: 该BeanDefinition 已经 merge 过了
+   * 2: 它本身就没有父类，直接就是RootBeanDefinition，不需要 merge
+   */
+  // Quick check on the concurrent map first, with minimal locking.
+  RootBeanDefinition mbd = this.mergedBeanDefinitions.get(beanName);
+  if (mbd != null && !mbd.stale) {
+    return mbd;
+  }
+  // 如果不满足前面两种情况，那么这里就需要进行 merge
+  return getMergedBeanDefinition(beanName, getBeanDefinition(beanName));
+}
+```
+> 所有的 Bean （包括有继承关系的）注册，最终都会解析为 RootBeanDefinition；
 ## Spring Bean Class 加载阶段
 
 ## Spring Bean 实例化前阶段
