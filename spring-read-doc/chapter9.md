@@ -199,6 +199,41 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable B
 > 同样的，如果我们在扩展InstantiationAwareBeanPostProcessor 中重写 postProcessProperties 方法且返回 null 时，那么属性值就不会被赋值
 
 ## Spring Bean Aware 接口回调阶段
+### Spring Aware 接口
+* BeanNameAware
+* BeanClassLoaderAware
+* BeanFactoryAware
+* EnvironmentAware
+* EmbeddedValueResolverAware
+* ResourceLoaderAware
+* ApplicationEventPublisherAware
+* MessageSourceAware
+* ApplicationContextAware
+```java
+protected Object initializeBean(final String beanName, final Object bean, @Nullable RootBeanDefinition mbd) {
+		/**
+		 *【Bean 生命周期】包含 4 个步骤：
+		 * 	1. 「Bean Aware 接口回调阶段」
+		 * 	2. 「Bean 初始化前阶段」
+		 * 	3. 「Bean 初始化阶段」
+		 * 	4. 「Bean 初始化后阶段」
+		 */
+
+		/**
+		 * 【Bean 生命周期】-「Bean Aware 接口回调阶段」
+		 */
+		if (System.getSecurityManager() != null) {
+			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+				invokeAwareMethods(beanName, bean);
+				return null;
+			}, getAccessControlContext());
+		} else {
+			invokeAwareMethods(beanName, bean);
+		}
+
+		// ...省略部分代码
+	}
+```
 
 ## Spring Bean 初始化前阶段
 

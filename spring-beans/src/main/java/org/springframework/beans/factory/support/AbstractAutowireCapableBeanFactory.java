@@ -535,11 +535,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 下面是没有经过 InstantiationAwareBeanPostProcessor 处理的正常创建的 bean 的过程
 		try {
 			/**
+			 * 这个方法包含以下步骤：
 			 *【Bean 生命周期】-「Bean 实例化阶段」
 			 *【Bean 生命周期】-「Bean 实例化后阶段」
 			 *【Bean 生命周期】-「Bean 属性赋值前阶段」
 			 *【Bean 生命周期】-「Bean Aware 接口回调阶段」
 			 *【Bean 生命周期】-「Bean 初始化前阶段」
+			 *【Bean 生命周期】-「Bean Aware 接口回调阶段」
+			 *【Bean 生命周期】-「Bean 初始化前阶段」
+			 *【Bean 生命周期】-「Bean 初始化阶段」
+			 *【Bean 生命周期】-「Bean 初始化后阶段」
 			 */
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
@@ -629,14 +634,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			/**
 			 *【Bean 生命周期】-「Bean 实例化后阶段」+ 「Bean 属性赋值阶段」
 			 */
-			// 这里就是属性填充，依赖注入就是在这里进行的
 			populateBean(beanName, mbd, instanceWrapper);
 
 			/**
-			 *【Bean 生命周期】-「Bean Aware 接口回调阶段」+ 「Bean 初始化前阶段」+「Bean 初始化阶段」+ 「Bean 初始化后阶段」
+			 * 包含【Bean 生命周期】的：
+			 * 	「Bean Aware 接口回调阶段」（各种 ***Aware 接口的回调在这里做回调操作）
+			 * 	「Bean 初始化前阶段」
+			 * 	「Bean 初始化阶段」
+			 * 	「Bean 初始化后阶段」
 			 */
-			// Spring Bean 生命周期 「Spring Bean 初始化阶段」
-			// 各种 ***Aware 接口的回调在这里做回调操作
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		} catch (Throwable ex) {
 			if (ex instanceof BeanCreationException && beanName.equals(((BeanCreationException) ex).getBeanName())) {
@@ -1837,40 +1843,57 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #applyBeanPostProcessorsAfterInitialization
 	 */
 	protected Object initializeBean(final String beanName, final Object bean, @Nullable RootBeanDefinition mbd) {
-		// Bean 的初始化执行了 4 个步骤
+		/**
+		 *【Bean 生命周期】包含 4 个步骤：
+		 * 	1. 「Bean Aware 接口回调阶段」
+		 * 	2. 「Bean 初始化前阶段」
+		 * 	3. 「Bean 初始化阶段」
+		 * 	4. 「Bean 初始化后阶段」
+		 */
+
+		/**
+		 * 【Bean 生命周期】-「Bean Aware 接口回调阶段」
+		 */
 		if (System.getSecurityManager() != null) {
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 				invokeAwareMethods(beanName, bean);
 				return null;
 			}, getAccessControlContext());
 		} else {
-			// 1、执行 Aware 回调方法
 			invokeAwareMethods(beanName, bean);
 		}
 
+		/**
+		 *【Bean 生命周期】-「Bean 初始化前阶段」
+		 *
+		 * 执行 {@link BeanPostProcessor#postProcessBeforeInitialization} 回调
+		 * 注意: 这里也会处理添加了注解 {@link javax.annotation.PostConstruct} 的方法回调
+		 */
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			/**
-			 * 2、执行 {@link BeanPostProcessor#postProcessBeforeInitialization} 回调
-			 * Bean 初始化前处理
-			 * 注意: 这里也会处理添加了注解 {@link javax.annotation.PostConstruct} 的方法回调
-			 */
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
+		/**
+		 *【Bean 生命周期】-「Bean 初始化阶段」
+		 *
+		 * 执行自定义的 初始化方法 包括 实现 InitializingBean 和 配置 init-method
+		 */
 		try {
-			// 3、执行自定义的 初始化方法 包括 实现 InitializingBean 和 配置 init-method
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		} catch (Throwable ex) {
 			throw new BeanCreationException(
 					(mbd != null ? mbd.getResourceDescription() : null),
 					beanName, "Invocation of init method failed", ex);
 		}
+
+		/**
+		 *【Bean 生命周期】-「Bean 初始化后阶段」
+		 *
+		 * 执行 {@link BeanPostProcessor#postProcessAfterInitialization} 回调
+		 *
+		 */
 		if (mbd == null || !mbd.isSynthetic()) {
-			/**
-			 * 4、执行 {@link BeanPostProcessor#postProcessAfterInitialization} 回调
-			 * Bean 初始化前处理
-			 */
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
