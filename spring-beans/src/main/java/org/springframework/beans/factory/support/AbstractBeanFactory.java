@@ -303,8 +303,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
-				// 合并BeanDefinition (如果有继承父类的 Bean 会继承父类属性值)
-				// 实际上到这一步就完成了我们 Bean 生命周期的 BeanDefinition 合并阶段
+				/**
+				 * 【Bean 生命周期】- 「BeanDefinition 合并阶段」
+				 */
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 

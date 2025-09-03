@@ -79,8 +79,31 @@ AbstractAutowireCapableBeanFactory.createBean(String, RootBeanDefinition,Object[
 ## Spring Bean 实例化前阶段
 ### 非主流生命周期 - Bean 实例化前阶段
 * InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+* 这部份代码也是在 AbstractAutowireCapableBeanFactory.createBean(String, RootBeanDefinition,Object[])
+```java
+try {
+			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
+			/**
+			 * 初始化前解析，实现了
+			 * {@link InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation }
+			 * 方法会在这里执行，包括我们自己定义的 BeanPostProcessor
+			 */
+			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
+			// 如果我们自己定义了指定返回的 Bean 这里就不再往下解析了，直接返回我们自己定义的 Bean
+			if (bean != null) {
+				return bean;
+			}
+		} catch (Throwable ex) {
+			throw new BeanCreationException(mbdToUse.getResourceDescription(), beanName,
+					"BeanPostProcessor before instantiation of bean failed", ex);
+		}
+```
 
 ## Spring Bean 实例化阶段
+### 实例化方式
+* 传统实例化方式
+  * 实例化策略 - InstantiationStrategy
+* 构造器依赖注入
 
 ## Spring Bean 实例化后阶段
 

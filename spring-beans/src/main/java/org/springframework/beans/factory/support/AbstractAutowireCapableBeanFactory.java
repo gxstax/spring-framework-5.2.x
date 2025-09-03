@@ -493,8 +493,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class
 		// which cannot be stored in the shared merged bean definition.
-		// 这一步是 spring Bean 生命周期的 「Bean Class 加载阶段」阶段
-		// 这里通过解析 beanDefinition 最终通过 java 的 classLoader 获取 Bean 的 Class
+		/**
+		 *【Bean 生命周期】-「Bean Class 加载阶段」
+		 * <p>
+		 * 这里通过解析 beanDefinition 最终通过 java 的 classLoader 获取 Bean 的 Class
+		 */
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
 		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
 			mbdToUse = new RootBeanDefinition(mbd);
@@ -512,7 +515,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			/**
-			 * 初始化前解析，实现了
+			 *【Bean 生命周期】-「Bean 实例化前阶段」
+			 *
+			 * 实例化前解析，实现了
 			 * {@link InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation }
 			 * 方法会在这里执行，包括我们自己定义的 BeanPostProcessor
 			 */
@@ -529,7 +534,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 前面如果我们自己实现过 InstantiationAwareBeanPostProcessor 并且过滤掉了我们要过滤的 Bean
 		// 下面是没有经过 InstantiationAwareBeanPostProcessor 处理的正常创建的 bean 的过程
 		try {
-			// 这里当然就是实例化Bean对象的逻辑喽
+			/**
+			 *【Bean 生命周期】-「Bean 实例化阶段」
+			 */
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
 				logger.trace("Finished creating instance of bean '" + beanName + "'");
@@ -1136,7 +1143,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					// BeanPostProcessor 的前置处理
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
-						// BeanPostProcessor 的后置处理
+						// 如果这里返回了我们自定义的Bean，则会执行 Bean 初始化后置处理（这里要注意一下）
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
 					}
 				}
