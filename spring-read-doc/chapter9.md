@@ -1,5 +1,5 @@
 # 第九章: Spring Bean 生命周期
---- 
+---
 
 ## Spring Bean 元信息配置阶段
 ### BeanDefinition 配置
@@ -42,7 +42,7 @@
 * 父子 BeanDefinition 合并
   * 当前 BeanFactory 查找
   * 层次性 BeanFactory 查找
-源码位置：ConfigurableBeanFactory#getMergedBeanDefinition();
+  源码位置：ConfigurableBeanFactory#getMergedBeanDefinition();
 ```java
 protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
   /**
@@ -199,7 +199,7 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable B
 > 同样的，如果我们在扩展InstantiationAwareBeanPostProcessor 中重写 postProcessProperties 方法且返回 null 时，那么属性值就不会被赋值
 
 ## Spring Bean Aware 接口回调阶段
-### Spring Aware 接口
+### Spring Aware 接口 (<font color='green'>**按执行顺序枚举**</font>)
 * BeanNameAware
 * BeanClassLoaderAware
 * BeanFactoryAware
