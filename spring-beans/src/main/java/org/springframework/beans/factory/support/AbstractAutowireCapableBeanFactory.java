@@ -536,6 +536,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			/**
 			 *【Bean 生命周期】-「Bean 实例化阶段」
+			 *【Bean 生命周期】-「Bean 实例化后阶段」
+			 *【Bean 生命周期】-「Bean 属性赋值前阶段」
+			 *【Bean 生命周期】-「Bean Aware 接口回调阶段」
+			 *【Bean 生命周期】-「Bean 初始化前阶段」
 			 */
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
@@ -576,7 +580,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			// 创建 Bean 实例（Bean 实例化）
+			/**
+			 *【Bean 生命周期】-「Bean 实例化阶段」
+			 */
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 
@@ -620,10 +626,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
-			// Spring Bean 生命周期 「Spring Bean 属性赋值前阶段」
+			/**
+			 *【Bean 生命周期】-「Bean 实例化后阶段」+ 「Bean 属性赋值阶段」
+			 */
 			// 这里就是属性填充，依赖注入就是在这里进行的
 			populateBean(beanName, mbd, instanceWrapper);
 
+			/**
+			 *【Bean 生命周期】-「Bean Aware 接口回调阶段」+ 「Bean 初始化前阶段」+「Bean 初始化阶段」+ 「Bean 初始化后阶段」
+			 */
 			// Spring Bean 生命周期 「Spring Bean 初始化阶段」
 			// 各种 ***Aware 接口的回调在这里做回调操作
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
@@ -1428,6 +1439,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Give any InstantiationAwareBeanPostProcessors the opportunity to modify the
 		// state of the bean before properties are set. This can be used, for example,
 		// to support styles of field injection.
+		/**
+		 *【Bean 生命周期】-「Bean 实例化后阶段」
+		 */
 		// 判断是否是一个合成的 Bean 并且是否有 InstantiationAwareBeanPostProcessors 处理器
 		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
@@ -1491,6 +1505,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			checkDependencies(beanName, mbd, filteredPds, pvs);
 		}
 
+		/**
+		 *【Bean 生命周期】-「Bean 属性赋值阶段」
+		 */
 		if (pvs != null) {
 			// 重写InstantiationAwareBeanPostProcessor#postProcessProperties 方法且不反回 null 时，
 			// 这里就会应用我们的自己设定的属性值到 BeanWrapper 中去
