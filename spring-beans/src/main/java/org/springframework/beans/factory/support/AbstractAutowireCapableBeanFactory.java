@@ -1474,6 +1474,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		boolean hasInstAwareBpps = hasInstantiationAwareBeanPostProcessors();
 		boolean needsDepCheck = (mbd.getDependencyCheck() != AbstractBeanDefinition.DEPENDENCY_CHECK_NONE);
 
+		/**
+		 *【Bean 生命周期】-「Bean 属性赋值阶段」
+		 */
 		PropertyDescriptor[] filteredPds = null;
 		if (hasInstAwareBpps) {
 			if (pvs == null) {
@@ -1505,9 +1508,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			checkDependencies(beanName, mbd, filteredPds, pvs);
 		}
 
-		/**
-		 *【Bean 生命周期】-「Bean 属性赋值阶段」
-		 */
+		// 属性值赋值
 		if (pvs != null) {
 			// 重写InstantiationAwareBeanPostProcessor#postProcessProperties 方法且不反回 null 时，
 			// 这里就会应用我们的自己设定的属性值到 BeanWrapper 中去

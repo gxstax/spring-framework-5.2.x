@@ -107,28 +107,96 @@ try {
 
 ## Spring Bean 实例化后阶段
 ### 执行一些回调函数，主要是下面的方法
-* InstantiationAwareBeanPostProcessor#postProcessAfterInitialization
+> 源码地址：AbstractAutowireCapableBeanFactory.populateBean(String, RootBeanDefinition, BeanWrapper)
 ```java
-        /**
-		 *【Bean 生命周期】-「Bean 实例化后阶段」
-		 */
-		// 判断是否是一个合成的 Bean 并且是否有 InstantiationAwareBeanPostProcessors 处理器
-		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
-			for (BeanPostProcessor bp : getBeanPostProcessors()) {
-				if (bp instanceof InstantiationAwareBeanPostProcessor) {
-					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
-					// 判断 Bean 是否需要赋值，如果不需要这里执行完具体的方法后（我们方法中可以对bean 进行手动赋值操作）就直接返回
-					if (!ibp.postProcessAfterInstantiation(bw.getWrappedInstance(), beanName)) {
-						return;
-					}
-				}
-			}
-		}
+    protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable BeanWrapper bw) {
+      if (bw == null) {
+        // 不允许 PropertyValues 实例为null值的实例注入属性
+        if (mbd.hasPropertyValues()) {
+          throw new BeanCreationException(
+                  mbd.getResourceDescription(), beanName, "Cannot apply property values to null instance");
+        } else {
+          // Skip property population phase for null instance.
+          return;
+        }
+      }
+      /**
+       *【Bean 生命周期】-「Bean 实例化后阶段」
+       */
+      // 判断是否是一个合成的 Bean 并且是否有 InstantiationAwareBeanPostProcessors 处理器
+      if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+        for (BeanPostProcessor bp : getBeanPostProcessors()) {
+          if (bp instanceof InstantiationAwareBeanPostProcessor) {
+            InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+            // 判断 Bean 是否需要赋值，如果不需要这里执行完具体的方法后（我们方法中可以对bean 进行手动赋值操作）就直接返回
+            if (!ibp.postProcessAfterInstantiation(bw.getWrappedInstance(), beanName)) {
+              return;
+            }
+          }
+        }
+      }
+    // ...省略部分代码
+}
+
+/**
 ```
 > 这里主要做了一件事，就是如果我们做了 InstantiationAwareBeanPostProcessor扩展，
 > 并且在postProcessAfterInstantiation（）方法中返回了false，那么这个Bean 就不会在进行后续的属性填充步骤；
 
 ## Spring Bean 属性赋值前阶段
+### Bean 属性值元信息
+* PropertyValues
+### Bean 属性赋值前回调
+* Spring 1.2-5.0：InstantiationAwareBeanPostProcessor#postProcessPropertyValues
+* Spring 5.1：InstantiationAwareBeanPostProcessor#postProcessProperties
+> 源码地址：AbstractAutowireCapableBeanFactory.populateBean(String, RootBeanDefinition, BeanWrapper)
+```java
+protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable BeanWrapper bw) {
+		// ...省略部分代码
+
+		/**
+		 *【Bean 生命周期】-「Bean 属性赋值阶段」
+		 */
+		PropertyDescriptor[] filteredPds = null;
+		if (hasInstAwareBpps) {
+			if (pvs == null) {
+				pvs = mbd.getPropertyValues();
+			}
+			for (BeanPostProcessor bp : getBeanPostProcessors()) {
+				if (bp instanceof InstantiationAwareBeanPostProcessor) {
+					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+					// 这里会进行依赖处理, 我们实现了InstantiationAwareBeanPostProcessor
+					// 并重写postProcessProperties 方法 且不反回 null 时，这里就会处理我们的属性值
+					PropertyValues pvsToUse = ibp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
+					if (pvsToUse == null) {
+						if (filteredPds == null) {
+							filteredPds = filterPropertyDescriptorsForDependencyCheck(bw, mbd.allowCaching);
+						}
+						pvsToUse = ibp.postProcessPropertyValues(pvs, filteredPds, bw.getWrappedInstance(), beanName);
+						if (pvsToUse == null) {
+							return;
+						}
+					}
+					pvs = pvsToUse;
+				}
+			}
+		}
+		if (needsDepCheck) {
+			if (filteredPds == null) {
+				filteredPds = filterPropertyDescriptorsForDependencyCheck(bw, mbd.allowCaching);
+			}
+			checkDependencies(beanName, mbd, filteredPds, pvs);
+		}
+
+		// 属性值赋值
+		if (pvs != null) {
+			// 重写InstantiationAwareBeanPostProcessor#postProcessProperties 方法且不反回 null 时，
+			// 这里就会应用我们的自己设定的属性值到 BeanWrapper 中去
+			applyPropertyValues(beanName, mbd, bw, pvs);
+		}
+	}
+```
+> 同样的，如果我们在扩展InstantiationAwareBeanPostProcessor 中重写 postProcessProperties 方法且返回 null 时，那么属性值就不会被赋值
 
 ## Spring Bean Aware 接口回调阶段
 
