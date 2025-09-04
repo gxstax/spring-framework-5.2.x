@@ -64,16 +64,18 @@ public class BeanInstantiationLifecycleDemo {
 	}
 
 	private static void executeApplicationContext() {
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("META-INF/dependency-lookup-context.xml", "META-INF/bean-constructor-dependency-injection.xml");
+		ClassPathXmlApplicationContext applicationContext =
+				new ClassPathXmlApplicationContext("META-INF/dependency-lookup-context.xml",
+						"META-INF/bean-constructor-dependency-injection.xml");
 
 		// 启动应用上下文
 		applicationContext.refresh();
 
-		User user = applicationContext.getBean("user", User.class);
-		System.out.println(user);
-
-		User superUser = applicationContext.getBean("superUser", User.class);
-		System.out.println(superUser);
+//		User user = applicationContext.getBean("user", User.class);
+//		System.out.println(user);
+//
+//		User superUser = applicationContext.getBean("superUser", User.class);
+//		System.out.println(superUser);
 
 		// 构造器注入是按照类型注入 resolveDependency
 		UserHolder userHolder = applicationContext.getBean("userHolder", UserHolder.class);

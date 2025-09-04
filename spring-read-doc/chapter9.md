@@ -200,15 +200,16 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, @Nullable B
 
 ## Spring Bean Aware 接口回调阶段
 ### Spring Aware 接口 (<font color='green'>**按执行顺序枚举**</font>)
-* BeanNameAware
-* BeanClassLoaderAware
-* BeanFactoryAware
-* EnvironmentAware
-* EmbeddedValueResolverAware
-* ResourceLoaderAware
-* ApplicationEventPublisherAware
-* MessageSourceAware
-* ApplicationContextAware
+> **注意：**这一步骤只执行了前3个 Aware 接口
+* <font color='green'>BeanNameAware</font>
+* <font color='green'>BeanClassLoaderAware</font>
+* <font color='green'>BeanFactoryAware</font>
+* <font color='gray'>EnvironmentAware</font>
+* <font color='gray'>EmbeddedValueResolverAware</font>
+* <font color='gray'>ResourceLoaderAware</font>
+* <font color='gray'>ApplicationEventPublisherAware</font>
+* <font color='gray'>MessageSourceAware</font>
+* <font color='gray'>ApplicationContextAware</font>
 ```java
 protected Object initializeBean(final String beanName, final Object bean, @Nullable RootBeanDefinition mbd) {
 		/**
@@ -236,6 +237,43 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 ```
 
 ## Spring Bean 初始化前阶段
+> 初始化前步骤主要涉及的是回调操作,主要涉及3个PostProcessor
+> 1. ApplicationContextAwareProcessor
+> 2. ApplicationListenerDetector
+> 3. PostProcessorRegistrationDelegate
+```java
+    /**
+     * BeanPostProcessor 初始化前方法回调
+     */
+    @Override
+    public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
+            throws BeansException {
+  
+        Object result = existingBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            // 这里如果如果我们有实现 BeanPostProcessor#postProcessBeforeInitialization方法，
+            // 那么会返回我们自己处理过的 Bean 对象
+            Object current = processor.postProcessBeforeInitialization(result, beanName);
+            if (current == null) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
+    }
+```
+
+当执行 ApplicationContextAwareProcessor 的回调时，就会回调到剩余的Aware接口
+* <font color='gray'>BeanNameAware</font>
+* <font color='gray'>BeanClassLoaderAware</font>
+* <font color='gray'>BeanFactoryAware</font>
+* <font color='green'>EnvironmentAware</font>
+* <font color='green'>EmbeddedValueResolverAware</font>
+* <font color='green'>ResourceLoaderAware</font>
+* <font color='green'>ApplicationEventPublisherAware</font>
+* <font color='green'>MessageSourceAware</font>
+* <font color='green'>ApplicationContextAware</font>
+
 
 ## Spring Bean 初始化阶段
 

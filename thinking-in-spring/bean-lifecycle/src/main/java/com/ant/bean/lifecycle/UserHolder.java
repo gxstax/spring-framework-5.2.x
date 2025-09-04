@@ -120,7 +120,7 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 	 */
 	@Override
 	public void setBeanName(String name) {
-		this.beanName = beanName;
+		this.beanName = name;
 	}
 
 	/**

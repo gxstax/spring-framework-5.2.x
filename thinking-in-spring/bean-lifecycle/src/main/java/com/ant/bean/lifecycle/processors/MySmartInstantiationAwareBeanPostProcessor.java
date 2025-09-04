@@ -30,25 +30,25 @@ public class MySmartInstantiationAwareBeanPostProcessor implements SmartInstanti
 	 */
 	@Override
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException {
-		// 示例：如果 Bean 名称包含 "Special"
-		if (beanName.contains("Special")) {
-			Constructor<?>[] constructors = beanClass.getConstructors();
-			// 找到你想要的构造函数，比如参数最多的
-			return Arrays.stream(constructors)
-					.sorted((c1, c2) -> Integer.compare(c2.getParameterCount(), c1.getParameterCount()))
-					.limit(1)
-					.toArray(Constructor[]::new);
-		}
-
-		// 示例：如果类上有 @Primary 注解
-		if (beanClass.isAnnotationPresent(Primary.class)) {
-			try {
-				Constructor<?> ctor = beanClass.getConstructor(String.class, int.class);
-				return new Constructor[]{ctor};
-			} catch (NoSuchMethodException e) {
-				throw new BeansException("Custom constructor not found", e) {};
-			}
-		}
+//		// 示例：如果 Bean 名称包含 "Special"
+//		if (beanName.contains("Special")) {
+//			Constructor<?>[] constructors = beanClass.getConstructors();
+//			// 找到你想要的构造函数，比如参数最多的
+//			return Arrays.stream(constructors)
+//					.sorted((c1, c2) -> Integer.compare(c2.getParameterCount(), c1.getParameterCount()))
+//					.limit(1)
+//					.toArray(Constructor[]::new);
+//		}
+//
+//		// 示例：如果类上有 @Primary 注解
+//		if (beanClass.isAnnotationPresent(Primary.class)) {
+//			try {
+//				Constructor<?> ctor = beanClass.getConstructor(String.class, int.class);
+//				return new Constructor[]{ctor};
+//			} catch (NoSuchMethodException e) {
+//				throw new BeansException("Custom constructor not found", e) {};
+//			}
+//		}
 
 		return SmartInstantiationAwareBeanPostProcessor.super.determineCandidateConstructors(beanClass, beanName);
 	}

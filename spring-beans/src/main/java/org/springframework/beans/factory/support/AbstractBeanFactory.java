@@ -333,7 +333,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					// getSingleton() 方法会把初始化后的 bean 放入到 singletonObjects 对象中
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							// 创建 Bean
+							/**
+							 *【Bean 生命周期】
+							 *
+							 * 这个方法会完成整个 Bean 的生命周期的 「实例化」+「初始化」操作
+							 */
 							return createBean(beanName, mbd, args);
 						} catch (BeansException ex) {
 							// Explicitly remove instance from singleton cache: It might have been put there

@@ -632,7 +632,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object exposedObject = bean;
 		try {
 			/**
-			 *【Bean 生命周期】-「Bean 实例化后阶段」+ 「Bean 属性赋值阶段」
+			 *【Bean 生命周期】
+			 * 	-「Bean 实例化后阶段」
+			 * 	-「Bean 属性赋值阶段」
 			 */
 			populateBean(beanName, mbd, instanceWrapper);
 
@@ -1903,15 +1905,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	// Aware 方法回调 这里会有顺序 BeanNameAware，BeanClassLoaderAware，BeanFactoryAware
 	private void invokeAwareMethods(final String beanName, final Object bean) {
 		if (bean instanceof Aware) {
+			// 如果继承了 BeanNameAware 接口，可以通过回调获取 BeanName
 			if (bean instanceof BeanNameAware) {
 				((BeanNameAware) bean).setBeanName(beanName);
 			}
+
+			// 如果继承了 BeanClassLoaderAware 接口，就可以通过回调获取 ClassLoader 对象
 			if (bean instanceof BeanClassLoaderAware) {
 				ClassLoader bcl = getBeanClassLoader();
 				if (bcl != null) {
 					((BeanClassLoaderAware) bean).setBeanClassLoader(bcl);
 				}
 			}
+
+			// 如果继承了 BeanFactoryAware 接口，可以通过回调获取 BeanFactory 对象
 			if (bean instanceof BeanFactoryAware) {
 				((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
 			}
