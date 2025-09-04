@@ -350,5 +350,9 @@ public interface SmartInitializingSingleton {
 ### 方法回调
 * DestructionAwareBeanPostProcessor#postProcessBeforeDestruction()
 ## Spring Bean 销毁阶段
-
+* DisposableBean#destroy()
+* xml 配置中 destroy-method="xxx" 配置方法被回调
 ## Spring Bean 垃圾收集
+* 关闭 Spring 容器
+* 执行 GC
+* Spring Bean 覆盖的 finalize() 方法被回调
