@@ -318,6 +318,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 									"Circular depends-on relationship between '" + beanName + "' and '" + dep + "'");
 						}
 						registerDependentBean(dep, beanName);
+						// 如果有依赖的Bean 则会去执行依赖Bean的生命周期，来进行初始化
 						try {
 							getBean(dep);
 						} catch (NoSuchBeanDefinitionException ex) {

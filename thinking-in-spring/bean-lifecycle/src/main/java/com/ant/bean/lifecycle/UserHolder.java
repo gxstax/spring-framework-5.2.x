@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import javax.annotation.PostConstruct;
@@ -59,6 +60,12 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		this.description = description;
 	}
 
+	/**
+	 * <p>
+	 * 依赖于注解驱动
+	 * </p>
+	 *
+	 */
 	@PostConstruct
 	public void initPostConstruct() {
 		// postProcessorBeforeInitialization V3 -> initPostConstruct V4
@@ -66,6 +73,12 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		System.out.println("initPostConstruct() = " + description);
 	}
 
+	/**
+	 * <p>
+	 * InitializingBean 接口回调
+	 * </p>
+	 *
+	 */
 	@Override
 	public void afterPropertiesSet() {
 		// initPostConstruct V4 -> afterPropertiesSet V5
@@ -73,6 +86,12 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		System.out.println("afterPropertiesSet() = " + description);
 	}
 
+	/**
+	 * <p>
+	 * xml 自定义 init-method 配置
+	 * </p>
+	 *
+	 */
 	public void init() {
 		// afterPropertiesSet V5 -> init V6
 		this.description = "The userHolder V6";

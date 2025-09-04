@@ -241,6 +241,7 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 > 1. ApplicationContextAwareProcessor
 > 2. ApplicationListenerDetector
 > 3. PostProcessorRegistrationDelegate
+> 4. CommonAnnotationBeanPostProcessor （处理**@PostConstruct 和 @PreDestroy、 @Resource、@Annotation**）
 ```java
     /**
      * BeanPostProcessor 初始化前方法回调
@@ -276,7 +277,44 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 
 
 ## Spring Bean 初始化阶段
+> 这里主要是执行两个回调：
+> 1. **InitializingBean**回调
+> 2. xml 配置中 **init-method="xxx"** 属性方法回调
+```java
+protected void invokeInitMethods(String beanName, final Object bean, @Nullable RootBeanDefinition mbd)
+			throws Throwable {
 
+		// 执行 InitializingBean 回调
+		boolean isInitializingBean = (bean instanceof InitializingBean);
+		if (isInitializingBean && (mbd == null || !mbd.isExternallyManagedInitMethod("afterPropertiesSet"))) {
+			if (logger.isTraceEnabled()) {
+				logger.trace("Invoking afterPropertiesSet() on bean with name '" + beanName + "'");
+			}
+			if (System.getSecurityManager() != null) {
+				try {
+					AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+						((InitializingBean) bean).afterPropertiesSet();
+						return null;
+					}, getAccessControlContext());
+				} catch (PrivilegedActionException pae) {
+					throw pae.getException();
+				}
+			} else {
+				((InitializingBean) bean).afterPropertiesSet();
+			}
+		}
+
+		// 回调执行配置在 @Bean 注解伤的 initMethod 方法，或者配置在xml文件的 init-method="init" 属性方法
+		if (mbd != null && bean.getClass() != NullBean.class) {
+			String initMethodName = mbd.getInitMethodName();
+			if (StringUtils.hasLength(initMethodName) &&
+					!(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
+					!mbd.isExternallyManagedInitMethod(initMethodName)) {
+				invokeCustomInitMethod(beanName, bean, mbd);
+			}
+		}
+	}
+```
 ## Spring Bean 初始化后阶段
 
 ## Spring Bean 初始化完成阶段
