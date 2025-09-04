@@ -245,6 +245,11 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	@Override
 	public void destroy() {
 
+		/**
+		 *【Bean 生命周期】-「Bean 销毁前阶段」
+		 *
+		 * 1. 循环执行所有 DestructionAwareBeanPostProcessor 类型的后置处理器的 postProcessBeforeDestruction 方法
+		 */
 		// 是否有自定义 DestructionAwareBeanPostProcessor 如果有，会在这里执行回调
 		if (!CollectionUtils.isEmpty(this.beanPostProcessors)) {
 			// 循环执行所有 DestructionAwareBeanPostProcessor 类型的后置处理器的 postProcessBeforeDestruction 方法
@@ -253,7 +258,11 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 			}
 		}
 
-		// 是否有实现 DisposableBean 重写 destroy() 方法，如果有，会在这里回调
+		/**
+		 *【Bean 生命周期】-「Bean 销毁阶段」
+		 *
+		 * 是否有实现 DisposableBean 重写 destroy() 方法，如果有，会在这里回调
+		 */
 		if (this.invokeDisposableBean) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Invoking destroy() on bean with name '" + this.beanName + "'");
@@ -264,13 +273,11 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 						((DisposableBean) this.bean).destroy();
 						return null;
 					}, this.acc);
-				}
-				else {
+				} else {
 					// 调用销毁方法
 					((DisposableBean) this.bean).destroy();
 				}
-			}
-			catch (Throwable ex) {
+			} catch (Throwable ex) {
 				String msg = "Invocation of destroy method failed on bean with name '" + this.beanName + "'";
 				if (logger.isDebugEnabled()) {
 					logger.warn(msg, ex);

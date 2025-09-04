@@ -347,7 +347,8 @@ public interface SmartInitializingSingleton {
 ```
 
 ## Spring Bean 销毁前阶段
-
+### 方法回调
+* DestructionAwareBeanPostProcessor#postProcessBeforeDestruction()
 ## Spring Bean 销毁阶段
 
 ## Spring Bean 垃圾收集
