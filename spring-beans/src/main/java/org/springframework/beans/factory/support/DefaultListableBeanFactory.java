@@ -907,6 +907,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
+		/**
+		 *【Bean 生命周期】-「Bean 初始化完成阶段」
+		 *
+		 * 处理实现 SmartInitializingSingleton 接口的Bean
+		 */
 		// 如果我们有 实现 SmartInitializingSingleton 接口的类，这里会回调 afterSingletonsInstantiated() 方法
 		// Trigger post-initialization callback for all applicable beans...
 		for (String beanName : beanNames) {

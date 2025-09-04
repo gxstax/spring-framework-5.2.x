@@ -76,6 +76,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 				// propertyValue 是不可变的
 				mutablePropertyValues.removePropertyValue("description");
 				mutablePropertyValues.addPropertyValue("description", "The UserHolder V2");
+				System.out.println("postProcessProperties() = The userHolder " + mutablePropertyValues.get("description"));
 			}
 
 			return mutablePropertyValues;
@@ -91,6 +92,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
 			UserHolder userHolder = (UserHolder) bean;
 			userHolder.setDescription("The UserHolder V3");
+			System.out.println("postProcessBeforeInitialization() = The userHolder " + userHolder.getDescription());
 		}
 		return bean;
 	}
@@ -103,6 +105,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
 			UserHolder userHolder = (UserHolder) bean;
 			userHolder.setDescription("The UserHolder V7");
+			System.out.println("postProcessAfterInitialization() = The userHolder " + userHolder.getDescription());
 		}
 		return bean;
 	}

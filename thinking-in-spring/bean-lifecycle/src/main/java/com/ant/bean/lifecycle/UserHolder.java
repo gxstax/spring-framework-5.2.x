@@ -181,6 +181,8 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		this.environment = environment;
 	}
 
+
+
 	/**
 	 * <p>
 	 *	SmartInitializingSingleton 接口回调

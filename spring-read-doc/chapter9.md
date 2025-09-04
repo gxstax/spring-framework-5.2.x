@@ -238,7 +238,7 @@ protected Object initializeBean(final String beanName, final Object bean, @Nulla
 
 ## Spring Bean 初始化前阶段
 > 初始化前步骤主要涉及的是回调操作,主要涉及3个PostProcessor
-> 1. ApplicationContextAwareProcessor
+> 1. ApplicationContextAwareProcessor （处理 Aware 接口的回调）
 > 2. ApplicationListenerDetector
 > 3. PostProcessorRegistrationDelegate
 > 4. CommonAnnotationBeanPostProcessor （处理**@PostConstruct 和 @PreDestroy、 @Resource、@Annotation**）
@@ -316,8 +316,35 @@ protected void invokeInitMethods(String beanName, final Object bean, @Nullable R
 	}
 ```
 ## Spring Bean 初始化后阶段
+> InstantiationAwareBeanPostProcessor#postProcessAfterInitialization()
 
 ## Spring Bean 初始化完成阶段
+### 方法回调
+* Spring 4.1+：SmartInitializingSingleton#afterSingletonsInstantiated()
+> 注意这里是从 Spring 4.1 版本之后开始支持
+```java
+/**
+ * @author Juergen Hoeller
+ * @since 4.1
+ * @see org.springframework.beans.factory.config.ConfigurableListableBeanFactory#preInstantiateSingletons()
+ */
+public interface SmartInitializingSingleton {
+
+	/**
+	 * Invoked right at the end of the singleton pre-instantiation phase,
+	 * with a guarantee that all regular singleton beans have been created
+	 * already. {@link ListableBeanFactory#getBeansOfType} calls within
+	 * this method won't trigger accidental side effects during bootstrap.
+	 * <p><b>NOTE:</b> This callback won't be triggered for singleton beans
+	 * lazily initialized on demand after {@link BeanFactory} bootstrap,
+	 * and not for any other bean scope either. Carefully use it for beans
+	 * with the intended bootstrap semantics only.
+	 */
+	void afterSingletonsInstantiated();
+
+}
+
+```
 
 ## Spring Bean 销毁前阶段
 
