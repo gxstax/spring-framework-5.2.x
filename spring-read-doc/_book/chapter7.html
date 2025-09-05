@@ -1,0 +1,802 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>第七章: Spring IOC 依赖来源 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chapter8.html" />
+    
+    
+    <link rel="prev" href="chapter6.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="Preface.html">
+            
+                <a href="Preface.html">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    spring 核心编程思想
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    第一章：Spring Framework 总览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    第二章: 认识 IOC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    第三章: Spring IOC 容器概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    第四章: Spring Bean 基础
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    第五章: Spring IOC 依赖查找
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    第六章: Spring IOC 依赖注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.7" data-path="chapter7.html">
+            
+                <a href="chapter7.html">
+            
+                    
+                    第七章: Spring IOC 依赖来源
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="chapter8.html">
+            
+                <a href="chapter8.html">
+            
+                    
+                    第八章: Spring Bean 作用域
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="chapter9.html">
+            
+                <a href="chapter9.html">
+            
+                    
+                    第九章: Spring Bean 生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="chapter10.html">
+            
+                <a href="chapter10.html">
+            
+                    
+                    第十章: Spring 配置元信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="chapter11.html">
+            
+                <a href="chapter11.html">
+            
+                    
+                    第十一章: Spring 资源管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="chapter12.html">
+            
+                <a href="chapter12.html">
+            
+                    
+                    第十二章: Spring 国际化（i18n）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.13" data-path="chapter13.html">
+            
+                <a href="chapter13.html">
+            
+                    
+                    第十三章: Spring 校验（Validation）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.14" data-path="chapter14.html">
+            
+                <a href="chapter14.html">
+            
+                    
+                    第十四章: Spring 数据绑定（Data Binding）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.15" data-path="chapter15.html">
+            
+                <a href="chapter15.html">
+            
+                    
+                    第十五章: Spring 类型转换（Type Conversion）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.16" data-path="chapter16.html">
+            
+                <a href="chapter16.html">
+            
+                    
+                    第十六章: Spring 范型处理（Generic Resolution）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.17" data-path="chapter17.html">
+            
+                <a href="chapter17.html">
+            
+                    
+                    第十七章: Spring 事件（Events）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.18" data-path="chapter18.html">
+            
+                <a href="chapter18.html">
+            
+                    
+                    第十八章: Spring 注解（Annotations）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.19" data-path="chapter19.html">
+            
+                <a href="chapter19.html">
+            
+                    
+                    第十九章: Spring Environment抽象（Environment Abstract）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.20" data-path="chapter20.html">
+            
+                <a href="chapter20.html">
+            
+                    
+                    第二十章: Spring 应用上下文生命周期（Container Lifecycle）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="about_the_author.html">
+            
+                <a href="about_the_author.html">
+            
+                    
+                    关于作者
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >第七章: Spring IOC 依赖来源</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7B2C;&#x4E03;&#x7AE0;-spring-ioc-&#x4F9D;&#x8D56;&#x6765;&#x6E90;">&#x7B2C;&#x4E03;&#x7AE0;: Spring IOC &#x4F9D;&#x8D56;&#x6765;&#x6E90;</h1>
+<hr>
+<h2 id="&#x4F9D;&#x8D56;&#x67E5;&#x627E;&#x7684;&#x6765;&#x6E90;">&#x4F9D;&#x8D56;&#x67E5;&#x627E;&#x7684;&#x6765;&#x6E90;</h2>
+<h3 id="&#x67E5;&#x627E;&#x6765;&#x6E90;">&#x67E5;&#x627E;&#x6765;&#x6E90;</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x6765;&#x6E90;</th>
+<th style="text-align:left">&#x914D;&#x7F6E;&#x5143;&#x6570;&#x636E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Spring BeanDefinition</td>
+<td style="text-align:left">\<bean id="user" class="org.ant...User"></bean></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">@Bean public User user() {...}</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">BeanDefinitionBuilder</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x5355;&#x4F8B;&#x5BF9;&#x8C61;</td>
+<td style="text-align:left">API&#x5B9E;&#x73B0;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spring-&#x5185;&#x5EFA;beandefinition">Spring &#x5185;&#x5EFA;BeanDefinition</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Bean &#x540D;&#x79F0;</th>
+<th style="text-align:left">Bean &#x5B9E;&#x4F8B;</th>
+<th style="text-align:left">&#x4F7F;&#x7528;&#x573A;&#x666F;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">environment</td>
+<td style="text-align:left">Environment &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x5916;&#x90E8;&#x5316;&#x914D;&#x7F6E;&#x4EE5;&#x53CA;Profiles</td>
+</tr>
+<tr>
+<td style="text-align:left">systemProperties</td>
+<td style="text-align:left">java.util.Properties &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">Java &#x7CFB;&#x7EDF;&#x5C5E;&#x6027;</td>
+</tr>
+<tr>
+<td style="text-align:left">systemEnvironment</td>
+<td style="text-align:left">java.util.Map &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;&#x53D8;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">messageSource</td>
+<td style="text-align:left">messageSource &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x56FD;&#x9645;&#x5316;&#x6587;&#x6848;</td>
+</tr>
+<tr>
+<td style="text-align:left">lifecycleProcessor</td>
+<td style="text-align:left">LifecycleProcessor &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">Lifecycle Bean &#x5904;&#x7406;&#x5668;</td>
+</tr>
+<tr>
+<td style="text-align:left">applicationEventPublisher</td>
+<td style="text-align:left">ApplicationEventPublisher &#x62BD;&#x8C61;&#x7C7B;</td>
+<td style="text-align:left">Spring &#x4E8B;&#x4EF6;&#x5E7F;&#x64AD;&#x5668;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spring-&#x5185;&#x5EFA;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;">Spring &#x5185;&#x5EFA;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Bean &#x540D;&#x79F0;</th>
+<th style="text-align:left">Bean &#x5B9E;&#x4F8B;</th>
+<th style="text-align:left">&#x4F7F;&#x7528;&#x573A;&#x666F;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">environment</td>
+<td style="text-align:left">Environment &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x5916;&#x90E8;&#x5316;&#x914D;&#x7F6E;&#x4EE5;&#x53CA;Profiles</td>
+</tr>
+<tr>
+<td style="text-align:left">systemProperties</td>
+<td style="text-align:left">java.util.Properties &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">Java &#x7CFB;&#x7EDF;&#x5C5E;&#x6027;</td>
+</tr>
+<tr>
+<td style="text-align:left">systemEnvironment</td>
+<td style="text-align:left">java.util.Map &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x73AF;&#x5883;&#x53D8;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">messageSource</td>
+<td style="text-align:left">messageSource &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x56FD;&#x9645;&#x5316;&#x6587;&#x6848;</td>
+</tr>
+<tr>
+<td style="text-align:left">lifecycleProcessor</td>
+<td style="text-align:left">LifecycleProcessor &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">Lifecycle Bean &#x5904;&#x7406;&#x5668;</td>
+</tr>
+<tr>
+<td style="text-align:left">applicationEventMultiCaster</td>
+<td style="text-align:left">ApplicationEventMultiCaster &#x5BF9;&#x8C61;</td>
+<td style="text-align:left">Spring &#x4E8B;&#x4EF6;&#x5E7F;&#x64AD;&#x5668;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x7684;&#x6765;&#x6E90;">&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x7684;&#x6765;&#x6E90;</h2>
+<h3 id="&#x6CE8;&#x5165;&#x6765;&#x6E90;">&#x6CE8;&#x5165;&#x6765;&#x6E90;</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x6765;&#x6E90;</th>
+<th style="text-align:left">&#x914D;&#x7F6E;&#x5143;&#x6570;&#x636E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Spring BeanDefinition</td>
+<td style="text-align:left">\<bean id="user" class="org.ant...User"></bean></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">@Bean public User user() {...}</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">BeanDefinitionBuilder</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x5355;&#x4F8B;&#x5BF9;&#x8C61;</td>
+<td style="text-align:left">API&#x5B9E;&#x73B0;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x975E; Srping &#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x5BF9;&#x8C61;</td>
+<td style="text-align:left">API&#x5B9E;&#x73B0;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x5BF9;&#x4E8E;&#x975E;Spring &#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x91CC;&#x53EF;&#x4EE5;&#x770B;&#x4E0B;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x7684;&#x6E90;&#x7801;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">protected</span> Map&lt;String, Object&gt; <span class="hljs-title">findAutowireCandidates</span><span class="hljs-params">(
+            @Nullable String beanName, Class&lt;?&gt; requiredType, DependencyDescriptor descriptor)</span> </span>{
+
+    <span class="hljs-comment">// &#x4ECE; beanFactory &#x83B7;&#x53D6;&#x5BB9;&#x5668;&#x4E2D;&#x7684;bean</span>
+    String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
+            <span class="hljs-keyword">this</span>, requiredType, <span class="hljs-keyword">true</span>, descriptor.isEager());
+    Map&lt;String, Object&gt; result = <span class="hljs-keyword">new</span> LinkedHashMap&lt;&gt;(candidateNames.length);
+    <span class="hljs-comment">// &#x8FD9;&#x91CC;&#x4F1A;&#x5224;&#x65AD;&#x662F;&#x5426;&#x6709;&#x4F9D;&#x8D56;Spring&#x5BB9;&#x5668;&#x7684;&#x5185;&#x5EFA;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5C31;&#x653E;&#x5165;&#x5230;result&#x4E2D;</span>
+    <span class="hljs-comment">// resolvableDependencies &#x4E3B;&#x8981;&#x5305;&#x542B;&#x56DB;&#x4E2A;&#x5728; prepareBeanFactory &#x4E2D;&#x6CE8;&#x518C;&#x8FDB;&#x53BB;&#x7684;&#x5BF9;&#x8C61;</span>
+    <span class="hljs-comment">// 1. BeanFactory 2. ResourceLoader 3. ApplicationContext 4. ApplicationEventPublisher</span>
+    <span class="hljs-comment">// &#x5176;&#x4E2D;&#x540E;&#x9762;3&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x90FD;&#x662F; ApplicationContext &#x5BF9;&#x8C61;&#x672C;&#x8EAB;</span>
+    <span class="hljs-keyword">for</span> (Map.Entry&lt;Class&lt;?&gt;, Object&gt; classObjectEntry : <span class="hljs-keyword">this</span>.resolvableDependencies.entrySet()) {
+        Class&lt;?&gt; autowiringType = classObjectEntry.getKey();
+        <span class="hljs-keyword">if</span> (autowiringType.isAssignableFrom(requiredType)) {
+            Object autowiringValue = classObjectEntry.getValue();
+            autowiringValue = AutowireUtils.resolveAutowiringValue(autowiringValue, requiredType);
+            <span class="hljs-keyword">if</span> (requiredType.isInstance(autowiringValue)) {
+                result.put(ObjectUtils.identityToString(autowiringValue), autowiringValue);
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+
+    <span class="hljs-comment">// ....</span>
+}
+</code></pre>
+<blockquote>
+<p>resolvableDependencies &#x4E3B;&#x8981;&#x5305;&#x542B;&#x56DB;&#x4E2A;&#x5728; prepareBeanFactory &#x4E2D;&#x6CE8;&#x518C;&#x8FDB;&#x53BB;&#x7684;&#x5BF9;&#x8C61;</p>
+<ol>
+<li>BeanFactory </li>
+<li>ResourceLoader </li>
+<li>ApplicationContext </li>
+<li>ApplicationEventPublisher</li>
+</ol>
+<p>&#x5176;&#x4E2D;&#x540E;&#x9762;3&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x90FD;&#x662F; ApplicationContext &#x5BF9;&#x8C61;&#x672C;&#x8EAB;</p>
+</blockquote>
+<h2 id="spring&#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x548C;&#x6E38;&#x79BB;&#x5BF9;&#x8C61;">Spring&#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x548C;&#x6E38;&#x79BB;&#x5BF9;&#x8C61;</h2>
+<h3 id="&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;">&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;</h3>
+<p>&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x8FDE;&#x63A5;</p>
+<blockquote>
+<p>thinking-in-spring -&gt; dependency-source -&gt;&lt;/br&gt;
+com.ant.dependency.source.DependencySourceDemo</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x6765;&#x6E90;</th>
+<th style="text-align:left">Spring Bean &#x5BF9;&#x8C61;</th>
+<th style="text-align:left">&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;</th>
+<th style="text-align:left">&#x914D;&#x7F6E;&#x5143;&#x4FE1;&#x606F;</th>
+<th style="text-align:left">&#x4F7F;&#x7528;&#x573A;&#x666F;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Spring BeanDefinition</td>
+<td style="text-align:left">&#x662F;</td>
+<td style="text-align:left">&#x662F;</td>
+<td style="text-align:left">&#x6709;</td>
+<td style="text-align:left">&#x4F9D;&#x8D56;&#x67E5;&#x627E;&#x3001;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x5355;&#x4F53;&#x5BF9;&#x8C61;</td>
+<td style="text-align:left">&#x662F;</td>
+<td style="text-align:left"><font color="red">&#x5426;</font></td>
+<td style="text-align:left"><font color="red">&#x65E0;</font></td>
+<td style="text-align:left">&#x4F9D;&#x8D56;&#x67E5;&#x627E;&#x3001;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</td>
+</tr>
+<tr>
+<td style="text-align:left">Resolvable Dependency</td>
+<td style="text-align:left"><font color="red">&#x5426;</font></td>
+<td style="text-align:left"><font color="red">&#x5426;</font></td>
+<td style="text-align:left"><font color="red">&#x65E0;</font></td>
+<td style="text-align:left">&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Resolvable Dependency &#x8FD9;&#x90E8;&#x4EFD;&#x662F;&#x6E38;&#x79BB;&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x5BF9;&#x8C61;&#x662F;&#x4E0D;&#x80FD;&#x88AB;<strong>&#x4F9D;&#x8D56;&#x67E5;&#x627E;</strong>&#x7684;&#xFF0C;&#x53EA;&#x80FD;<strong>&#x4F9D;&#x8D56;&#x6CE8;&#x5165;</strong>&#xFF1B;</p>
+</blockquote>
+<h2 id="spring-beandefinition-&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;">Spring BeanDefinition &#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;</h2>
+<h3 id="&#x8981;&#x7D20;">&#x8981;&#x7D20;</h3>
+<ul>
+<li>&#x5143;&#x6570;&#x636E;: BeanDefinition</li>
+<li>&#x6CE8;&#x518C;&#xFF1A;BeanDefinitionRegistry#registerBeanDefinition</li>
+<li>&#x7C7B;&#x578B;&#xFF1A;&#x5EF6;&#x8FDF;&#x548C;&#x975E;&#x5EF6;&#x8FDF;</li>
+<li>&#x987A;&#x5E8F;&#xFF1A;Bean &#x751F;&#x547D;&#x5468;&#x671F;&#x987A;&#x5E8F;&#x6309;&#x7167;&#x6CE8;&#x518C;&#x987A;&#x5E8F; </li>
+</ul>
+<h2 id="&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;">&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;</h2>
+<h3 id="&#x8981;&#x7D20;">&#x8981;&#x7D20;</h3>
+<ul>
+<li>&#x6765;&#x6E90;&#xFF1A;&#x5916;&#x90E8;&#x666E;&#x901A; Java &#x5BF9;&#x8C61;&#xFF08;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;POJO&#xFF09;</li>
+<li>&#x6CE8;&#x518C;&#xFF1A;SingletonBeanRegistry#registerSingleton</li>
+</ul>
+<h3 id="&#x9650;&#x5236;">&#x9650;&#x5236;</h3>
+<ul>
+<li>&#x65E0;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;</li>
+<li>&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#x5EF6;&#x8FDF;&#x521D;&#x59CB;&#x5316;</li>
+</ul>
+<h2 id="&#x975E;-spring-&#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;">&#x975E; Spring &#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;</h2>
+<h3 id="&#x8981;&#x7D20;">&#x8981;&#x7D20;</h3>
+<ul>
+<li>&#x6CE8;&#x518C;&#xFF1A;ConfigurableListableBeanFactory#registerResolvableDependency<h3 id="&#x9650;&#x5236;">&#x9650;&#x5236;</h3>
+</li>
+<li>&#x65E0;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;</li>
+<li>&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#x5EF6;&#x8FDF;&#x521D;&#x59CB;&#x5316; Bean</li>
+<li>&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x4F9D;&#x8D56;&#x67E5;&#x627E;</li>
+</ul>
+<h2 id="&#x5916;&#x90E8;&#x5316;&#x914D;&#x7F6E;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;">&#x5916;&#x90E8;&#x5316;&#x914D;&#x7F6E;&#x4F5C;&#x4E3A;&#x4F9D;&#x8D56;&#x6765;&#x6E90;</h2>
+<h3 id="&#x8981;&#x7D20;">&#x8981;&#x7D20;</h3>
+<ul>
+<li>&#x7C7B;&#x578B;&#xFF1A;&#x975E;&#x5E38;&#x89C4; Spring &#x5BF9;&#x8C61;&#x4F9D;&#x8D56;&#x6765;&#x6E90;<h3 id="&#x9650;&#x5236;">&#x9650;&#x5236;</h3>
+</li>
+<li>&#x65E0;&#x751F;&#x547D;&#x5468;&#x671F;&#x7BA1;&#x7406;</li>
+<li>&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#x5EF6;&#x8FDF;&#x521D;&#x59CB;&#x5316; Bean</li>
+<li>&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x4F9D;&#x8D56;&#x67E5;&#x627E;</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="chapter6.html" class="navigation navigation-prev " aria-label="Previous page: 第六章: Spring IOC 依赖注入">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="chapter8.html" class="navigation navigation-next " aria-label="Next page: 第八章: Spring Bean 作用域">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"第七章: Spring IOC 依赖来源","level":"1.3.7","depth":2,"next":{"title":"第八章: Spring Bean 作用域","level":"1.3.8","depth":2,"path":"chapter8.md","ref":"chapter8.md","articles":[]},"previous":{"title":"第六章: Spring IOC 依赖注入","level":"1.3.6","depth":2,"path":"chapter6.md","ref":"chapter6.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css","website":"styles/website.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css","website":"styles/website.css"}},"file":{"path":"chapter7.md","mtime":"2025-09-01T09:10:12.697Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2025-09-05T12:47:27.961Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

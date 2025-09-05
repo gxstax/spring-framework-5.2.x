@@ -24,8 +24,6 @@
   - [第十八章: Spring 注解（Annotations）](spring-read-doc/chapter18.md)
   - [第十九章: Spring Environment抽象（Environment Abstract）](spring-read-doc/chapter19.md)
   - [第二十章: Spring 应用上下文生命周期（Container Lifecycle）](spring-read-doc/chapter20.md)
+- [spring AOP 核心编程思想]()
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## spring 核心编程思想
-(参考极客时间[小马哥讲 Spring 核心编程思想](https://time.geekbang.org/course/intro/100042601?tab=catalog))
