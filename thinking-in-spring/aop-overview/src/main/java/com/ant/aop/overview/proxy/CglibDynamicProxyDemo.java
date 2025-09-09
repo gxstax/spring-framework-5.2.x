@@ -1,7 +1,5 @@
 package com.ant.aop.overview.proxy;
 
-import com.ant.aop.overview.proxy.DefaultEchoService;
-import com.ant.aop.overview.proxy.EchoService;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -37,7 +35,7 @@ public class CglibDynamicProxyDemo {
 				// source -> CGLIB 子类
 				// 目标类 -> DefaultEchoService
 				// 错误使用
-//				Object result = method.invoke(source, args);
+				// Object result = method.invoke(source, args);
 				// 正确使用
 				Object result = methodProxy.invokeSuper(source, args);
 				long costTime = System.currentTimeMillis() - startTime;
@@ -48,7 +46,7 @@ public class CglibDynamicProxyDemo {
 
 		// 创建代理对象
 		EchoService echoService = (EchoService) enhancer.create();
-		echoService.echo("Hello, World");
+		System.out.println(echoService.echo("Hello, World"));
 
 	}
 }

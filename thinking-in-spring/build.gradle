@@ -26,5 +26,7 @@ dependencies {
 
     compile(project(":spring-webflux"))
 
+    compile(project(":spring-aop"))
+
 }
 
